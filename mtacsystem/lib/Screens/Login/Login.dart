@@ -31,7 +31,7 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Vui lòng đăng nhập để xử dụng dịch vụ",
+                "Vui lòng đăng nhập để sử dụng dịch vụ",
                 style: TextStyle(
                   color: Color(0xFF475DBB),
                   fontSize: 20
