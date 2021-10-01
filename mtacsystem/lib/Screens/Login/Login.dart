@@ -13,13 +13,21 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
+              child: Column(
+                children: <Widget>[
+                  Image.asset("assets/images/logo.png"),
+                ],
+              ),
+            ),
+            Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Đăng Nhập",
+                "Xin chào,",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w300,
                   color: Color(0xFF0634FF),
+                  fontFamily: "Roboto",
                   fontSize: 36
                 ),
                 textAlign: TextAlign.left,
