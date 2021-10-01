@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
+import 'package:mtacsystem/Screens/Register/Register.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -12,13 +13,7 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Image.asset("assets/images/logo.png"),
-                ],
-              ),
-            ),
+            SizedBox(height: 50),
             Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 40),
@@ -36,7 +31,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             
             Container(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: Text(
                 "Vui lòng đăng nhập để sử dụng dịch vụ",
@@ -74,11 +69,19 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerRight,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                "Quên mật khẩu?",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF475DBB)
+              child: Padding(
+                padding: EdgeInsets.all(5.0),
+                child: TextButton(
+                  child: Text(
+                    "Quên mật khẩu?",
+                    style: TextStyle(
+                    fontSize: 12,
+                    color: Color(0xFF475DBB)
+                    ),
+                  ),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));// link qua trang quen mat khau
+                  },
                 ),
               ),
             ),
@@ -127,11 +130,16 @@ class LoginScreen extends StatelessWidget {
                     color: Color(0xFF255EF0),
                   ),
                 ),
-                Text(
-                  "Đăng ký tại đây.",
-                  style: TextStyle(
+                TextButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));//link qua trang dang ky
+                  }, 
+                  child: Text(
+                    "Đăng ký tại đây.",
+                    style: TextStyle(
                     fontSize: 12,
                     color: Color(0xFFF80000),
+                    ),
                   ),
                 ),
               ],
