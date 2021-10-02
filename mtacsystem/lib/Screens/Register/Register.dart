@@ -8,7 +8,7 @@ class RegisterScreen extends StatelessWidget {
     // Get phone screen size
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      
+      resizeToAvoidBottomInset : false,
       body: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +49,7 @@ class RegisterScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Họ và Tên",
+                  labelText: "Họ và tên",
                 ),
               ),
             ),

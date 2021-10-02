@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
     // Get phone screen size
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       body: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
