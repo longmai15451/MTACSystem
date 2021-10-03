@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
+import 'package:mtacsystem/Components/logo.dart';
 
 class LoginScreen extends StatelessWidget {
 
@@ -10,6 +11,7 @@ class LoginScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: Logo.getAppBar(),
       body: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -29,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.02),
             
             Container(
               alignment: Alignment.centerLeft,
@@ -38,12 +40,12 @@ class LoginScreen extends StatelessWidget {
                 "Vui lòng đăng nhập để sử dụng dịch vụ",
                 style: TextStyle(
                   color: Color(0xFF475DBB),
-                  fontSize: 20
+                  fontSize: 15
                 ),
                 textAlign: TextAlign.left,
               ),
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.02),
 
             Container(
               alignment: Alignment.center,
@@ -54,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: size.height * 0.03),
+            SizedBox(height: size.height * 0.02),
 
             Container(
               alignment: Alignment.center,
@@ -86,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: size.height * 0.05),
+            SizedBox(height: size.height * 0.04),
 
             Container(
               alignment: Alignment.center,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
+import 'package:mtacsystem/Components/logo.dart';
 
 class RegisterScreen extends StatelessWidget {
 
@@ -9,6 +10,7 @@ class RegisterScreen extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset : false,
+      appBar: Logo.getAppBar(),
       body: Background(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
