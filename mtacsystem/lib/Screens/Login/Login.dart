@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
                 "Xin chào,",
                 style: TextStyle(
                   fontWeight: FontWeight.w300,
-                  color: Color(0xFF0634FF),
+                  color: Color(0xFF002FFF),
                   fontFamily: "Roboto",
                   fontSize: 36
                 ),

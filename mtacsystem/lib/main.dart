@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'Screens/Login/Login.dart';
-import 'Screens/Main/MainScreen.dart';
+import 'Screens/Home/homeappbar.dart';
+import 'Screens/Home/homeContent.dart';
+import 'Screens/Notify/notifyappbar.dart';
+import 'Screens/Notify/notifyContent.dart';
 
 void main(){
   runApp(MyApp());
@@ -19,5 +21,77 @@ class MyApp extends StatelessWidget{
       ),
       home: MainScreen(),
     );
+  }
+}
+class MainScreen extends StatefulWidget{
+  MainScreen({Key? key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState(){
+    return HomeScreen();
+  }
+}
+
+PreferredSizeWidget _appbar(int index){
+  if(index == 3){
+    return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
+  }
+  return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,));
+}
+
+class HomeScreen extends State<MainScreen>{
+  int selectedIndex = 0;
+  final List<Widget> _bodycontent = [
+    HomeContent(),
+    NotifyContent(),
+    HomeContent(),
+    NotifyContent(),
+    NotifyContent(),
+  ];
+  late PreferredSizeWidget app;
+  @override
+  Widget build(BuildContext context){
+    return Scaffold( 
+         appBar: app = _appbar(selectedIndex),
+         body: _bodycontent[selectedIndex],
+         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: this.selectedIndex,
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.grey[400],
+          selectedIconTheme: IconThemeData(
+            color: Colors.blue,
+          ),
+          unselectedItemColor: Colors.grey[400],
+          backgroundColor: Colors.grey[200],
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_today),
+              label: 'Calendar',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.qr_code_scanner_rounded,
+                size: 45.0,
+                color: Colors.black,
+              ),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'Notify',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          onTap: (int index){
+            setState((){this.selectedIndex = index;});
+          },
+        ),
+      );
   }
 }
