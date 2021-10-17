@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 
 class HomeContent extends StatelessWidget{
   @override
@@ -17,7 +18,9 @@ class HomeContent extends StatelessWidget{
                 Container(
                   height: 50.0,
                   child: RaisedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpVaccin()));
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
