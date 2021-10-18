@@ -62,7 +62,7 @@ class HomeScreen extends State<MainScreen>{
          bottomNavigationBar: BottomNavigationBar(
           currentIndex: this.selectedIndex,
           type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.grey[400],
+          selectedItemColor: Colors.blue,
           selectedIconTheme: IconThemeData(
             color: Colors.blue,
           ),

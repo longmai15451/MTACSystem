@@ -7,9 +7,10 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context){
     // Get phone screen size
+    bool _isObscure = true;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset : true,
       appBar: Logo.getAppBar(),
       body: Background(
         child: Column(
@@ -51,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Họ và tên",
+                  hintText: "Họ và tên",
                 ),
               ),
             ),
@@ -62,7 +63,7 @@ class RegisterScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Số điện thoại",
+                  hintText: "Số điện thoại",
                 ),
               ),
             ),
@@ -72,10 +73,20 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                obscureText: _isObscure,
                 decoration: InputDecoration(
-                  labelText: "Mật khẩu",
+                  hintText: "Mật khẩu",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isObscure ? Icons.visibility : Icons.visibility_off
+                    ),
+                    onPressed: (){
+                      setState: ((){
+                        _isObscure = !_isObscure;
+                      });
+                    }, 
+                  )
                 ),
-                obscureText: true,
               ),
             ),
             SizedBox(height: size.height * 0.03),
@@ -84,10 +95,20 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                obscureText: _isObscure,
                 decoration: InputDecoration(
-                  labelText: "Nhập lại mật khẩu",
+                  hintText: "Nhập lại mật khẩu",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isObscure ? Icons.visibility : Icons.visibility_off
+                    ),
+                    onPressed: (){
+                      setState: ((){
+                        _isObscure = !_isObscure;
+                      });
+                    }, 
+                  )
                 ),
-                obscureText: true,
               ),
             ),
             SizedBox(height: size.height * 0.03),

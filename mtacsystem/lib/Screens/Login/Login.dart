@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
@@ -9,8 +10,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context){
     // Get phone screen size
     Size size = MediaQuery.of(context).size;
+    bool _isObscure = true;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: Logo.getAppBar(),
       body: Background(
         child: Column(
@@ -23,10 +25,10 @@ class LoginScreen extends StatelessWidget {
               child: Text(
                 "Xin chào,",
                 style: TextStyle(
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w500,
                   color: Color(0xFF002FFF),
                   fontFamily: "Roboto",
-                  fontSize: 36
+                  fontSize: 36,
                 ),
                 textAlign: TextAlign.left,
               ),
@@ -39,6 +41,7 @@ class LoginScreen extends StatelessWidget {
               child: Text(
                 "Vui lòng đăng nhập để sử dụng dịch vụ",
                 style: TextStyle(
+                  fontWeight: FontWeight.w500,
                   color: Color(0xFF475DBB),
                   fontSize: 15
                 ),
@@ -52,7 +55,7 @@ class LoginScreen extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Số điện thoại",
+                  hintText: "Số điện thoại",
                 ),
               ),
             ),
@@ -62,10 +65,20 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                obscureText: _isObscure,
                 decoration: InputDecoration(
-                  labelText: "Mật khẩu",
+                  hintText: "Mật khẩu",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isObscure ? Icons.visibility : Icons.visibility_off
+                    ),
+                    onPressed: (){
+                      setState: ((){
+                        _isObscure = !_isObscure;
+                      });
+                    }, 
+                  )
                 ),
-                obscureText: true,
               ),
             ),
 
@@ -131,6 +144,7 @@ class LoginScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     color: Color(0xFF255EF0),
+                    fontWeight: FontWeight.w500
                   ),
                 ),
                 TextButton(
