@@ -53,6 +53,12 @@ flutter:
     - assets/
     - assets/images/logo.png
     - assets/images/vaccine.png
+    - assets/images/google-docs.png
+    - assets/images/pcr-test.png
+    - assets/images/safe.png
+    - assets/images/qr-code.png
+    - assets/images/history.png
+    - assets/images/infected.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
