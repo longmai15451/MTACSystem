@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'Screens/Home/homeappbar.dart';
 import 'Screens/Home/homeContent.dart';
 import 'Screens/Notify/notifyappbar.dart';
+import 'Screens/Calendar/calendarappbar.dart';
+import 'Screens/Calendar/calendarContent.dart';
 import 'Screens/Notify/notifyContent.dart';
+import 'Screens/Profile/profile.dart';
+import 'Screens/Profile/profileAppbar.dart';
 
 void main(){
   runApp(MyApp());
@@ -32,40 +36,47 @@ class MainScreen extends StatefulWidget{
 }
 
 PreferredSizeWidget _appbar(int index){
-  if(index == 3){
-    return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
+  switch(index){
+    case 1: return CalendarAppBar(appbar: AppBar(toolbarHeight: 80.0,));
+    case 3: return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
+    case 4: return ProfileAppBar(appbar: AppBar(toolbarHeight: 80.0,));
+    default: return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,));
   }
-  return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,));
 }
 
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
   final List<Widget> _bodycontent = [
     HomeContent(),
-    NotifyContent(),
+    CalendarContent(),
     HomeContent(),
     NotifyContent(),
-    NotifyContent(),
+    Profile(),
   ];
   late PreferredSizeWidget app;
   @override
   Widget build(BuildContext context){
     return Scaffold( 
          appBar: app = _appbar(selectedIndex),
-         body: _bodycontent[selectedIndex],
+         body: ListView(
+          children: <Widget>[
+            _bodycontent[selectedIndex],
+          ],
+         ),
+         
          bottomNavigationBar: BottomNavigationBar(
           currentIndex: this.selectedIndex,
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Colors.grey[400],
           selectedIconTheme: IconThemeData(
-            color: Colors.blue,
+            color: Colors.blue,                                                                                                                                                                                                                                                                                                                                                                           
           ),
           unselectedItemColor: Colors.grey[400],
           backgroundColor: Colors.grey[200],
-          items: const <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Home',
+              label: 'Home',                                                    
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
