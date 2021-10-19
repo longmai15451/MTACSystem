@@ -7,6 +7,7 @@ import 'Screens/Calendar/calendarappbar.dart';
 import 'Screens/Calendar/calendarContent.dart';
 import 'Screens/Profile/profile.dart';
 import 'Screens/Profile/profileAppbar.dart';
+import 'Screens/Home/covidstats.dart';
 
 void main(){
   runApp(MyApp());
@@ -44,6 +45,13 @@ PreferredSizeWidget _appbar(int index){
   }
 }
 
+Widget _CovidStats(int index){
+  switch(index){
+    case 0: return CovidStats();
+    default: return Row();
+  }
+}
+
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
   final List<Widget> _bodycontent = [
@@ -58,7 +66,12 @@ class HomeScreen extends State<MainScreen>{
   Widget build(BuildContext context){
     return Scaffold( 
          appBar: app = _appbar(selectedIndex),
-         body: _bodycontent[selectedIndex],
+         body: ListView(
+           children: <Widget>[
+              _bodycontent[selectedIndex],
+              _CovidStats(selectedIndex),
+           ]
+         ),
          bottomNavigationBar: BottomNavigationBar(
           currentIndex: this.selectedIndex,
           type: BottomNavigationBarType.fixed,
