@@ -16,7 +16,7 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: 90),
+            SizedBox(height: 20),
             Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 40),
@@ -40,7 +40,7 @@ class RegisterScreen extends StatelessWidget {
                 "Vui lòng cung cấp thông tin chính xác",
                 style: TextStyle(
                   color: Color(0xFF475DBB),
-                  fontSize: 20
+                  fontSize: 16
                 ),
                 textAlign: TextAlign.left,
               ),

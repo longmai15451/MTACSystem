@@ -24,7 +24,7 @@ class SignUpVaccin extends StatelessWidget {
                     "Đăng ký tiêm chủng",
                     style: TextStyle(
                         color: Colors.black,
-                        fontSize: 10,
+                        fontSize: 15,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto"),
                   ),
@@ -111,7 +111,7 @@ class SignUpVaccin extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Container(
-                      width: 180,
+                      width: 170,
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(left: 20, right: 10),
                       child: TextFormField(
@@ -136,7 +136,7 @@ class SignUpVaccin extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Container(
-                      width: 142,
+                      width: 130,
                       alignment: Alignment.center,
                       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: TextFormField(

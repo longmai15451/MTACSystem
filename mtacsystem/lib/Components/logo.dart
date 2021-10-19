@@ -9,6 +9,7 @@ class Logo {
         width: 80.0,
         height: 80.0,
       ),
+      iconTheme: IconThemeData(color: Colors.black),
       elevation: 0.0,
       centerTitle: true,
       toolbarHeight: 80.0,
