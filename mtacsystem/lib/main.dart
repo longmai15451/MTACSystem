@@ -84,11 +84,11 @@ class HomeScreen extends State<MainScreen>{
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              label: 'Home',
+              label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.calendar_today),
-              label: 'Calendar',
+              label: 'Lịch hẹn',
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -100,11 +100,11 @@ class HomeScreen extends State<MainScreen>{
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications),
-              label: 'Notify',
+              label: 'Thông báo',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profile',
+              label: 'Cá nhân',
             ),
           ],
           onTap: (int index){

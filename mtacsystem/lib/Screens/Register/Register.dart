@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/logo.dart';
 
@@ -54,6 +55,7 @@ class RegisterScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: "Họ và tên",
                 ),
+                textCapitalization: TextCapitalization.sentences,
               ),
             ),
             SizedBox(height: size.height * 0.03),
@@ -65,6 +67,10 @@ class RegisterScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: "Số điện thoại",
                 ),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter.digitsOnly
+                ],
               ),
             ),
             SizedBox(height: size.height * 0.03),

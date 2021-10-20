@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/models/ApiCovid.dart';
-
 class CovidStatistics extends StatelessWidget{
   final SummaryModel summary;
   CovidStatistics({required this.summary});
@@ -9,6 +8,7 @@ class CovidStatistics extends StatelessWidget{
     return Stack( //Covid Tracked
       children: <Widget>[
         Container(
+          
           height: 150.0,
           width: 355.0,
           decoration: BoxDecoration(
@@ -76,7 +76,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.red[900],
-                    fontSize: 12,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500
                   ),
                 )
@@ -135,7 +135,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.green[900],
-                    fontSize: 12,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500
                   ),
                 )

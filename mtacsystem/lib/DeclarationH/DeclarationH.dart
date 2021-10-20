@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 
 class DeclarationH extends StatelessWidget {
+  bool _checkbox = false;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -110,7 +111,8 @@ class DeclarationH extends StatelessWidget {
                                   ),
                                 ),
                               ],
-                            ), 
+                            ),
+                             
                           ),
                           Container(
                           )
@@ -132,17 +134,3 @@ class DeclarationH extends StatelessWidget {
     );
   }
 }
-
-//  toolbarHeight: 80.0,
-//         backgroundColor: Colors.blue.shade600,
-//         title: Text(
-//           'Thông tin khai báo y tế',
-//           style: TextStyle(
-//             fontSize: 18,
-//             fontWeight: FontWeight.w500
-//           ),
-//         ),
-//         bottom: TabBar(tabs: [
-//           Tab(text: 'Khai báo y tế'),
-//           Tab(text: 'Tờ khai báo y tế của tôi'),
-//         ]),

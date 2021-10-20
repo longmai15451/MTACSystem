@@ -1,17 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
 import 'package:mtacsystem/Components/logo.dart';
 
 class LoginScreen extends StatelessWidget {
-
+final _formKey = GlobalKey<FormState>();
+bool _isObscure = true;
   @override
   Widget build(BuildContext context){
     // Get phone screen size
     Size size = MediaQuery.of(context).size;
-    bool _isObscure = true;
     return Scaffold(
+      key: _formKey,
       resizeToAvoidBottomInset: true,
       appBar: Logo.getAppBar(),
       body: Background(
@@ -53,10 +56,15 @@ class LoginScreen extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
+              child: TextFormField(
                 decoration: InputDecoration(
                   hintText: "Số điện thoại",
                 ),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter.digitsOnly
+                ],
+                
               ),
             ),
             SizedBox(height: size.height * 0.02),

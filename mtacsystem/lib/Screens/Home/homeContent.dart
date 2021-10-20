@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
+import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
 
 class HomeContent extends StatelessWidget {
   @override
@@ -101,7 +102,7 @@ class HomeContent extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpVaccin()));
+                                builder: (context) => DeclarationH()));
                       },
                       child: Column(
                         children: <Widget>[
