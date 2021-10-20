@@ -9,7 +9,7 @@ class CovidStatistics extends StatelessWidget{
       children: <Widget>[
         Container(
           
-          height: 150.0,
+          height: 155.0,
           width: 355.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
@@ -146,7 +146,7 @@ class CovidStatistics extends StatelessWidget{
         ),
         Positioned(
           top: 0,
-          left: 125,
+          left: 130,
           child: Container(
             margin: EdgeInsets.fromLTRB(2.5, 5, 5, 5),
             height: 140.0,

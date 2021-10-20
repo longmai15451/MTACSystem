@@ -33,9 +33,6 @@ class _VNState extends State<CovidStats> {
                   : CovidStatistics(
                     summary: snapshot.data!,
                   );
-          // CovidStatistics(
-          //     summary: snapshot.data!,
-          //   );
         }
       }
     );

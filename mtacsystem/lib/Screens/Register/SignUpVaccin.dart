@@ -1,9 +1,9 @@
-import 'dart:collection';
 import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
+import 'package:mtacsystem/Components/genderSelect.dart';
 
 class SignUpVaccin extends StatelessWidget {
   final format = DateFormat("dd-MM-yyy");
@@ -136,29 +136,17 @@ class SignUpVaccin extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Container(
-                      width: 130,
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(fontSize: 15),
-                        // initialValue: 'Input text',
-                        decoration: InputDecoration(
-                          labelText: 'Giới tính',
-                          // errorText: 'Error message', ------ báo lỗi k nhập
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          suffixIcon: Icon(
-                            Icons.error,
-                          ),
-                        ),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.red)
                       ),
+                      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                      child: Gender(),
                     ),
                   ],
                 ),
               ],
             ), //Ngày Sinh Giới Tính
-            //Số CMND
+            //Số CMND bị chi ghê vậy để lại như lúc ddaaauf đi mai t chỉnh cho t vho ve luc dau r
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
               child: new Row(
@@ -325,3 +313,13 @@ class SignUpVaccin extends StatelessWidget {
     );
   }
 }
+
+String selectSex = "";
+
+final SexSelected = TextEditingController();
+
+List<String> Sex = [
+  "Nam",
+  "Nữ",
+  "Khác"
+];
