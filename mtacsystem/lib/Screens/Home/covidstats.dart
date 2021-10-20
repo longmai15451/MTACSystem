@@ -3,7 +3,6 @@ import 'package:mtacsystem/Network/covid_service.dart';
 import 'package:mtacsystem/models/ApiCovid.dart';
 import '../Home/covidStatistics.dart';
 
-CovidService c_service = CovidService();
 
 class CovidStats extends StatefulWidget{
     @override
@@ -11,32 +10,33 @@ class CovidStats extends StatefulWidget{
 }
 
 class _VNState extends State<CovidStats> {
-  late Future<List<SummaryCovid>> summary;
-
+  // late Future<List<SummaryCovid>> summary;
+  late Future<SummaryModel> summary;
   @override
   initState(){
     super.initState();
-    summary = c_service.getCountrySummary(); 
+    summary = CovidService.getCountrySummary();
   }
 
   @override
   Widget build(BuildContext context){
-    return FutureBuilder<List<SummaryCovid>>(
+    return FutureBuilder<SummaryModel>(
       future: summary,
       builder: (context, snapshot){
         if(snapshot.hasError){
-          return Center(child: Text(snapshot.error.toString()),);
+          return Center(child: Text('${snapshot.error}',));
         }
         switch(snapshot.connectionState){
-          case ConnectionState.waiting: return Center(child: Text('loading'),);
-          default: !snapshot.hasData 
-          ? Center(child: Text("Emty"),) 
-          : Center(child: Text("data here"));
+          case ConnectionState.waiting: return Center(child: CircularProgressIndicator());
+          default: return !snapshot.hasData 
+                  ? Center(child: Text("Empty"),)
+                  : CovidStatistics(
+                    summary: snapshot.data!,
+                  );
           // CovidStatistics(
           //     summary: snapshot.data!,
           //   );
         }
-        return Center(child: Text('E2rror'),);
       }
     );
   }

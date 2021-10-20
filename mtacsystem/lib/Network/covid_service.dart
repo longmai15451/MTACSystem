@@ -1,22 +1,27 @@
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
 import 'package:mtacsystem/models/ApiCovid.dart';
 
 class CovidService{
+  static const String url = 'https://disease.sh/v3/covid-19/countries/vietnam';
 
-  Future<List<SummaryCovid>> getCountrySummary() async{
-    final data = await http.Client().get(Uri.parse("https://api.covid19api.com/total/dayone/country/vn"));
-    
-    if(data.statusCode != 200)
-      throw Exception();
+  static Future<SummaryModel> getCountrySummary() async{
 
-    List<SummaryCovid> summaryList = (json.decode(data.body) as List).map((item) => new SummaryCovid.fromJson(item)).toList();
-    
-    return summaryList;
+    final response = await http.get(Uri.parse('$url'));
+    if(response.statusCode == 200){
+      return compute(summaryList,response.body);
+    }
+    else if (response.statusCode == 404){
+      throw Exception('Not Found');
+    }
+    else{
+      throw Exception('Can\'t get data');
+    }
   }
-  List<SummaryCovid> summaryList(String responseBody){
-    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<SummaryCovid>((json) => SummaryCovid.fromJson(json)).toList();
+  static SummaryModel summaryList(String responseBody){
+    SummaryModel summary = new SummaryModel.fromJson(json.decode(responseBody));
+    return summary;
   }
 }
