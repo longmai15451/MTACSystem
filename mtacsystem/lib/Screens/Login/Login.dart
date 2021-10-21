@@ -1,14 +1,53 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
 import 'package:mtacsystem/Components/logo.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginScreen extends StatelessWidget {
-final _formKey = GlobalKey<FormState>();
-bool _isObscure = true;
+class LoginScreen extends StatefulWidget{
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
+  TextEditingController phone = TextEditingController();
+  TextEditingController pass = TextEditingController();
+
+  Future login()async{
+    var url="http://mtac1.000webhostapp.com/citizen_Login.php";
+    var response = await http.post(Uri.parse(url),body: {
+      "Phone_num" : phone.text,
+      "password" : pass.text,
+    });
+    var data = json.decode(response.body);
+    if(data == "Success"){
+      Fluttertoast.showToast(
+        msg: "Đăng nhập thành công!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.green,
+        fontSize: 16.0
+      );
+    }else{
+      Fluttertoast.showToast(
+        msg: "Sai số điện thoại hoặc mật khẩu!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.red,
+        fontSize: 16.0
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context){
     // Get phone screen size
@@ -57,6 +96,7 @@ bool _isObscure = true;
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextFormField(
+                controller: phone,
                 decoration: InputDecoration(
                   hintText: "Số điện thoại",
                 ),
@@ -73,6 +113,7 @@ bool _isObscure = true;
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                controller: pass,
                 obscureText: _isObscure,
                 decoration: InputDecoration(
                   hintText: "Mật khẩu",
@@ -115,7 +156,9 @@ bool _isObscure = true;
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  login();
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),
                 textColor: Colors.white,

@@ -2,8 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/logo.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class RegisterScreen extends StatelessWidget {
+
+class RegisterScreen extends StatefulWidget{
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<RegisterScreen> {
+  TextEditingController name = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  TextEditingController passcheck = TextEditingController();
+
+  Future register()async{
+    var url="http://mtac1.000webhostapp.com/citizen_register.php";
+    var response = await http.post(Uri.parse(url),body: {
+      "Name" : name.text,
+      "Phone_num" : phone.text,
+      "password" : pass.text,
+    });
+    var data = json.decode(response.body);
+    if(pass.text!=passcheck.text){
+      Fluttertoast.showToast(
+        msg: "Mật khẩu xác nhận không giống!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.red,
+        fontSize: 16.0
+      );
+    }
+    else if(data == "Error"){
+      Fluttertoast.showToast(
+        msg: "Số điện thoại này đã có tài khoản đăng ký!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.red,
+        fontSize: 16.0
+      );
+    }else{
+      Fluttertoast.showToast(
+        msg: "Đăng ký thành công!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.green,
+        fontSize: 16.0
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context){
@@ -52,6 +107,7 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                controller: name,
                 decoration: InputDecoration(
                   hintText: "Họ và tên",
                 ),
@@ -64,6 +120,7 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                controller: phone,
                 decoration: InputDecoration(
                   hintText: "Số điện thoại",
                 ),
@@ -79,6 +136,7 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                controller: pass,
                 obscureText: _isObscure,
                 decoration: InputDecoration(
                   hintText: "Mật khẩu",
@@ -101,6 +159,7 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                controller: passcheck,
                 obscureText: _isObscure,
                 decoration: InputDecoration(
                   hintText: "Nhập lại mật khẩu",
@@ -123,7 +182,9 @@ class RegisterScreen extends StatelessWidget {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  register();
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),
                 textColor: Colors.white,
