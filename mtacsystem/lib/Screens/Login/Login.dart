@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mtacsystem/main.dart';
+import 'package:mtacsystem/Components/globalsVar.dart' as globals;
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -38,6 +39,7 @@ class _LoginState extends State<LoginScreen> {
         fontSize: 16.0
       );
       Timer(Duration(milliseconds: 50),(){
+        globals.loginStatus = true;
         Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
       });
     }else{
