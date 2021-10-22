@@ -5,12 +5,12 @@ class CovidStatistics extends StatelessWidget{
   CovidStatistics({required this.summary});
   @override
   Widget build(BuildContext context){
-    return Stack( //Covid Tracked
+    return Stack( //Covid Tracked đăng ký ấy khi thành công n phải nhảy qua bên đăng nhập chứ chưa lm
       children: <Widget>[
-        Container(
-          
-          height: 155.0,
-          width: 355.0,
+         Container(
+           margin: EdgeInsets.only(left: 10),
+          height: 180.0,
+          width: 380.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
@@ -26,12 +26,13 @@ class CovidStatistics extends StatelessWidget{
                 end: FractionalOffset.topRight
             ),
           ),
-        ),
-        
+          child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
         Container(
           margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
-          height: 140.0,
-          width: 100.0,
+          height: 150.0,
+          width: 110.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             gradient: LinearGradient(
@@ -49,26 +50,30 @@ class CovidStatistics extends StatelessWidget{
           ),
           child: Column(
             children: <Widget>[
-              ImageIcon(
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: ImageIcon(
                 AssetImage('assets/images/infected.png'),
                     size: 50.0,
                     color: Colors.red[900],
               ),
+              ),
+              
               Container(
                 // margin: EdgeInsets.all(5.0),
-                margin: EdgeInsets.only(top: 5.0),
+                margin: EdgeInsets.only(top: 10.0),
                 child: Text(
                   summary.cases.toString(),
                   style: TextStyle(
                     color: Colors.red[900],
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.w500
                   ),
                 )
               ),
               Container(
-                padding: EdgeInsets.only(top: 25.0),
-                height: 60,
+                margin: EdgeInsets.only(top: 10.0),
+                height: 30,
                 width: 150,
                 child: Text(
                   'Số ca nhiễm',
@@ -76,7 +81,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.red[900],
-                    fontSize: 15,
+                    fontSize: 18,
                     fontWeight: FontWeight.w500
                   ),
                 )
@@ -84,13 +89,10 @@ class CovidStatistics extends StatelessWidget{
             ],
           ),
         ),
-        Positioned(
-          top: 0,
-          right: 5,
-          child: Container(
-            margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
-            height: 140.0,
-            width: 100.0,
+        Container(
+          margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
+          height: 150.0,
+          width: 110.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               gradient: LinearGradient(
@@ -108,26 +110,30 @@ class CovidStatistics extends StatelessWidget{
             ),
             child: Column(
             children: <Widget>[
-              ImageIcon(
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: ImageIcon(
                 AssetImage('assets/images/recovered.png'),
                     size: 50.0,
                     color: Colors.green[900],
               ),
+              ),
+              
               Container(
                 // margin: EdgeInsets.all(5.0),
-                margin: EdgeInsets.only(top: 5.0),
+                margin: EdgeInsets.only(top: 10.0),
                 child: Text(
                   summary.recovered.toString(),
                   style: TextStyle(
                     color: Colors.green[900],
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.w500
                   ),
                 )
               ),
               Container(
-                padding: EdgeInsets.only(top: 25.0),
-                height: 60,
+                margin: EdgeInsets.only(top: 10.0),
+                height: 30,
                 width: 150,
                 child: Text(
                   'Số ca phục hồi',
@@ -135,7 +141,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.green[900],
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500
                   ),
                 )
@@ -143,14 +149,10 @@ class CovidStatistics extends StatelessWidget{
             ],
           ),
           ),
-        ),
-        Positioned(
-          top: 0,
-          left: 130,
-          child: Container(
-            margin: EdgeInsets.fromLTRB(2.5, 5, 5, 5),
-            height: 140.0,
-            width: 100.0,
+        Container(
+            margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
+            height: 150.0,
+            width: 110.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               gradient: LinearGradient(
@@ -168,26 +170,30 @@ class CovidStatistics extends StatelessWidget{
             ),
             child: Column(
             children: <Widget>[
-              ImageIcon(
-                AssetImage('assets/images/death.png'),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: ImageIcon(
+                AssetImage('assets/images/grave.png'),
                     size: 50.0,
                     color: Colors.black87,
               ),
+              ),
+              
               Container(
                 // margin: EdgeInsets.all(5.0),
-                margin: EdgeInsets.only(top: 5.0),
+                margin: EdgeInsets.only(top: 10.0),
                 child: Text(
                   summary.deaths.toString(),
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 20,
+                    fontSize: 25,
                     fontWeight: FontWeight.w500
                   ),
                 )
               ),
               Container(
-                padding: EdgeInsets.only(top: 25.0),
-                height: 60,
+                margin: EdgeInsets.only(top: 10.0),
+                height: 30,
                 width: 150,
                 child: Text(
                   'Số ca tử vong',
@@ -195,7 +201,8 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 15,
+                    fontSize: 16
+                    ,
                     fontWeight: FontWeight.w500
                   ),
                 )
@@ -203,7 +210,10 @@ class CovidStatistics extends StatelessWidget{
             ],
           ),
           ),
+        ],
+        ),//ê m thấy n sao sao k ở dưới to ở trên nhỏ 
         ),
+        
       ],
     );
   }

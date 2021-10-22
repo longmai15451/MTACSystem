@@ -146,7 +146,7 @@ class SignUpVaccin extends StatelessWidget {
                 ),
               ],
             ), //Ngày Sinh Giới Tính
-            //Số CMND bị chi ghê vậy để lại như lúc ddaaauf đi mai t chỉnh cho t vho ve luc dau r
+            
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
               child: new Row(

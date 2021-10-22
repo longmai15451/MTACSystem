@@ -20,7 +20,7 @@ class SummaryModel {
   late int oneDeathPerPeople;
   late int oneTestPerPeople;
   late double activePerOneMillion;
-  late int recoveredPerOneMillion;
+  late double recoveredPerOneMillion;
   late int criticalPerOneMillion;
 
   SummaryModel(

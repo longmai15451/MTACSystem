@@ -4,8 +4,10 @@ import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
 import 'package:mtacsystem/Components/logo.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mtacsystem/main.dart';
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -35,6 +37,9 @@ class _LoginState extends State<LoginScreen> {
         textColor: Colors.green,
         fontSize: 16.0
       );
+      Timer(Duration(milliseconds: 50),(){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+      });
     }else{
       Fluttertoast.showToast(
         msg: "Sai số điện thoại hoặc mật khẩu!",

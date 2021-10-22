@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/logo.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mtacsystem/Screens/Login/Login.dart';
 
 
 class RegisterScreen extends StatefulWidget{
@@ -19,13 +21,6 @@ class _RegisterState extends State<RegisterScreen> {
   TextEditingController passcheck = TextEditingController();
 
   Future register()async{
-    var url="http://mtac1.000webhostapp.com/citizen_register.php";
-    var response = await http.post(Uri.parse(url),body: {
-      "Name" : name.text,
-      "Phone_num" : phone.text,
-      "password" : pass.text,
-    });
-    var data = json.decode(response.body);
     if(pass.text!=passcheck.text){
       Fluttertoast.showToast(
         msg: "Mật khẩu xác nhận không giống!",
@@ -37,26 +32,39 @@ class _RegisterState extends State<RegisterScreen> {
         fontSize: 16.0
       );
     }
-    else if(data == "Error"){
-      Fluttertoast.showToast(
-        msg: "Số điện thoại này đã có tài khoản đăng ký!",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.grey[50],
-        textColor: Colors.red,
-        fontSize: 16.0
-      );
-    }else{
-      Fluttertoast.showToast(
-        msg: "Đăng ký thành công!",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.grey[50],
-        textColor: Colors.green,
-        fontSize: 16.0
-      );
+    else{
+      var url="http://mtac1.000webhostapp.com/citizen_register.php";
+      var response = await http.post(Uri.parse(url),body: {
+        "Name" : name.text,
+        "Phone_num" : phone.text,
+        "password" : pass.text,
+      });
+      var data = json.decode(response.body);
+      
+      if(data == "Error"){
+        Fluttertoast.showToast(
+          msg: "Số điện thoại này đã có tài khoản đăng ký!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey[50],
+          textColor: Colors.red,
+          fontSize: 16.0
+        );
+      }else{
+        Fluttertoast.showToast(
+          msg: "Đăng ký thành công!",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey[50],
+          textColor: Colors.green,
+          fontSize: 16.0
+        );
+        Timer(Duration(milliseconds: 50),(){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        });
+      }
     }
   }
 
