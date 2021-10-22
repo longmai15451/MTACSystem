@@ -21,7 +21,7 @@ class SignUpVaccin extends StatelessWidget {
             Row(
               children: <Widget>[
                 Container(
-                  width: 400,
+                  width: 350,
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Text(
