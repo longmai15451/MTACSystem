@@ -8,9 +8,9 @@ class CovidStatistics extends StatelessWidget{
     return Stack( //Covid Tracked đăng ký ấy khi thành công n phải nhảy qua bên đăng nhập chứ chưa lm
       children: <Widget>[
          Container(
-           margin: EdgeInsets.only(left: 10),
+          margin: EdgeInsets.only(left: 5, right: 5),
           height: 180.0,
-          width: 380.0,
+          width: 370.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
@@ -32,7 +32,7 @@ class CovidStatistics extends StatelessWidget{
         Container(
           margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
           height: 150.0,
-          width: 110.0,
+          width: 100.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             gradient: LinearGradient(
@@ -81,7 +81,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.red[900],
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500
                   ),
                 )
@@ -92,7 +92,7 @@ class CovidStatistics extends StatelessWidget{
         Container(
           margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
           height: 150.0,
-          width: 110.0,
+          width: 100.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               gradient: LinearGradient(
@@ -141,7 +141,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.green[900],
-                    fontSize: 16,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500
                   ),
                 )
@@ -152,7 +152,7 @@ class CovidStatistics extends StatelessWidget{
         Container(
             margin: EdgeInsets.fromLTRB(10, 5, 5, 0),
             height: 150.0,
-            width: 110.0,
+            width: 100.0,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               gradient: LinearGradient(
@@ -201,8 +201,7 @@ class CovidStatistics extends StatelessWidget{
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.black87,
-                    fontSize: 16
-                    ,
+                    fontSize: 15,
                     fontWeight: FontWeight.w500
                   ),
                 )
