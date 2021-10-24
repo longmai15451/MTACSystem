@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'Screens/Home/homeappbar.dart';
 import 'Screens/Home/homeContent.dart';
 import 'Screens/Notify/notifyappbar.dart';
@@ -7,7 +8,8 @@ import 'Screens/Calendar/calendarappbar.dart';
 import 'Screens/Calendar/calendarContent.dart';
 import 'Screens/Profile/profile.dart';
 import 'Screens/Profile/profileAppbar.dart';
-import 'Screens/Home/covidstats.dart';
+import 'Screens/qrScan/qrappbar.dart';
+import 'Screens/qrScan/qrScan.dart';
 
 void main(){
   runApp(MyApp());
@@ -24,7 +26,18 @@ class MyApp extends StatelessWidget{
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MainScreen(),
+      home: AnimatedSplashScreen(
+        duration: 1200,
+        splashIconSize: 200,
+        splash: Center(
+            child: Image.asset(
+              'assets/images/Splash.png',
+          ),
+        ),
+        nextScreen: MainScreen(),
+        splashTransition: SplashTransition.fadeTransition,
+        backgroundColor: Colors.blue.shade50,
+      ),
     );
   }
 }
@@ -36,28 +49,24 @@ class MainScreen extends StatefulWidget{
   }
 }
 
+
 PreferredSizeWidget _appbar(int index){
   switch(index){
     case 1: return CalendarAppBar(appbar: AppBar(toolbarHeight: 80.0,));
+    case 2: return QRAppBar(appBar: AppBar());
     case 3: return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
     case 4: return ProfileAppBar(appbar: AppBar(toolbarHeight: 80.0,));
     default: return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,));
   }
 }
 
-Widget _CovidStats(int index){
-  switch(index){
-    case 0: return CovidStats();
-    default: return Row();
-  }
-}
 
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
   final List<Widget> _bodycontent = [
     HomeContent(),
     CalendarContent(),
-    HomeContent(),
+    QRScan(),
     NotifyContent(),
     Profile(),
   ];
@@ -69,7 +78,6 @@ class HomeScreen extends State<MainScreen>{
          body: ListView(
            children: <Widget>[
               _bodycontent[selectedIndex],
-              _CovidStats(selectedIndex),
            ]
          ),
          bottomNavigationBar: BottomNavigationBar(
@@ -80,7 +88,7 @@ class HomeScreen extends State<MainScreen>{
             color: Colors.blue,
           ),
           unselectedItemColor: Colors.grey[400],
-          backgroundColor: Colors.grey[200],
+          backgroundColor: Colors.white,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

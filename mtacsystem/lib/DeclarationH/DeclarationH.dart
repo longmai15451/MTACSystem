@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 
-class DeclarationH extends StatelessWidget {
+class DeclarationH extends StatefulWidget {
+  @override
+  State<DeclarationH> createState() => _DeclarationHState();
+}
+
+class _DeclarationHState extends State<DeclarationH> {
+  late bool check1;
+  late bool check2;
+  late bool check3;
+  late bool check4;
+  late bool check5;
+
+  @override
+  initState(){
+    setState((){
+      check1=check2=check3=check4=check5=false;
+    });
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -114,13 +133,59 @@ class DeclarationH extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+                                
                               ],
                             ),
                              
                           ),
-                          Container(
-                          )
-                        
+                          Row(
+                            children: [
+                              RaisedButton(
+                                onPressed: (){
+                                      setState((){
+                                        check1 = false;
+                                      });
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    color: Colors.white,
+                                    elevation: 0.0,
+                                    splashColor: Colors.transparent,
+
+                                child: Container(
+                                  child: Row(
+                                  children: [
+                                    Icon(check1?Icons.radio_button_off : Icons.radio_button_on, 
+                                    size: 20,
+                                    color: check1?Colors.black : Colors.blue,
+                                    ),
+                                    Text('  Không'),
+                                ],
+                                ),)
+                              ),
+                              RaisedButton(
+                               onPressed: (){
+                                      setState((){
+                                        check1 = true;
+                                      });
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    color: Colors.white,
+                                    elevation: 0.0,
+                                    splashColor: Colors.transparent,
+
+                                child: Container(
+                                  child: Row(
+                                  children: [
+                                    Icon(!check1?Icons.radio_button_off : Icons.radio_button_on, 
+                                    size: 20,
+                                    color: !check1?Colors.black : Colors.blue,
+                                    ),
+                                    Text('  Có'),
+                                ],
+                                ),)
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -161,8 +226,54 @@ class DeclarationH extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                          )
+                          Row(
+                            children: [
+                              RaisedButton(
+                                onPressed: (){
+                                      setState((){
+                                        check2 = false;
+                                      });
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    color: Colors.white,
+                                    elevation: 0.0,
+                                    splashColor: Colors.transparent,
+
+                                child: Container(
+                                  child: Row(
+                                  children: [
+                                    Icon(check2?Icons.radio_button_off : Icons.radio_button_on, 
+                                    size: 20,
+                                    color: check2?Colors.black : Colors.blue,
+                                    ),
+                                    Text('  Không'),
+                                ],
+                                ),)
+                              ),
+                              RaisedButton(
+                               onPressed: (){
+                                      setState((){
+                                        check2 = true;
+                                      });
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    color: Colors.white,
+                                    elevation: 0.0,
+                                    splashColor: Colors.transparent,
+
+                                child: Container(
+                                  child: Row(
+                                  children: [
+                                    Icon(!check2?Icons.radio_button_off : Icons.radio_button_on, 
+                                    size: 20,
+                                    color: !check2?Colors.black : Colors.blue,
+                                    ),
+                                    Text('  Có'),
+                                ],
+                                ),)
+                              ),
+                            ],
+                          ),
                         
                         ],
                       ),
@@ -242,8 +353,34 @@ class DeclarationH extends StatelessWidget {
                                               )
                                             )
                                           ),
-                                          TableCell(child: SizedBox(height: 50,)),
-                                          TableCell(child: SizedBox(height: 50,)),
+                                          TableCell(child: SizedBox(height: 50,
+                                            child: Center(
+                                              child:IconButton(
+                                                onPressed: (){
+                                                  setState((){
+                                                   check3 = true;
+                                                  });
+                                                },
+                                                icon: Icon(!check3?Icons.radio_button_off : Icons.radio_button_on),
+                                                iconSize: 20,
+                                                color: !check3?Colors.black : Colors.blue,
+                                              ),
+                                            )
+                                          )),
+                                          TableCell(child: SizedBox(height: 50,
+                                            child: Center(
+                                              child:IconButton(
+                                                onPressed: (){
+                                                  setState((){
+                                                   check3 = false;
+                                                  });
+                                                },
+                                                icon: Icon(check3?Icons.radio_button_off : Icons.radio_button_on),
+                                                iconSize: 20,
+                                                color: check3?Colors.black : Colors.blue,
+                                              ),
+                                            )
+                                          )),
                                         ]
                                       ),
                                       TableRow( 
@@ -262,8 +399,34 @@ class DeclarationH extends StatelessWidget {
                                               )
                                             )
                                           ),
-                                          TableCell(child: SizedBox(height: 50,)),
-                                          TableCell(child: SizedBox(height: 50,)),
+                                          TableCell(child: SizedBox(height: 50,
+                                            child: Center(
+                                              child:IconButton(
+                                                onPressed: (){
+                                                  setState((){
+                                                   check4 = true;
+                                                  });
+                                                },
+                                                icon: Icon(!check4?Icons.radio_button_off : Icons.radio_button_on),
+                                                iconSize: 20,
+                                                color: !check4?Colors.black : Colors.blue,
+                                              ),
+                                            )
+                                          )),
+                                          TableCell(child: SizedBox(height: 50,
+                                            child: Center(
+                                              child:IconButton(
+                                                onPressed: (){
+                                                  setState((){
+                                                   check4 = false;
+                                                  });
+                                                },
+                                                icon: Icon(check4?Icons.radio_button_off : Icons.radio_button_on),
+                                                iconSize: 20,
+                                                color: check4?Colors.black : Colors.blue,
+                                              ),
+                                            )
+                                          )),
                                         ]
                                       ),
                                       TableRow( 
@@ -282,8 +445,34 @@ class DeclarationH extends StatelessWidget {
                                               )
                                             )
                                           ),
-                                          TableCell(child: SizedBox(height: 50,)),
-                                          TableCell(child: SizedBox(height: 50,)),
+                                          TableCell(child: SizedBox(height: 50,
+                                            child: Center(
+                                              child:IconButton(
+                                                onPressed: (){
+                                                  setState((){
+                                                   check5 = true;
+                                                  });
+                                                },
+                                                icon: Icon(!check5?Icons.radio_button_off : Icons.radio_button_on),
+                                                iconSize: 20,
+                                                color: !check5?Colors.black : Colors.blue,
+                                              ),
+                                            )
+                                          )),
+                                          TableCell(child: SizedBox(height: 50,
+                                            child: Center(
+                                              child:IconButton(
+                                                onPressed: (){
+                                                  setState((){
+                                                   check5 = false;
+                                                  });
+                                                },
+                                                icon: Icon(check5?Icons.radio_button_off : Icons.radio_button_on),
+                                                iconSize: 20,
+                                                color: check5?Colors.black : Colors.blue,
+                                              ),
+                                            )
+                                          )),
                                         ]
                                       ),
                                     ],

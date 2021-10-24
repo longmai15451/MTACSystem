@@ -7,19 +7,34 @@ class CalendarAppBar extends StatelessWidget implements PreferredSizeWidget{
   });
   @override
   Widget build(BuildContext context){
-    return AppBar(
-      toolbarHeight: 80.0,
-      backgroundColor: Colors.white,
-      centerTitle: true,
-      title: Text(
-        'Lịch Hẹn',
-        style: TextStyle(
-          fontWeight: FontWeight.w300,
-          color: Color(0xFF002FFF),
-          fontFamily: "Roboto",
-          fontSize: 36
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+          toolbarHeight: 300.0,
+          bottom: TabBar(
+            tabs: <Widget>[
+              Tab(child: Text('Lịch hẹn hôm nay',style:TextStyle(color:Colors.red[400])),height: 30,),
+              Tab(child: Text('Lịch sử',style:TextStyle(color:Colors.red[400])),height: 30,),
+            ],
+          ),
+          backgroundColor: Colors.blue.shade200,
+          centerTitle: true,
+          title: Text(
+            'Lịch Hẹn',
+            style: TextStyle(
+              fontWeight: FontWeight.w300,
+              color: Color(0xFFF7153B),
+              fontFamily: "Roboto",
+              fontSize: 36
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-        textAlign: TextAlign.center,
+        body: TabBarView(children: <Widget>[
+          ListView(),
+          ListView(),
+        ],),
       ),
     );
   }

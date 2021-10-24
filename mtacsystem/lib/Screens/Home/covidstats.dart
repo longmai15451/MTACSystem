@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mtacsystem/Network/covid_service.dart';
 import 'package:mtacsystem/models/ApiCovid.dart';
 import '../Home/covidStatistics.dart';
+import 'covidLoading.dart';
 
 
 class CovidStats extends StatefulWidget{
@@ -27,7 +28,7 @@ class _VNState extends State<CovidStats> {
           return Center(child: Text('${snapshot.error}',));
         }
         switch(snapshot.connectionState){
-          case ConnectionState.waiting: return Center(child: CircularProgressIndicator());
+          case ConnectionState.waiting: return CovidLoading();
           default: return !snapshot.hasData 
                   ? Center(child: Text("Empty"),)
                   : CovidStatistics(

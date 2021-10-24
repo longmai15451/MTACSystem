@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mtacsystem/main.dart';
 import 'package:mtacsystem/Components/globalsVar.dart' as globals;
+import 'forgotPassword.dart';
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -40,7 +41,7 @@ class _LoginState extends State<LoginScreen> {
       );
       Timer(Duration(milliseconds: 50),(){
         globals.loginStatus = true;
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+        Navigator.pop(context);
       });
     }else{
       Fluttertoast.showToast(
@@ -152,7 +153,7 @@ class _LoginState extends State<LoginScreen> {
                     ),
                   ),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));// link qua trang quen mat khau
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordRetrive()));// link qua trang quen mat khau
                   },
                 ),
               ),

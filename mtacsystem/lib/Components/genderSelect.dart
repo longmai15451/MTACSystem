@@ -11,28 +11,34 @@ class _Gender extends State<Gender> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
-      value: gender,
-      icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
+    return Container(
+      width: 115,
+      child: InputDecorator(
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+        ),
+        child: Container(
+          child: DropdownButtonHideUnderline(
+            child:DropdownButton<String>(
+          value: gender,
+          isDense: true,
+          onChanged: (String? newValue) {
+            setState(() {
+              gender = newValue!;
+            });
+          },
+          items: <String>['Nam', 'Nữ', 'Khác']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+      )
       ),
-      onChanged: (String? newValue) {
-        setState(() {
-          gender = newValue!;
-        });
-      },
-      items: <String>['Nam', 'Nữ', 'Khác']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+        )
+      ),
     );
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
+import 'package:mtacsystem/main.dart';
 import 'package:mtacsystem/Components/globalsVar.dart' as globals;
-Widget _LoginStatus(bool status){
+Widget _LoginStatus(bool status,BuildContext context){
   if(status){
     return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -16,6 +18,15 @@ Widget _LoginStatus(bool status){
               Text('Nguyễn Văn A', 
               style: TextStyle(color: Colors.black))
             ],
+          ),
+          IconButton(
+            onPressed: (){
+              globals.loginStatus=false;
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+            },
+            icon: Icon(Icons.exit_to_app),
+            color: Colors.black,
+            iconSize: 30.0,
           ),
         ],
       );
@@ -46,17 +57,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
   PreferredSizeWidget build(BuildContext context) {
     return AppBar(
       toolbarHeight: 80.0,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.blue.shade200,
+      elevation: 0.0,
       leading: IconButton(
         onPressed: (){
           if(!globals.loginStatus)
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.pop(context);
         },
         icon: Icon(Icons.person),
         color: Colors.black,
         iconSize: 50.0,
       ),
-      title: _LoginStatus(globals.loginStatus),
+      title: _LoginStatus(globals.loginStatus,context),
     );
   }
   @override

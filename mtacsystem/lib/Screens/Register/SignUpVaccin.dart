@@ -6,14 +6,21 @@ import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin2.dart';
 
-class SignUpVaccin extends StatelessWidget {
+class SignUpVaccin extends StatefulWidget {
+  @override
+  State<SignUpVaccin> createState() => _SignUpVaccinState();
+}
+
+class _SignUpVaccinState extends State<SignUpVaccin> {
   final format = DateFormat("dd-MM-yyy");
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Đăng ký tiêm chủng"),
+        backgroundColor: Colors.blue.shade300,
       ),
       body: Background(
         child: Column(
@@ -132,7 +139,7 @@ class SignUpVaccin extends StatelessWidget {
                       // decoration: BoxDecoration(
                       //   border: Border.all(color: Colors.red)
                       // ),
-                      margin: EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+                      margin: EdgeInsets.symmetric(horizontal: 21, vertical: 5),
                       child: Gender(),
                     ),
                   ],
