@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
+import 'package:mtacsystem/Components/genderSelect.dart';
 
 class DeclarationH extends StatefulWidget {
   @override
@@ -80,23 +81,296 @@ class _DeclarationHState extends State<DeclarationH> {
                       ],
                     ),
                     
+                    // Container(
+                    //   height: 200.0,
+                    //   width: 365.0,
+                    //   margin: EdgeInsets.only(bottom: 15),
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(10.0),
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //           color: Colors.grey.withOpacity(0.3),
+                    //           spreadRadius: 3,
+                    //           blurRadius: 3,
+                    //           offset: Offset(0, 2))
+                    //     ],
+                    //     gradient: LinearGradient(
+                    //         colors: [Colors.white, Colors.grey.shade100],
+                    //         begin: FractionalOffset.bottomLeft,
+                    //         end: FractionalOffset.topRight),
+                    //   ),
+                    // ),
                     Container(
-                      height: 200.0,
-                      width: 365.0,
-                      margin: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 3,
-                              offset: Offset(0, 2))
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Họ và tên '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
                         ],
-                        gradient: LinearGradient(
-                            colors: [Colors.white, Colors.grey.shade100],
-                            begin: FractionalOffset.bottomLeft,
-                            end: FractionalOffset.topRight),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          hintText: 'Họ và tên',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          suffixIcon: Icon(
+                            Icons.error,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 20, top: 10),
+                          child: new Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text('Ngày sinh '),
+                              new Text(
+                                "*",
+                                style: TextStyle(color: Colors.red),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 130, top: 10),
+                          child: new Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              new Text('Giới tính '),
+                              new Text(
+                                "*",
+                                style: TextStyle(color: Colors.red),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              width: 170,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(left: 20, right: 10),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
+                                style: TextStyle(fontSize: 15),
+                                readOnly: true,
+                                // initialValue: 'Input text',
+                                decoration: InputDecoration(
+                                  hintText: 'Ngày sinh',
+                                  // errorText: 'Error message', ------ báo lỗi k nhập
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  suffixIcon: Icon(
+                                    Icons.error,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 21, vertical: 5),
+                              child: Gender(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Số hộ chiếu/CMNN/CCCD '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          labelText: 'Số CMND',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          suffixIcon: Icon(
+                            Icons.error,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Tỉnh/Thành phố '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        readOnly: true,
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          hintText: 'Tỉnh/Thành phố',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Quận/Huyện '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          hintText: 'Quận/Huyện',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Phường/Xã '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          hintText: 'Phường/Xã',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Địa chỉ nơi ở '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          hintText: 'Nhập nội dung',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20, top: 10),
+                      child: new Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          new Text('Số điện thoại '),
+                          new Text(
+                            "*",
+                            style: TextStyle(color: Colors.red),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: TextFormField(
+                        keyboardType: TextInputType.text,
+                        style: TextStyle(fontSize: 15),
+                        // initialValue: 'Input text',
+                        decoration: InputDecoration(
+                          hintText: 'Số điện thoại',
+                          // errorText: 'Error message', ------ báo lỗi k nhập
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
                       ),
                     ),
                     Container(
@@ -135,8 +409,7 @@ class _DeclarationHState extends State<DeclarationH> {
                                 ),
                                 
                               ],
-                            ),
-                             
+                            ), 
                           ),
                           Row(
                             children: [

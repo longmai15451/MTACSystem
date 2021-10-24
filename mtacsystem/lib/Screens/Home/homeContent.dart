@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
+import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
 import 'covidstats.dart';
 
@@ -190,7 +191,7 @@ class HomeContent extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpVaccin()));
+                                  builder: (context) => SignUpTest()));
                         },
                         child: Column(
                           children: <Widget>[
