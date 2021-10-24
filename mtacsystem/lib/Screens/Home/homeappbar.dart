@@ -22,7 +22,7 @@ Widget _LoginStatus(bool status,BuildContext context){
           IconButton(
             onPressed: (){
               globals.loginStatus=false;
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+              Navigator.pop(context);
             },
             icon: Icon(Icons.exit_to_app),
             color: Colors.black,
@@ -62,7 +62,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
       leading: IconButton(
         onPressed: (){
           if(!globals.loginStatus)
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
         },
         icon: Icon(Icons.person),
         color: Colors.black,
