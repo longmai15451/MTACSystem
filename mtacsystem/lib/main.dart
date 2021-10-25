@@ -10,6 +10,8 @@ import 'Screens/Profile/profile.dart';
 import 'Screens/Profile/profileAppbar.dart';
 import 'Screens/qrScan/qrappbar.dart';
 import 'Screens/qrScan/qrScan.dart';
+import 'package:mtacsystem/Screens/Login/Login.dart';
+
 
 void main(){
   runApp(MyApp());
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget{
               'assets/images/Splash.png',
           ),
         ),
-        nextScreen: MainScreen(),
+        nextScreen: LoginScreen(),
         splashTransition: SplashTransition.fadeTransition,
         backgroundColor: Colors.blue.shade50,
       ),
@@ -42,10 +44,12 @@ class MyApp extends StatelessWidget{
   }
 }
 class MainScreen extends StatefulWidget{
-  MainScreen({Key? key}) : super(key: key);
+  int selected = 0;
+  MainScreen({Key? key, //required this.selected
+  }) : super(key: key);
   @override
   State<StatefulWidget> createState(){
-    return HomeScreen();
+    return HomeScreen();//selectedIndex: selected);
   }
 }
 
@@ -63,6 +67,7 @@ PreferredSizeWidget _appbar(int index){
 
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
+  //HomeScreen({required this.selectedIndex});
   final List<Widget> _bodycontent = [
     HomeContent(),
     CalendarContent(),

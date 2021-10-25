@@ -40,8 +40,10 @@ class _LoginState extends State<LoginScreen> {
         fontSize: 16.0
       );
       Timer(Duration(milliseconds: 50),(){
-        globals.loginStatus = true;
-        Navigator.pop(context);
+        setState((){
+          globals.loginStatus = true;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+        });
       });
     }else{
       Fluttertoast.showToast(

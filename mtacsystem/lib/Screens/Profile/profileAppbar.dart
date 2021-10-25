@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget{
   final AppBar appbar;
   const ProfileAppBar({
@@ -8,28 +9,24 @@ class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context){
     return AppBar(
-      toolbarHeight: 80.0,
-      backgroundColor: Colors.white,
-      title: Row(
-          children: <Widget>[
-          IconButton(
-            onPressed: (){
+      automaticallyImplyLeading: false,
+      elevation: 0.0,
+      backgroundColor: Colors.blue.shade200,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 280.0),
+        child: Container(
+          child: IconButton(
+            onPressed: () async{
+                Navigator.pop(context);
             },
-            icon: Icon(Icons.person),
-            color: Colors.black,
-            iconSize: 50.0,
+            icon: Icon(Icons.exit_to_app),
+            color: Colors.white,
+            iconSize: 40.0,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('Nguyễn Văn A', style: TextStyle(color: Colors.red)),
-              Text('0987654321', style: TextStyle(color: Colors.red))
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
   @override
-  Size get preferredSize => new Size.fromHeight(appbar.preferredSize.height);
+  Size get preferredSize => new Size.fromHeight(appbar.preferredSize.height-20);
 }

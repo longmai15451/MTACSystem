@@ -18,7 +18,7 @@ class CalendarAppBar extends StatelessWidget implements PreferredSizeWidget{
               Tab(child: Text('Lịch sử',style:TextStyle(color:Colors.red[400])),height: 30,),
             ],
           ),
-          backgroundColor: Colors.blue.shade200,
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: Text(
             'Lịch Hẹn',

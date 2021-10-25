@@ -12,6 +12,7 @@ class _Gender extends State<Gender> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 55,
       width: 115,
       child: InputDecorator(
         decoration: InputDecoration(
