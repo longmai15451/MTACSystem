@@ -34,7 +34,7 @@ class Profile extends StatelessWidget{
                   ),
                 ],
                 borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(150.0),
+                  top: Radius.circular(50.0),
                 )
               ),
               child: Column(
@@ -51,7 +51,7 @@ class Profile extends StatelessWidget{
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                          'assets/images/Splash.png',
+                          'assets/images/AVT.jpg',
                           ),
                         ),
                       ),

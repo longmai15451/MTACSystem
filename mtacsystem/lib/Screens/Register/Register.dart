@@ -123,7 +123,21 @@ class _RegisterState extends State<RegisterScreen> {
               ),
             ),
             SizedBox(height: size.height * 0.03),
-
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 40),
+              child: TextField(
+                controller: phone,
+                decoration: InputDecoration(
+                  hintText: "Số CMNN/CCCD",
+                ),
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  WhitelistingTextInputFormatter.digitsOnly
+                ],
+              ),
+            ),
+            SizedBox(height: size.height * 0.03),
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
