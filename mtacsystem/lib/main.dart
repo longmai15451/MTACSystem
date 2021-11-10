@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget{
               'assets/images/Splash.png',
           ),
         ),
-        nextScreen: LoginScreen(),
+        nextScreen: MainScreen(),
         splashTransition: SplashTransition.fadeTransition,
         backgroundColor: Colors.blue.shade50,
       ),

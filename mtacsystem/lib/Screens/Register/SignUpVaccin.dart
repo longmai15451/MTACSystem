@@ -4,7 +4,6 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
-import 'package:mtacsystem/Screens/Register/SignUpVaccin2.dart';
 
 class SignUpVaccin extends StatefulWidget {
   @override
@@ -457,10 +456,10 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                       onPressed: () {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignUpVaccin2()));
+                        // Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => SignUpVaccin2()));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(70.0)),

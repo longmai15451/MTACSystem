@@ -21,7 +21,7 @@ class SummaryModel {
   late int oneTestPerPeople;
   late double activePerOneMillion;
   late double recoveredPerOneMillion;
-  late int criticalPerOneMillion;
+  late var criticalPerOneMillion;
 
   SummaryModel(
       {required this.updated,
