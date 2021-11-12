@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'editProf.dart';
+import 'package:mtacsystem/Components/account.dart';
 
 class Profile extends StatelessWidget{
+  final AccountProfile accountdata;
+  const Profile({
+    required this.accountdata,
+  });
   @override
   Widget build(BuildContext context){
     return Container(
@@ -60,18 +65,18 @@ class Profile extends StatelessWidget{
                   Padding(
                     padding: const EdgeInsets.only(bottom:8.0,top:3.0),
                     child: Text(
-                      'Nguyen Van A',
+                      accountdata.fullName.toString(),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0,bottom: 10.0),
-                    child: Text('0123456789'),
+                    child: Text(accountdata.phone.toString()),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfile()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfile(accountdata: accountdata,)));
                       },
                       child: Container(
                         width: 200,

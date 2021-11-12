@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
-
+import 'package:mtacsystem/Components/account.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
 import 'package:flutter/material.dart';
 
 class EditProfile extends StatefulWidget {
+  final AccountProfile accountdata;
+
+  const EditProfile({Key? key, required this.accountdata}) : super(key: key);
   @override
-  _EditProfile createState() => _EditProfile();
+  _EditProfile createState() => _EditProfile(accountdata);
 }
 
 class _EditProfile extends State<EditProfile> {
+  final AccountProfile accountdata;
   bool _isObscure = false;
   late int check1;
   late int check2;
@@ -20,6 +24,12 @@ class _EditProfile extends State<EditProfile> {
   late int check8;
   late int check9;
   late int check10;
+  late TextEditingController name;
+  late TextEditingController birthdate;
+  late TextEditingController phone = new TextEditingController(text: accountdata.phone.toString());
+  late TextEditingController cccd = new TextEditingController(text: accountdata.idCard.toString());
+  late TextEditingController job = new TextEditingController(text: accountdata.job.toString());
+  _EditProfile(this.accountdata,);
 
   @override
   initState() {
@@ -106,11 +116,12 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
+                                  controller: name= new TextEditingController(text: accountdata.fullName.toString()),
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
                                   decoration: InputDecoration(
-                                    hintText: 'Họ và tên',
+                                    hintText: 'Họ và tên ',
                                     // errorText: 'Error message', ------ báo lỗi k nhập
                                     border: OutlineInputBorder(
                                         borderRadius:
@@ -161,6 +172,7 @@ class _EditProfile extends State<EditProfile> {
                                         margin: EdgeInsets.only(
                                             left: 20, right: 10),
                                         child: TextFormField(
+                                          controller: birthdate = new TextEditingController(text: accountdata.birthDate.toString()),
                                           keyboardType: TextInputType.text,
                                           style: TextStyle(fontSize: 15),
                                           readOnly: true,

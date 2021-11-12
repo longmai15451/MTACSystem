@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mtacsystem/main.dart';
 import 'forgotPassword.dart';
+import 'package:mtacsystem/Network/Profiledata.dart';
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -48,6 +49,7 @@ class _LoginState extends State<LoginScreen> {
         textColor: Colors.green,
         fontSize: 16.0
       );
+      accountdata = GetProfData.getdata(data);
       Timer(Duration(milliseconds: 35),(){
         setState((){
           Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));

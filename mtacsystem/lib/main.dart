@@ -11,8 +11,9 @@ import 'Screens/Profile/profileAppbar.dart';
 import 'Screens/qrScan/qrappbar.dart';
 import 'Screens/qrScan/qrScan.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
+import 'package:mtacsystem/Components/account.dart';
 
-
+late AccountProfile accountdata;
 void main(){
   runApp(MyApp());
 }
@@ -60,7 +61,7 @@ PreferredSizeWidget _appbar(int index){
     case 2: return QRAppBar(appBar: AppBar());
     case 3: return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
     case 4: return ProfileAppBar(appbar: AppBar(toolbarHeight: 80.0,));
-    default: return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,));
+    default: return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,), accountdata: accountdata,);
   }
 }
 
@@ -73,7 +74,7 @@ class HomeScreen extends State<MainScreen>{
     CalendarContent(),
     QRScan(),
     NotifyContent(),
-    Profile(),
+    Profile(accountdata: accountdata,),
   ];
   late PreferredSizeWidget app;
   @override

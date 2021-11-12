@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mtacsystem/main.dart';
+import 'package:mtacsystem/Components/account.dart';
 
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
+  final AccountProfile accountdata;
   final AppBar appBar;
   const HomeAppBar({
+    required this.accountdata,
     required this.appBar,
   });
   @override
@@ -35,7 +37,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
                 color: Colors.black,
                 fontWeight: FontWeight.w300
                 )),
-              Text('Nguyễn Văn A', 
+              Text(accountdata.fullName.toString(), 
               style: TextStyle(color: Colors.black))
             ],
           ),
