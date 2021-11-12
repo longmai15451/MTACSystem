@@ -8,7 +8,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mtacsystem/main.dart';
-import 'package:mtacsystem/Components/globalsVar.dart' as globals;
 import 'forgotPassword.dart';
 
 class LoginScreen extends StatefulWidget{
@@ -23,29 +22,13 @@ class _LoginState extends State<LoginScreen> {
   TextEditingController pass = TextEditingController();
 
   Future login()async{
-    var url="http://mtac1.000webhostapp.com/citizen_Login.php";
+    var url="http://mtac1.000webhostapp.com/App_Login.php";
     var response = await http.post(Uri.parse(url),body: {
-      "Phone_num" : phone.text,
+      "phone" : phone.text,
       "password" : pass.text,
     });
     var data = json.decode(response.body);
-    if(data == "Success"){
-      Fluttertoast.showToast(
-        msg: "Đăng nhập thành công!",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.grey[50],
-        textColor: Colors.green,
-        fontSize: 16.0
-      );
-      Timer(Duration(milliseconds: 50),(){
-        setState((){
-          globals.loginStatus = true;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
-        });
-      });
-    }else{
+    if(data == "Error"){
       Fluttertoast.showToast(
         msg: "Sai số điện thoại hoặc mật khẩu!",
         toastLength: Toast.LENGTH_LONG,
@@ -55,6 +38,21 @@ class _LoginState extends State<LoginScreen> {
         textColor: Colors.red,
         fontSize: 16.0
       );
+    }else{
+      Fluttertoast.showToast(
+        msg: "Đăng nhập thành công!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.green,
+        fontSize: 16.0
+      );
+      Timer(Duration(milliseconds: 35),(){
+        setState((){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+        });
+      });
     }
   }
 

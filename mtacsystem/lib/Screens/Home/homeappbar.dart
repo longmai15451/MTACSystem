@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/main.dart';
-import 'package:mtacsystem/Components/globalsVar.dart' as globals;
 
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{

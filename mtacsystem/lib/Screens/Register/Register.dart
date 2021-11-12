@@ -17,13 +17,14 @@ class RegisterScreen extends StatefulWidget{
 class _RegisterState extends State<RegisterScreen> {
   TextEditingController name = TextEditingController();
   TextEditingController phone = TextEditingController();
+  TextEditingController cccd = TextEditingController();
   TextEditingController pass = TextEditingController();
   TextEditingController passcheck = TextEditingController();
 
   Future register()async{
     if(pass.text!=passcheck.text){
       Fluttertoast.showToast(
-        msg: "Mật khẩu xác nhận không giống!",
+        msg: "Mật khẩu xác nhận không trùng khớp!",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -33,17 +34,18 @@ class _RegisterState extends State<RegisterScreen> {
       );
     }
     else{
-      var url="http://mtac1.000webhostapp.com/citizen_register.php";
+      var url="http://mtac1.000webhostapp.com/App_register.php";
       var response = await http.post(Uri.parse(url),body: {
-        "Name" : name.text,
-        "Phone_num" : phone.text,
+        "full_name" : name.text,
+        "id_card" : cccd.text,
+        "phone" : phone.text,
         "password" : pass.text,
       });
       var data = json.decode(response.body);
       
       if(data == "Error"){
         Fluttertoast.showToast(
-          msg: "Số điện thoại này đã có tài khoản đăng ký!",
+          msg: "Số điện thoại hoặc cccd này đã có tài khoản!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -127,7 +129,7 @@ class _RegisterState extends State<RegisterScreen> {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
-                controller: phone,
+                controller: cccd,
                 decoration: InputDecoration(
                   hintText: "Số CMNN/CCCD",
                 ),
