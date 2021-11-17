@@ -30,32 +30,45 @@ class _LoginState extends State<LoginScreen> {
     });
     var data = json.decode(response.body);
     if(data == "Error"){
-      Fluttertoast.showToast(
-        msg: "Sai số điện thoại hoặc mật khẩu!",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.grey[50],
-        textColor: Colors.red,
-        fontSize: 16.0
-      );
+      toast("Sai số điện thoại hoặc mật khẩu!", Colors.red);
     }else{
-      Fluttertoast.showToast(
-        msg: "Đăng nhập thành công!",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.grey[50],
-        textColor: Colors.green,
-        fontSize: 16.0
-      );
+      toast("Đăng nhập thành công!", Colors.green,);
       accountdata = GetProfData.getdata(data);
-      Timer(Duration(milliseconds: 35),(){
+      Timer(Duration(milliseconds: 25),(){
         setState((){
           Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
         });
       });
     }
+  }
+
+  void toast(String msg, Color textcolor) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey[50],
+      textColor: textcolor,
+      fontSize: 16.0
+    );
+  }
+
+  Widget CustomLabel(String text, double fontsize, Color color){
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(horizontal: 40),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.w500,
+          color: color,
+          fontFamily: "Roboto",
+          fontSize: fontsize,
+        ),
+        textAlign: TextAlign.left,
+      ),
+    );
   }
 
   @override
@@ -71,35 +84,10 @@ class _LoginState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: 50),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                "Xin chào,",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF002FFF),
-                  fontFamily: "Roboto",
-                  fontSize: 36,
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
+            CustomLabel("Xin chào,",36,Color(0xFF002FFF)),
             SizedBox(height: size.height * 0.02),
             
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: Text(
-                "Vui lòng đăng nhập để sử dụng dịch vụ",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Color(0xFF475DBB),
-                  fontSize: 15
-                ),
-                textAlign: TextAlign.left,
-              ),
-            ),
+            CustomLabel("Vui lòng đăng nhập để sử dụng dịch vụ",15,Color(0xFF475DBB)),
             SizedBox(height: size.height * 0.02),
 
             Container(

@@ -3,33 +3,48 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'changePassword.dart';
+import 'Login.dart';
 
-class PasswordRetrive extends StatefulWidget{
+class ChangePassword extends StatefulWidget{
+  final String phone;
+  const ChangePassword({
+    required this.phone,
+  });
   @override
-  _PasswordRetrive createState() => _PasswordRetrive();
+  _ChangePassword createState() => _ChangePassword(phone: phone);
 }
 
-class _PasswordRetrive extends State<PasswordRetrive>{
-  TextEditingController phone = TextEditingController();
-  
-  Future checkAccount()async{
-    var url = "http://mtac1.000webhostapp.com/Get_Information.php";
-    var response = await http.post(Uri.parse(url),body: {
-      "phone" : phone.text,
-    });
-    var data = json.decode(response.body);
-    if(data == "Exist")
-    {
-      setState((){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePassword(phone: phone.text,)));
-      });
+class _ChangePassword extends State<ChangePassword>{
+  final String phone;
+  _ChangePassword({
+    required this.phone,
+  });
+  TextEditingController password = TextEditingController();
+  TextEditingController checkPassword = TextEditingController();
+
+  Future changePass()async{
+    if(checkPassword.text!=password.text){
+      toast("Mật khẩu xác nhận không trùng khớp!",Colors.red);
     }
-    else
-    {
-      toast("Số điện thoại vẫn chưa đăng ký tài khoản!",Colors.red);
+    else{
+      var url = "http://mtac1.000webhostapp.com/Change_password.php";
+      var response = await http.post(Uri.parse(url), body: {
+        "phone" : phone,
+        "password" : password.text,
+      });
+      var data = json.decode(response.body);
+      if(data == "Success")
+      {
+        toast("Đã thay đổi mật khẩu, vui lòng đăng nhập để sử dụng.",Colors.green);
+        Timer(Duration(milliseconds: 50),(){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        });
+      }
+      else
+      {
+        toast("Hệ thống đang gặp sự cố, vui lòng thử lại sau!",Colors.red);
+      }
     }
   }
 
@@ -44,11 +59,11 @@ class _PasswordRetrive extends State<PasswordRetrive>{
       fontSize: 16.0
     );
   }
-  
+
   @override
   Widget build(BuildContext context){
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
           elevation: 0.0,
@@ -65,7 +80,7 @@ class _PasswordRetrive extends State<PasswordRetrive>{
               padding: const EdgeInsets.only(top: 50.0, bottom: 30.0),
               child: Container(
                 child: Text(
-                  'Vui lòng nhập số điện thoại đã đăng ký!',
+                  'Vui lòng nhập mật khẩu mới!',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF475DBB),
@@ -78,14 +93,22 @@ class _PasswordRetrive extends State<PasswordRetrive>{
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
-                controller: phone,
+                controller: password,
                 decoration: InputDecoration(
-                  hintText: "Số điện thoại",
+                  hintText: "Mật khẩu mới",
                 ),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  WhitelistingTextInputFormatter.digitsOnly
-                ],
+              ),
+            ),
+            Container(
+            ),
+            Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.symmetric(horizontal: 40),
+              child: TextField(
+                controller: checkPassword,
+                decoration: InputDecoration(
+                  hintText: "Xác nhận mật khẩu",
+                ),
               ),
             ),
             Padding(
@@ -95,7 +118,7 @@ class _PasswordRetrive extends State<PasswordRetrive>{
                 margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                 child: RaisedButton(
                   onPressed: () {
-                    checkAccount();
+                    changePass();
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(70.0)),
@@ -116,7 +139,7 @@ class _PasswordRetrive extends State<PasswordRetrive>{
                     ),
                     padding: const EdgeInsets.all(0),
                     child: Text(
-                      "Lấy lại mật khẩu",
+                      "Thay đổi mật khẩu",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
