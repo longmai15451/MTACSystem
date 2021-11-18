@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
+import 'package:mtacsystem/Components/dateTimePicker.dart';
 
 class SignUpVaccin extends StatefulWidget {
   @override
@@ -113,21 +114,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                       width: 170,
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(left: 20, right: 10),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(fontSize: 15),
-                        readOnly: true,
-                        // initialValue: 'Input text',
-                        decoration: InputDecoration(
-                          hintText: 'Ngày sinh',
-                          // errorText: 'Error message', ------ báo lỗi k nhập
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          suffixIcon: Icon(
-                            Icons.error,
-                          ),
-                        ),
-                      ),
+                      child: dateTimePicker(),
                     ),
                   ],
                 ),
