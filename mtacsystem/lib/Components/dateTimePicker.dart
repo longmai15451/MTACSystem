@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class dateTimePicker extends StatefulWidget {
   @override
@@ -7,8 +8,9 @@ class dateTimePicker extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _dateTimePicker extends State<dateTimePicker> {
+  TextEditingController _datecontrol = new TextEditingController();
   DateTime _date = DateTime.now();
-  
+  late var formattedDate = DateFormat('yyyy-MM-dd');
   Future<Null> _selectDate(BuildContext context) async{
     DateTime? _datePicker = await showDatePicker(
       context: context, 
@@ -19,6 +21,7 @@ class _dateTimePicker extends State<dateTimePicker> {
     if(_datePicker != null && _datePicker != _date){
       setState(() {
         _date = _datePicker;
+        ;
       });
     }
   }
@@ -27,6 +30,7 @@ class _dateTimePicker extends State<dateTimePicker> {
   Widget build(BuildContext context) {
     return Container(
         child: TextField(
+          controller: _datecontrol,
           onTap: () {
             setState(() {
               _selectDate(context);
@@ -36,7 +40,7 @@ class _dateTimePicker extends State<dateTimePicker> {
           style: TextStyle(fontSize: 15),
           readOnly: true,
           decoration: InputDecoration(
-            hintText: (_date.toString()),
+            hintText: ('${formattedDate.format(_date)}'),
             // errorText: 'Error message', ------ báo lỗi k nhập
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10)),
