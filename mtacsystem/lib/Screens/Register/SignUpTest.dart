@@ -1,6 +1,4 @@
 import 'dart:ui';
-import 'package:intl/intl.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';

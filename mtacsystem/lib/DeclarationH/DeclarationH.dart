@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
 
 class DeclarationH extends StatefulWidget {
@@ -81,25 +80,6 @@ class _DeclarationHState extends State<DeclarationH> {
                       ],
                     ),
                     
-                    // Container(
-                    //   height: 200.0,
-                    //   width: 365.0,
-                    //   margin: EdgeInsets.only(bottom: 15),
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(10.0),
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //           color: Colors.grey.withOpacity(0.3),
-                    //           spreadRadius: 3,
-                    //           blurRadius: 3,
-                    //           offset: Offset(0, 2))
-                    //     ],
-                    //     gradient: LinearGradient(
-                    //         colors: [Colors.white, Colors.grey.shade100],
-                    //         begin: FractionalOffset.bottomLeft,
-                    //         end: FractionalOffset.topRight),
-                    //   ),
-                    // ),
                     Container(
                       margin: EdgeInsets.only(left: 20, top: 10),
                       child: new Row(

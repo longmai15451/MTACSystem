@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 
 class Gender extends StatefulWidget {
+  int? gendervalue = 0;
+  Gender({
+    this.gendervalue,
+  });
   @override
-  State<Gender> createState() => _Gender();
+  State<Gender> createState() => _Gender(gendervalue: gendervalue);
 }
 
-/// This is the private State class that goes with MyStatefulWidget.
 class _Gender extends State<Gender> {
-  String gender = 'Nam';
+  final int? gendervalue;
+  late String gender;
+  _Gender({
+    required this.gendervalue,
+  });
+
+  String getGender(int? gendervalue){
+    if(gendervalue == 1) return 'Nữ';
+    if(gendervalue == 2) return 'Khác';
+    return 'Nam';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +35,7 @@ class _Gender extends State<Gender> {
         child: Container(
           child: DropdownButtonHideUnderline(
             child:DropdownButton<String>(
-          value: gender,
+          value: gender = getGender(gendervalue),
           isDense: true,
           onChanged: (String? newValue) {
             setState(() {

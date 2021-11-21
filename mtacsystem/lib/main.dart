@@ -45,12 +45,11 @@ class MyApp extends StatelessWidget{
   }
 }
 class MainScreen extends StatefulWidget{
-  int selected = 0;
-  MainScreen({Key? key, //required this.selected
+  MainScreen({Key? key, 
   }) : super(key: key);
   @override
   State<StatefulWidget> createState(){
-    return HomeScreen();//selectedIndex: selected);
+    return HomeScreen();
   }
 }
 

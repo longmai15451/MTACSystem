@@ -28,7 +28,7 @@ class _ChangePassword extends State<ChangePassword>{
       toast("Mật khẩu xác nhận không trùng khớp!",Colors.red);
     }
     else{
-      var url = "http://mtac1.000webhostapp.com/Change_password.php";
+      var url = "http://mtac1.000webhostapp.com/CAP1_mobile/Change_password.php";
       var response = await http.post(Uri.parse(url), body: {
         "phone" : phone,
         "password" : password.text,

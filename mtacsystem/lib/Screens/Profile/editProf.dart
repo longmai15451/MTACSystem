@@ -13,7 +13,6 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfile extends State<EditProfile> {
   final AccountProfile accountdata;
-  bool _isObscure = false;
   late int check1;
   late int check2;
   late int check3;
@@ -26,9 +25,9 @@ class _EditProfile extends State<EditProfile> {
   late int check10;
   late TextEditingController name;
   late TextEditingController birthdate;
-  late TextEditingController phone = new TextEditingController(text: accountdata.phone.toString());
-  late TextEditingController cccd = new TextEditingController(text: accountdata.idCard.toString());
-  late TextEditingController job = new TextEditingController(text: accountdata.job.toString());
+  late TextEditingController phone;
+  late TextEditingController cccd;
+  late TextEditingController job;
   _EditProfile(this.accountdata,);
 
   @override
@@ -222,6 +221,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
+                                  controller: phone  = new TextEditingController(text: accountdata.phone.toString()),
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -253,6 +253,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
+                                  controller: cccd = new TextEditingController(text: accountdata.idCard.toString()),
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -321,6 +322,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
+                                      controller: job = new TextEditingController(text: accountdata.job.toString()),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',

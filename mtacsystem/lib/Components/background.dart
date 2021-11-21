@@ -13,16 +13,8 @@ class Background extends StatelessWidget{
       width: double.infinity,
       height: size.height,
       child: ListView(
-      //alignment: Alignment.center,
       children: <Widget>[
         child,
-      //     Positioned(
-      //       top: -130,
-      //       child: Image.asset(
-      //         "assets/images/logo.png",
-      //         width: size.width
-      //       ),
-      //     ),
         ],
       ),
     );

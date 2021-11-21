@@ -23,7 +23,7 @@ class _LoginState extends State<LoginScreen> {
   TextEditingController pass = TextEditingController();
 
   Future login()async{
-    var url="http://mtac1.000webhostapp.com/App_Login.php";
+    var url="http://mtac1.000webhostapp.com/CAP1_mobile/App_Login.php";
     var response = await http.post(Uri.parse(url),body: {
       "phone" : phone.text,
       "password" : pass.text,
