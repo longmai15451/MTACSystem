@@ -34,7 +34,7 @@ class _RegisterState extends State<RegisterScreen> {
       );
     }
     else{
-      var url="http://mtac1.000webhostapp.com/App_register.php";
+      var url="http://mtac1.000webhostapp.com/CAP1_mobile/App_register.php";
       var response = await http.post(Uri.parse(url),body: {
         "full_name" : name.text,
         "id_card" : cccd.text,

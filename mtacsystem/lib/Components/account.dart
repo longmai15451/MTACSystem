@@ -1,18 +1,18 @@
 class AccountProfile {
-  late String idCard;
-  late String fullName;
-  late String birthDate;
-  late String gender;
-  late String healthCard;
-  late String phone;
-  late String email;
-  late String job;
-  late String address;
-  late String ward;
-  late String district;
-  late String city;
-  late String country;
-  late String password;
+  late String? idCard;
+  late String? fullName;
+  late String? birthDate;
+  late String? gender;
+  late String? healthCard;
+  late String? phone;
+  late String? email;
+  late String? job;
+  late String? address;
+  late String? ward;
+  late String? district;
+  late String? city;
+  late String? country;
+  late String? password;
 
   AccountProfile(
       {required this.idCard,
