@@ -316,7 +316,7 @@ class HomeContent extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatMain()));
+                                  builder: (context) => Dialogflow()));
                         },
                         child: Column(
                           children: <Widget>[

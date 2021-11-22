@@ -1,16 +1,28 @@
+// Copyright 2021 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+import 'package:dialogflow_grpc/dialogflow_grpc.dart';
+import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sound_stream/sound_stream.dart';
-import 'package:dialogflow_grpc/dialogflow_grpc.dart';
-import 'package:dialogflow_grpc/generated/google/cloud/dialogflow/v2beta1/session.pb.dart';
 
 // TODO import Dialogflow
 
-class Chat extends StatefulWidget {
-  Chat({required Key key}) : super(key: key);
 
+class Chat extends StatefulWidget {
   @override
   _ChatState createState() => _ChatState();
 }
@@ -27,19 +39,18 @@ class _ChatState extends State<Chat> {
   late BehaviorSubject<List<int>> _audioStream;
 
   // TODO DialogflowGrpc class instance
-  
-  
+  late DialogflowGrpcV2Beta1 dialogflow;
+
   @override
   void initState() {
     super.initState();
     initPlugin();
-    
   }
 
   @override
   void dispose() {
-    _recorderStatus?.cancel();
-    _audioStreamSubscription?.cancel();
+    _recorderStatus.cancel();
+    _audioStreamSubscription.cancel();
     super.dispose();
   }
 
@@ -59,13 +70,18 @@ class _ChatState extends State<Chat> {
 
 
     // TODO Get a Service account
+    // Get a Service account
+    final serviceAccount = ServiceAccount.fromString(
+        '${(await rootBundle.loadString('assets/credentials.json'))}');
+    // Create a DialogflowGrpc Instance
+    dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
 
   }
 
   void stopStream() async {
     await _recorder.stop();
-    await _audioStreamSubscription?.cancel();
-    await _audioStream?.close();
+    await _audioStreamSubscription.cancel();
+    await _audioStream.close();
   }
 
   void handleSubmitted(text) async {
@@ -73,6 +89,28 @@ class _ChatState extends State<Chat> {
     _textController.clear();
 
     //TODO Dialogflow Code
+    ChatMessage message = ChatMessage(
+    text: text,
+    name: "You",
+    type: true,
+    );
+
+    setState(() {
+    _messages.insert(0, message);
+    });
+    DetectIntentResponse data = await dialogflow.detectIntent(text, 'en-US');
+    String fulfillmentText = data.queryResult.fulfillmentText;
+    if(fulfillmentText.isNotEmpty) {
+      ChatMessage botMessage = ChatMessage(
+        text: fulfillmentText,
+        name: "Bot",
+        type: false,
+      );
+
+      setState(() {
+        _messages.insert(0, botMessage);
+      });
+    }
 
   }
 
@@ -87,10 +125,68 @@ class _ChatState extends State<Chat> {
 
 
     // TODO Create SpeechContexts
+    var biasList = SpeechContextV2Beta1(
+        phrases: [
+          'Dialogflow CX',
+          'Dialogflow Essentials',
+          'Action Builder',
+          'HIPAA'
+        ],
+        boost: 20.0
+    );
+
+        // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
+    var config = InputConfigV2beta1(
+        encoding: 'AUDIO_ENCODING_LINEAR_16',
+        languageCode: 'en-US',
+        sampleRateHertz: 16000,
+        singleUtterance: false,
+        speechContexts: [biasList]
+    );
+
     // Create an audio InputConfig
+    final responseStream = dialogflow.streamingDetectIntent(config, _audioStream);
 
     // TODO Make the streamingDetectIntent call, with the InputConfig and the audioStream
     // TODO Get the transcript and detectedIntent and show on screen
+    // Get the transcript and detectedIntent and show on screen
+    responseStream.listen((data) {
+      //print('----');
+      setState(() {
+        //print(data);
+        String transcript = data.recognitionResult.transcript;
+        String queryText = data.queryResult.queryText;
+        String fulfillmentText = data.queryResult.fulfillmentText;
+
+        if(fulfillmentText.isNotEmpty) {
+
+          ChatMessage message = new ChatMessage(
+            text: queryText,
+            name: "You",
+            type: true,
+          );
+
+          ChatMessage botMessage = new ChatMessage(
+            text: fulfillmentText,
+            name: "Bot",
+            type: false,
+          );
+
+          _messages.insert(0, message);
+          _textController.clear();
+          _messages.insert(0, botMessage);
+
+        }
+        if(transcript.isNotEmpty) {
+          _textController.text = transcript;
+        }
+
+      });
+    },onError: (e){
+      //print(e);
+    },onDone: () {
+      //print('done');
+    });
 
   }
 
@@ -150,12 +246,11 @@ class _ChatState extends State<Chat> {
 //
 //------------------------------------------------------------------------------------
 class ChatMessage extends StatelessWidget {
+  ChatMessage({required this.text,required this.name,required this.type});
+
   final String text;
   final String name;
   final bool type;
-  ChatMessage({required this.text, required this.name, required this.type});
-
-  
 
   List<Widget> otherMessage(context) {
     return <Widget>[
