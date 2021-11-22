@@ -52,7 +52,7 @@ class _ChangePassword extends State<ChangePassword>{
     Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.grey[50],
       textColor: textcolor,

@@ -26,7 +26,7 @@ class _RegisterState extends State<RegisterScreen> {
       Fluttertoast.showToast(
         msg: "Mật khẩu xác nhận không trùng khớp!",
         toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.TOP,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.grey[50],
         textColor: Colors.red,
@@ -47,7 +47,7 @@ class _RegisterState extends State<RegisterScreen> {
         Fluttertoast.showToast(
           msg: "Số điện thoại hoặc cccd này đã có tài khoản!",
           toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.TOP,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.grey[50],
           textColor: Colors.red,
@@ -57,7 +57,7 @@ class _RegisterState extends State<RegisterScreen> {
         Fluttertoast.showToast(
           msg: "Đăng ký thành công!",
           toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.TOP ,
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.grey[50],
           textColor: Colors.green,

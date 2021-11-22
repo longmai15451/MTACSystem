@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,18 @@ class _EditProfile extends State<EditProfile> {
     }
   }
 
+  void toast(String msg, Color textcolor) {
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.TOP,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey[50],
+      textColor: textcolor,
+      fontSize: 16.0
+    );
+  }
+  
   String getGender(AccountProfile data){
     count==0?temp.gender = new TextEditingController(text:data.gender):{};
     count=1;
@@ -63,19 +76,27 @@ class _EditProfile extends State<EditProfile> {
   }
 
   void updateProfile(TempUserProfile temp, AccountProfile data){
-    data.fullName = temp.name.text;
-    data.birthDate = temp.birthdate.text;
-    data.gender = temp.gender.text;
-    data.phone = temp.phone.text;
-    data.idCard = temp.idcard.text;
-    data.email = temp.email.text;
-    data.job = temp.job.text;
-    data.healthCard = temp.healthCard.text;
-    data.city = temp.city.text;
-    data.district = temp.district.text;
-    data.ward = temp.ward.text;
-    data.address = temp.address.text;
-    data.country = temp.country.text;
+    try{
+      data.fullName = temp.name.text;
+      data.birthDate = temp.birthdate.text;
+      data.gender = temp.gender.text;
+      data.phone = temp.phone.text;
+      data.idCard = temp.idcard.text;
+      data.email = temp.email.text;
+      data.job = temp.job.text;
+      data.healthCard = temp.healthCard.text;
+      data.city = temp.city.text;
+      data.district = temp.district.text;
+      data.ward = temp.ward.text;
+      data.address = temp.address.text;
+      data.country = temp.country.text;
+      toast('Cập nhật thành công!', Colors.green);
+      Navigator.pop(context,accountdata);
+    }
+    catch(ex)
+    {
+      toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
+    }
   }
 
   void updateAnamnesis(TempUserProfile temp){
@@ -672,7 +693,6 @@ class _EditProfile extends State<EditProfile> {
                                             onPressed: () {
                                               setState((){
                                                 updateProfile(temp, accountdata);
-                                                Navigator.pop(context,accountdata);
                                               });
                                             },
                                             shape: RoundedRectangleBorder(

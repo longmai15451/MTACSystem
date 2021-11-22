@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:animations/animations.dart';
 
 import 'changePassword.dart';
 
@@ -37,7 +38,7 @@ class _PasswordRetrive extends State<PasswordRetrive>{
     Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.grey[50],
       textColor: textcolor,
@@ -93,38 +94,54 @@ class _PasswordRetrive extends State<PasswordRetrive>{
               child: Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                child: RaisedButton(
-                  onPressed: () {
-                    checkAccount();
+                child: PageTransitionSwitcher(
+                  duration: const Duration(milliseconds: 50000),
+                  transitionBuilder:(
+                    Widget child,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                  ){
+                    return SharedAxisTransition(
+                      fillColor: Colors.white,
+                      child:child,
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                    );
                   },
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(70.0)),
-                  textColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 50.0,
-                    width: 150,
-                    decoration: new BoxDecoration(
-                      borderRadius: BorderRadius.circular(70.0),
-                      gradient: new LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 0, 122, 255),
-                          Color.fromARGB(188, 123, 255, 255),
-                        ]
-                      )
-                    ),
+                  child:   RaisedButton(
+                    onPressed: () {
+                      checkAccount();
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(70.0)),
+                    textColor: Colors.white,
                     padding: const EdgeInsets.all(0),
-                    child: Text(
-                      "Lấy lại mật khẩu",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      )
-                    ),
-                  )
-                ),
-              ),
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50.0,
+                      width: 150,
+                      decoration: new BoxDecoration(
+                        borderRadius: BorderRadius.circular(70.0),
+                        gradient: new LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 0, 122, 255),
+                            Color.fromARGB(188, 123, 255, 255),
+                          ]
+                        )
+                      ),
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        "Lấy lại mật khẩu",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        )
+                      ),
+                    )
+                  ),
+                ), 
+              ),                 
             ),
           ],
         ),

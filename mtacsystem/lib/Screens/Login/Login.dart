@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mtacsystem/main.dart';
 import 'forgotPassword.dart';
 import 'package:mtacsystem/Network/Profiledata.dart';
+import 'package:animations/animations.dart';
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -46,7 +47,7 @@ class _LoginState extends State<LoginScreen> {
     Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.TOP,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.grey[50],
       textColor: textcolor,
@@ -134,17 +135,33 @@ class _LoginState extends State<LoginScreen> {
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: Padding(
                 padding: EdgeInsets.all(5.0),
-                child: TextButton(
-                  child: Text(
-                    "Quên mật khẩu?",
-                    style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF475DBB)
-                    ),
-                  ),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordRetrive()));// link qua trang quen mat khau
+                child: PageTransitionSwitcher(
+                  duration: const Duration(milliseconds: 10000),
+                  transitionBuilder: (
+                    Widget child,
+                    Animation<double> animation,
+                    Animation<double> secondanimation,
+                  ){
+                    return SharedAxisTransition(
+                      fillColor: Colors.white,
+                      child: child,
+                      animation: animation,
+                      secondaryAnimation: secondanimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                    );
                   },
+                  child: TextButton(
+                    child: Text(
+                      "Quên mật khẩu?",
+                      style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFF475DBB),
+                      ),
+                    ),
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordRetrive()));// link qua trang quen mat khau
+                    },
+                  ),
                 ),
               ),
             ),
@@ -196,15 +213,31 @@ class _LoginState extends State<LoginScreen> {
                     fontWeight: FontWeight.w500
                   ),
                 ),
-                TextButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));//link qua trang dang ky
-                  }, 
-                  child: Text(
-                    "Đăng ký tại đây.",
-                    style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFFF80000),
+                PageTransitionSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  transitionBuilder: (
+                    Widget child,
+                    Animation<double> animation,
+                    Animation<double> secondaryAnimation,
+                  ){
+                    return SharedAxisTransition(
+                      fillColor: Colors.white,
+                      child:child,
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.vertical,
+                    );
+                  },
+                  child: TextButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));//link qua trang dang ky
+                    }, 
+                    child: Text(
+                      "Đăng ký tại đây.",
+                      style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFFF80000),
+                      ),
                     ),
                   ),
                 ),
