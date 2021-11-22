@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
 import 'package:mtacsystem/Components/dateTimePicker.dart';
+import 'package:mtacsystem/Screens/Register/ChosseHospital.dart';
 
 class SignUpVaccin extends StatefulWidget {
   @override
@@ -170,10 +171,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   new Text('Số thẻ BHYT '),
-                  new Text(
-                    "*",
-                    style: TextStyle(color: Colors.red),
-                  )
+                  
                 ],
               ),
             ),
@@ -195,39 +193,6 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                 ),
               ),
             ),
-
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 10),
-              child: new Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text('Thời gian bạn muốn tiêm '),
-                  new Text(
-                    "*",
-                    style: TextStyle(color: Colors.red),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(fontSize: 15),
-                // initialValue: 'Input text',
-                decoration: InputDecoration(
-                  labelText: 'Ngày đăng ký tiêm',
-                  // errorText: 'Error message', ------ báo lỗi k nhập
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  suffixIcon: Icon(
-                    Icons.error,
-                  ),
-                ),
-              ),
-            ),
-
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
               child: new Row(
@@ -352,7 +317,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
               child: new Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  new Text('Nhập nội dung '),
+                  new Text('Địa chỉ nơi ở '),
                   new Text(
                     "*",
                     style: TextStyle(color: Colors.red),
@@ -442,10 +407,10 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => SignUpVaccin2()));
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChosseHospital()));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(70.0)),

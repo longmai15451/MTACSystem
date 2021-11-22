@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
+import 'package:mtacsystem/Screens/Register/ChooseTest.dart';
 
 class SignUpTest extends StatefulWidget {
   @override
@@ -165,37 +166,7 @@ class _SignUpTest extends State<SignUpTest>{
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 10),
-              child: new Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text('Thời gian bạn muốn xét nghiệm '),
-                  new Text(
-                    "*",
-                    style: TextStyle(color: Colors.red),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(fontSize: 15),
-                // initialValue: 'Input text',
-                decoration: InputDecoration(
-                  labelText: 'Ngày đăng ký xét nghiệm',
-                  // errorText: 'Error message', ------ báo lỗi k nhập
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  suffixIcon: Icon(
-                    Icons.error,
-                  ),
-                ),
-              ),
-            ),
+            
             Container(
               margin: EdgeInsets.only(left: 20, top: 10),
               child: new Row(
@@ -395,33 +366,7 @@ class _SignUpTest extends State<SignUpTest>{
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 10),
-              child: new Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text('Địa điểm xét nghiệm '),
-                  new Text(
-                    "*",
-                    style: TextStyle(color: Colors.red),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: TextFormField(
-                keyboardType: TextInputType.text,
-                style: TextStyle(fontSize: 15),
-                // initialValue: 'Input text',
-                decoration: InputDecoration(
-                  // errorText: 'Error message', ------ báo lỗi k nhập
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-              ),
-            ),
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -429,7 +374,12 @@ class _SignUpTest extends State<SignUpTest>{
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChooseTest()));
+                      },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(70.0)),
                     textColor: Colors.white,
@@ -448,7 +398,7 @@ class _SignUpTest extends State<SignUpTest>{
                       ),
                       padding: const EdgeInsets.all(0),
                       child: Text(
-                        "Đăng ký",
+                        "Tiếp tục",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
