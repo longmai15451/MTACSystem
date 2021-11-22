@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
+import 'package:mtacsystem/Chatbot/ChatMain.dart';
 import 'covidstats.dart';
 
 class HomeContent extends StatelessWidget {
@@ -312,6 +313,10 @@ class HomeContent extends StatelessWidget {
                               
                             ),
                         onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ChatMain()));
                         },
                         child: Column(
                           children: <Widget>[
