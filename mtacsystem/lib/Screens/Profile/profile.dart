@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'editProf.dart';
 import 'package:mtacsystem/Components/account.dart';
 
-class Profile extends StatelessWidget{
+class Profile extends StatefulWidget{
   final AccountProfile accountdata;
   const Profile({
+    required this.accountdata,
+  });
+  @override
+  _Profile createState() => new _Profile(accountdata: accountdata);
+}
+
+class _Profile extends State<Profile>{
+  AccountProfile accountdata;
+  _Profile({
     required this.accountdata,
   });
   @override
@@ -76,7 +85,9 @@ class Profile extends StatelessWidget{
                     padding: const EdgeInsets.all(5.0),
                     child: InkWell(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> EditProfile(accountdata: accountdata,)));
+                        setState(() {
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> EditProfile(accountdata: accountdata,))).then((value) => {setState((){})});
+                        });
                       },
                       child: Container(
                         width: 200,

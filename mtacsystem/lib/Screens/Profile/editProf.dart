@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'package:flutter/material.dart';
 
@@ -26,22 +27,38 @@ class TempUserProfile {
   late TextEditingController ward;
   late TextEditingController address;
   late TextEditingController country;
-  late List<TextEditingController> anamnesis = new List.filled(10, TextEditingController(text:'false') ,growable:false);
+  late List<TextEditingController> anamnesis = new List.filled(10, TextEditingController(text:'0') ,growable:false);
 }
-
-
 
 
 class _EditProfile extends State<EditProfile> {
   late AccountProfile accountdata;
+  late var formattedDate = DateFormat('yyyy-MM-dd');
   TempUserProfile temp = new TempUserProfile(); 
   int count = 0;
   late String gd = 'Nam';
   _EditProfile(this.accountdata,);
 
+
+  late DateTime _date= DateTime.parse(accountdata.birthDate.toString());
+
+  Future<Null> _selectDate(BuildContext context) async{
+    DateTime? _datePicker = await showDatePicker(
+      context: context, 
+      initialDate: _date, // ngày hiện tại
+      firstDate: DateTime(1900), 
+      lastDate: DateTime(2050),
+    );
+    if(_datePicker != null && _datePicker != _date){
+      setState(() {
+        _date = _datePicker;
+      });
+    }
+  }
+
   String getGender(AccountProfile data){
-    ++count;
     count==0?temp.gender = new TextEditingController(text:data.gender):{};
+    count=1;
     return temp.gender.text=='1'?'Nữ':temp.gender.text=='0'?'Nam':'Khác';
   }
 
@@ -195,23 +212,28 @@ class _EditProfile extends State<EditProfile> {
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(
                                             left: 20, right: 10),
-                                        child: TextFormField(
-                                          controller: temp.birthdate = new TextEditingController(text: accountdata.birthDate),
-                                          keyboardType: TextInputType.text,
-                                          style: TextStyle(fontSize: 15),
-                                          readOnly: true,
-                                          // initialValue: 'Input text',
-                                          decoration: InputDecoration(
-                                            hintText: 'Ngày sinh',
-                                            // errorText: 'Error message', ------ báo lỗi k nhập
-                                            border: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            suffixIcon: Icon(
-                                              Icons.calendar_today,
+                                        child: Container(
+                                          child: TextField(
+                                            controller: temp.birthdate = new TextEditingController(text: formattedDate.format(_date)),
+                                            onTap: () {
+                                              setState(() {
+                                                _selectDate(context);
+                                              });
+                                            },
+                                            keyboardType: TextInputType.text,
+                                            style: TextStyle(fontSize: 15),
+                                            readOnly: true,
+                                            decoration: InputDecoration(
+                                              hintText: ('${formattedDate.format(_date)}'),
+                                              // errorText: 'Error message', ------ báo lỗi k nhập
+                                              border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(10)),
+                                              suffixIcon: Icon(
+                                                Icons.error,
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                      ),
                                       ),
                                     ],
                                   ),
@@ -650,6 +672,7 @@ class _EditProfile extends State<EditProfile> {
                                             onPressed: () {
                                               setState((){
                                                 updateProfile(temp, accountdata);
+                                                Navigator.pop(context,accountdata);
                                               });
                                             },
                                             shape: RoundedRectangleBorder(
@@ -706,8 +729,8 @@ class _EditProfile extends State<EditProfile> {
                       children: <Widget>[
                         Container(
                           margin:
-                              EdgeInsets.only(left: 10, top: 10, bottom: 10),
-                          width: 360,
+                              EdgeInsets.only(left: 5, top: 10, bottom: 10),
+                          width: 350,
                           child: Table(
                             border: TableBorder.all(
                                 color: Colors.black26,
@@ -780,15 +803,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[0] = new TextEditingController(text: '0');
+                                                temp.anamnesis[0] = new TextEditingController(text: '1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[0].text == '1')
+                                                (temp.anamnesis[0].text == '0')
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[0].text == '1')
+                                            color: (temp.anamnesis[0].text == '0')
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -800,15 +823,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[0] = new TextEditingController(text:'1');
+                                                temp.anamnesis[0] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[0].text == '0')
+                                                (temp.anamnesis[0].text == '1')
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[0].text == '0' )
+                                            color: (temp.anamnesis[0].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -832,15 +855,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[1] = new TextEditingController(text:'0');
+                                                temp.anamnesis[1] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[1].text == '1')
+                                                (temp.anamnesis[1].text == '0')
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[1].text == '1' )
+                                            color: (temp.anamnesis[1].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -852,15 +875,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[1] = new TextEditingController(text:'1');
+                                                temp.anamnesis[1] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[1].text == '0')
+                                                (temp.anamnesis[1].text == '1')
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[1].text == '0')
+                                            color: (temp.anamnesis[1].text == '1')
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -884,15 +907,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[2] = new TextEditingController(text:'0');
+                                                temp.anamnesis[2] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[2].text == '1' )
+                                                (temp.anamnesis[2].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[2].text == '1')
+                                            color: (temp.anamnesis[2].text == '0')
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -904,15 +927,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[2] = new TextEditingController(text:'1');
+                                                temp.anamnesis[2] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[2].text == '0')
+                                                (temp.anamnesis[2].text == '1')
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[2].text == '0')
+                                            color: (temp.anamnesis[2].text == '1')
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -936,15 +959,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[3] = new TextEditingController(text:'0');
+                                                temp.anamnesis[3] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[3].text == '1' )
+                                                (temp.anamnesis[3].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[3].text == '1' )
+                                            color: (temp.anamnesis[3].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -956,15 +979,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[3] = new TextEditingController(text:'1');
+                                                temp.anamnesis[3] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[3].text == '0' )
+                                                (temp.anamnesis[3].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[3].text == '0' )
+                                            color: (temp.anamnesis[3].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -988,15 +1011,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[4] = new TextEditingController(text:'0');
+                                                temp.anamnesis[4] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[4].text == '1' )
+                                                (temp.anamnesis[4].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[4].text == '1' )
+                                            color: (temp.anamnesis[4].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1008,15 +1031,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[4] = new TextEditingController(text:'1');
+                                                temp.anamnesis[4] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[4].text == '0' )
+                                                (temp.anamnesis[4].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[4].text == '0' )
+                                            color: (temp.anamnesis[4].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1038,15 +1061,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[5] = new TextEditingController(text:'0');
+                                                temp.anamnesis[5] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[5].text == '1' )
+                                                (temp.anamnesis[5].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[5].text == '1' )
+                                            color: (temp.anamnesis[5].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1058,15 +1081,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[5] = new TextEditingController(text:'1');
+                                                temp.anamnesis[5] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[5].text == '0' )
+                                                (temp.anamnesis[5].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[5].text == '0' )
+                                            color: (temp.anamnesis[5].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1090,15 +1113,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[6] = new TextEditingController(text:'0');
+                                                temp.anamnesis[6] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[6].text == '1' )
+                                                (temp.anamnesis[6].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[6].text == '1' )
+                                            color: (temp.anamnesis[6].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1110,15 +1133,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[6] = new TextEditingController(text:'1');
+                                                temp.anamnesis[6] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[6].text == '0' )
+                                                (temp.anamnesis[6].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[6].text == '0' )
+                                            color: (temp.anamnesis[6].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1142,15 +1165,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[7] = new TextEditingController(text:'0');
+                                                temp.anamnesis[7] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[7].text == '1' )
+                                                (temp.anamnesis[7].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[7].text == '1' )
+                                            color: (temp.anamnesis[7].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1162,15 +1185,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[7] = new TextEditingController(text:'1');
+                                                temp.anamnesis[7] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[7].text == '0' )
+                                                (temp.anamnesis[7].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[7].text == '0' )
+                                            color: (temp.anamnesis[7].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1194,15 +1217,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[8] = new TextEditingController(text:'0');
+                                                temp.anamnesis[8] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[8].text == '1' )
+                                                (temp.anamnesis[8].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[8].text == '1' )
+                                            color: (temp.anamnesis[8].text == '0' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1214,15 +1237,15 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[8] = new TextEditingController(text:'1');
+                                                temp.anamnesis[8] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[8].text == '0' )
+                                                (temp.anamnesis[8].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
-                                            color: (temp.anamnesis[8].text == '0' )
+                                            color: (temp.anamnesis[8].text == '1' )
                                                 ? Colors.black
                                                 : Colors.blue,
                                           ),
@@ -1246,16 +1269,16 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[9] = new TextEditingController(text:'0');
+                                                temp.anamnesis[9] = new TextEditingController(text:'1');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[9].text == '1' )
+                                                (temp.anamnesis[9].text == '0' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
                                             color:
-                                                (temp.anamnesis[9].text == '1' )
+                                                (temp.anamnesis[9].text == '0' )
                                                     ? Colors.black
                                                     : Colors.blue,
                                           ),
@@ -1267,16 +1290,16 @@ class _EditProfile extends State<EditProfile> {
                                           child: IconButton(
                                             onPressed: () {
                                               setState(() {
-                                                temp.anamnesis[9] = new TextEditingController(text:'1');
+                                                temp.anamnesis[9] = new TextEditingController(text:'0');
                                               });
                                             },
                                             icon: Icon(
-                                                (temp.anamnesis[9].text == '0' )
+                                                (temp.anamnesis[9].text == '1' )
                                                     ? Icons.radio_button_off
                                                     : Icons.radio_button_on),
                                             iconSize: 20,
                                             color:
-                                                (temp.anamnesis[9].text == '0' )
+                                                (temp.anamnesis[9].text == '1' )
                                                     ? Colors.black
                                                     : Colors.blue,
                                           ),
