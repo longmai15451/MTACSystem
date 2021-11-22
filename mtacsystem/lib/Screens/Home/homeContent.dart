@@ -13,7 +13,7 @@ class HomeContent extends StatelessWidget {
       color: Colors.blue.shade200,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.black,
@@ -313,10 +313,10 @@ class HomeContent extends StatelessWidget {
                               
                             ),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Dialogflow()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => Dialogflow()));
                         },
                         child: Column(
                           children: <Widget>[

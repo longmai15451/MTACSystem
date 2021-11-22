@@ -39,7 +39,7 @@ class _Profile extends State<Profile>{
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.grey.shade100,
+                color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black,

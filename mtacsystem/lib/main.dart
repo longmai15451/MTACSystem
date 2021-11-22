@@ -12,6 +12,7 @@ import 'Screens/qrScan/qrappbar.dart';
 import 'Screens/qrScan/qrScan.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
 import 'package:mtacsystem/Components/account.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 late AccountProfile accountdata;
 void main(){
@@ -57,9 +58,8 @@ class MainScreen extends StatefulWidget{
 PreferredSizeWidget _appbar(int index){
   switch(index){
     case 1: return CalendarAppBar(appbar: AppBar(toolbarHeight: 80.0,));
-    case 2: return QRAppBar(appBar: AppBar());
-    case 3: return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
-    case 4: return ProfileAppBar(appbar: AppBar(toolbarHeight: 80.0,));
+    case 2: return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
+    case 3: return ProfileAppBar(appbar: AppBar(toolbarHeight: 80.0,));
     default: return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,), accountdata: accountdata,);
   }
 }
@@ -71,7 +71,6 @@ class HomeScreen extends State<MainScreen>{
   final List<Widget> _bodycontent = [
     HomeContent(),
     CalendarContent(),
-    QRScan(),
     NotifyContent(),
     Profile(accountdata: accountdata,),
   ];
@@ -85,40 +84,16 @@ class HomeScreen extends State<MainScreen>{
               _bodycontent[selectedIndex],
            ]
          ),
-         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: this.selectedIndex,
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.blue,
-          selectedIconTheme: IconThemeData(
-            color: Colors.blue,
-          ),
-          unselectedItemColor: Colors.grey[400],
+         bottomNavigationBar: CurvedNavigationBar(
+          color: Colors.blue.shade200,
+          height: 50,
+          buttonBackgroundColor: Colors.grey.shade100,
           backgroundColor: Colors.white,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Trang chủ',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today),
-              label: 'Lịch hẹn',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.qr_code_scanner_rounded,
-                size: 45.0,
-                color: Colors.black,
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Thông báo',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Cá nhân',
-            ),
+          items: const <Widget>[
+            Icon(Icons.home),
+            Icon(Icons.calendar_today),
+            Icon(Icons.notifications),
+            Icon(Icons.person),
           ],
           onTap: (int index){
             setState((){this.selectedIndex = index;});
