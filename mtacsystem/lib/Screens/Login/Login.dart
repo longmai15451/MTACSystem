@@ -136,7 +136,7 @@ class _LoginState extends State<LoginScreen> {
               child: Padding(
                 padding: EdgeInsets.all(5.0),
                 child: PageTransitionSwitcher(
-                  duration: const Duration(milliseconds: 10000),
+                  duration: const Duration(milliseconds: 50000),
                   transitionBuilder: (
                     Widget child,
                     Animation<double> animation,

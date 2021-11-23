@@ -72,7 +72,7 @@ class _ChatState extends State<Chat> {
     // TODO Get a Service account
     // Get a Service account
     final serviceAccount = ServiceAccount.fromString(
-        '${(await rootBundle.loadString('assets/credentials.json'))}');
+        '${(await rootBundle.loadString('assets/mtac-dialogflow-qcm9-7ca4f8c9a08f.json'))}');
     // Create a DialogflowGrpc Instance
     dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
 
@@ -98,7 +98,7 @@ class _ChatState extends State<Chat> {
     setState(() {
     _messages.insert(0, message);
     });
-    DetectIntentResponse data = await dialogflow.detectIntent(text, 'en-US');
+    DetectIntentResponse data = await dialogflow.detectIntent(text, 'vi-VN');
     String fulfillmentText = data.queryResult.fulfillmentText;
     if(fulfillmentText.isNotEmpty) {
       ChatMessage botMessage = ChatMessage(
@@ -127,7 +127,7 @@ class _ChatState extends State<Chat> {
     // TODO Create SpeechContexts
     var biasList = SpeechContextV2Beta1(
         phrases: [
-          'Dialogflow CX',
+          'Dialogflow ES',
           'Dialogflow Essentials',
           'Action Builder',
           'HIPAA'
@@ -138,7 +138,7 @@ class _ChatState extends State<Chat> {
         // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
     var config = InputConfigV2beta1(
         encoding: 'AUDIO_ENCODING_LINEAR_16',
-        languageCode: 'en-US',
+        languageCode: 'vi-VN',
         sampleRateHertz: 16000,
         singleUtterance: false,
         speechContexts: [biasList]
