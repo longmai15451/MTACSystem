@@ -3,13 +3,16 @@ import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
 import 'package:mtacsystem/Chatbot/ChatMain.dart';
+import 'package:mtacsystem/Components/account.dart';
 import 'covidstats.dart';
 
 class HomeContent extends StatelessWidget {
+  final AccountProfile accountdata;
+  HomeContent({required this.accountdata});
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 6.0),
+      padding: EdgeInsets.only(top: 3.0),
       color: Colors.blue.shade200,
       child: Container(
         decoration: BoxDecoration(
@@ -22,16 +25,16 @@ class HomeContent extends StatelessWidget {
             ),
           ],
           borderRadius: BorderRadius.vertical(
-            top: Radius.circular(60.0),
+            top: Radius.circular(50.0),
           )
         ),
       child: Container(
-        padding: EdgeInsets.only(top: 25),
+        padding: EdgeInsets.only(top: 1),
         child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            height: 20.0,
+            height: 15.0,
           ),
           
           Row(
@@ -68,7 +71,7 @@ class HomeContent extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignUpVaccin()));
+                                      builder: (context) => SignUpVaccin(accountdata: accountdata,)));
                             },
                             child: Column(
                               children: <Widget>[
@@ -406,8 +409,8 @@ class HomeContent extends StatelessWidget {
             ],
           ),
           Container(
-            height: 70.0,
-            padding: EdgeInsets.only(top: 30, right: 190,),
+            height: 40.0,
+            padding: EdgeInsets.only(top: 15, right: 190,),
             child: Text(
               'Tình hình dịch bệnh',
               style: TextStyle(
@@ -418,10 +421,7 @@ class HomeContent extends StatelessWidget {
           ),
           CovidStats(),
           Container(
-            height: 15.0,
-          ),
-          Container(
-            height: 15.0,
+            height: 16.0,
           ),
         ],
     ),

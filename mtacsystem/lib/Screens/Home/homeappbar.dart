@@ -17,10 +17,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
       elevation: 0.0,
       leading: IconButton(
         onPressed: () async{
-          // if(!globals.loginStatus)
-          //   {
-          //     Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(selected: 4)));
-          //   }
         },
         icon: Icon(Icons.person),
         color: Colors.black,

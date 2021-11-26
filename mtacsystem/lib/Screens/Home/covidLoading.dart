@@ -8,7 +8,7 @@ class CovidLoading extends StatelessWidget {
       children: <Widget>[
          Container(
           margin: EdgeInsets.only(left: 5, right: 5),
-          height: 180.0,
+          height: 190.0,
           width: 370.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),

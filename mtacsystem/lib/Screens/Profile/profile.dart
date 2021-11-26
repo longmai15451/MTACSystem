@@ -35,7 +35,7 @@ class _Profile extends State<Profile>{
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 20.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class _Profile extends State<Profile>{
                     child: Text(accountdata.phone.toString()),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: InkWell(
                       onTap: (){
                         setState(() {
@@ -107,7 +107,7 @@ class _Profile extends State<Profile>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: InkWell(
                       onTap: (){},
                       child: Container(
@@ -132,7 +132,7 @@ class _Profile extends State<Profile>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: InkWell(
                       onTap: (){},
                       child: Container(
@@ -157,7 +157,7 @@ class _Profile extends State<Profile>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: InkWell(
                       onTap: (){},
                       child: Container(
@@ -178,7 +178,7 @@ class _Profile extends State<Profile>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: InkWell(
                       onTap: (){},
                       child: Container(
@@ -199,7 +199,7 @@ class _Profile extends State<Profile>{
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: InkWell(
                       onTap: ()async{
                           Navigator.pop(context);

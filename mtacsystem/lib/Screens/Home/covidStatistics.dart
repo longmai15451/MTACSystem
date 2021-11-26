@@ -12,7 +12,7 @@ class CovidStatistics extends StatelessWidget{
       children: <Widget>[
          Container(
           margin: EdgeInsets.only(left: 5, right: 5),
-          height: 220.0,
+          height: 190.0,
           width: 370.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
@@ -35,7 +35,7 @@ class CovidStatistics extends StatelessWidget{
           baseColor: Colors.red.shade600,
           highlightColor: Colors.red.shade200,
           child: Container(
-                height: 50,
+                height: 30,
                 width: 300,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

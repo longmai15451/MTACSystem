@@ -69,7 +69,7 @@ class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
   //HomeScreen({required this.selectedIndex});
   final List<Widget> _bodycontent = [
-    HomeContent(),
+    HomeContent(accountdata: accountdata,),
     CalendarContent(),
     NotifyContent(),
     Profile(accountdata: accountdata,),
