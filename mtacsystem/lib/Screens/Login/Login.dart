@@ -55,7 +55,7 @@ class _LoginState extends State<LoginScreen> {
     );
   }
 
-  Widget CustomLabel(String text, double fontsize, Color color){
+  Widget customLabel(String text, double fontsize, Color color){
     return Container(
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.symmetric(horizontal: 40),
@@ -85,10 +85,10 @@ class _LoginState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: 50),
-            CustomLabel("Xin chào,",36,Color(0xFF002FFF)),
+            customLabel("Xin chào,",36,Color(0xFF002FFF)),
             SizedBox(height: size.height * 0.02),
             
-            CustomLabel("Vui lòng đăng nhập để sử dụng dịch vụ",15,Color(0xFF475DBB)),
+            customLabel("Vui lòng đăng nhập để sử dụng dịch vụ",15,Color(0xFF475DBB)),
             SizedBox(height: size.height * 0.02),
 
             Container(

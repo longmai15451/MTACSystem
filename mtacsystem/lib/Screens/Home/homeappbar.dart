@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/account.dart';
+import 'package:mtacsystem/Screens/Profile/editProf.dart';
 
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
+class HomeAppBar extends StatefulWidget implements PreferredSizeWidget{
   final AccountProfile accountdata;
   final AppBar appBar;
   const HomeAppBar({
     required this.accountdata,
     required this.appBar,
   });
+ @override
+  // TODO: implement preferredSize
+  Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
+  @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
   @override
   PreferredSizeWidget build(BuildContext context) {
     return AppBar(
@@ -16,7 +25,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
       backgroundColor: Colors.blue.shade200,
       elevation: 0.0,
       leading: IconButton(
-        onPressed: () async{
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (_)=> EditProfile(accountdata: widget.accountdata,))).then((value) => {setState((){})});
         },
         icon: Icon(Icons.person),
         color: Colors.black,
@@ -33,7 +43,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
                 color: Colors.black,
                 fontWeight: FontWeight.w300
                 )),
-              Text(accountdata.fullName.toString(), 
+              Text(widget.accountdata.fullName.toString(), 
               style: TextStyle(color: Colors.black))
             ],
           ),
@@ -41,8 +51,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
       ),
     );
   }
-  @override
-  // TODO: implement preferredSize
-  Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
 
+ 
 }

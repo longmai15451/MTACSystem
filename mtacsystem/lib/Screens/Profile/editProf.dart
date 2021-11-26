@@ -3,6 +3,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class EditProfile extends StatefulWidget {
   final AccountProfile accountdata;
@@ -75,32 +78,54 @@ class _EditProfile extends State<EditProfile> {
     return temp.gender.text=='1'?'Nữ':temp.gender.text=='0'?'Nam':'Khác';
   }
 
-  void updateProfile(TempUserProfile temp, AccountProfile data){
-    try{
-      data.fullName = temp.name.text;
-      data.birthDate = temp.birthdate.text;
-      data.gender = temp.gender.text;
-      data.phone = temp.phone.text;
-      data.idCard = temp.idcard.text;
-      data.email = temp.email.text;
-      data.job = temp.job.text;
-      data.healthCard = temp.healthCard.text;
-      data.city = temp.city.text;
-      data.district = temp.district.text;
-      data.ward = temp.ward.text;
-      data.address = temp.address.text;
-      data.country = temp.country.text;
+  void tempProfileUpdate(){
+      accountdata.fullName = temp.name.text;
+      accountdata.birthDate = temp.birthdate.text;
+      accountdata.gender = temp.gender.text;
+      accountdata.phone = temp.phone.text;
+      accountdata.idCard = temp.idcard.text;
+      accountdata.email = temp.email.text;
+      accountdata.job = temp.job.text;
+      accountdata.healthCard = temp.healthCard.text;
+      accountdata.city = temp.city.text;
+      accountdata.district = temp.district.text;
+      accountdata.ward = temp.ward.text;
+      accountdata.address = temp.address.text;
+      accountdata.country = temp.country.text;
       toast('Cập nhật thành công!', Colors.green);
       Navigator.pop(context,accountdata);
+  }
+
+  Future updateProfile() async{
+    var url="http://mtac1.000webhostapp.com/CAP1_mobile/UpdateProfile.php";
+    var response = await http.post(Uri.parse(url),body: {
+      "old_id_card" : accountdata.idCard.toString(),
+      "full_name" : temp.name.text,
+      "id_card" : temp.idcard.text,
+      "phone" : temp.phone.text,
+      "birthdate" : temp.birthdate.text,
+      "gender" : temp.gender.text,
+      "healthCard" : temp.healthCard.text,
+      "email" : temp.email.text,
+      "job" : temp.job.text,
+      "address" : temp.address.text,
+      "ward" : temp.ward.text,
+      "district" : temp.district.text,
+      "city" : temp.city.text,
+      "country" : temp.country.text,
+      "nation" : "Kinh",
+    });
+    var data = json.decode(response.body);
+    if(data == "Success"){
+      tempProfileUpdate();
     }
-    catch(ex)
-    {
+    else{
       toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
     }
   }
 
   void updateAnamnesis(TempUserProfile temp){
-
+    
   }
 
   @override
@@ -691,8 +716,8 @@ class _EditProfile extends State<EditProfile> {
                                             horizontal: 50, vertical: 10),
                                         child: RaisedButton(
                                             onPressed: () {
-                                              setState((){
-                                                updateProfile(temp, accountdata);
+                                              setState(() async {
+                                                updateProfile();
                                               });
                                             },
                                             shape: RoundedRectangleBorder(

@@ -8,8 +8,6 @@ import 'Screens/Calendar/calendarappbar.dart';
 import 'Screens/Calendar/calendarContent.dart';
 import 'Screens/Profile/profile.dart';
 import 'Screens/Profile/profileAppbar.dart';
-import 'Screens/qrScan/qrappbar.dart';
-import 'Screens/qrScan/qrScan.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
