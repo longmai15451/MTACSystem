@@ -49,54 +49,52 @@ class _ChooseTest extends State<ChooseTest>{
             Container(
               child: new Row(
                 children: [
-                  RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          check1 = false;
-                        });
-                      },
-                      highlightColor: Colors.transparent,
-                      color: Colors.white,
-                      elevation: 0.0,
-                      splashColor: Colors.transparent,
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              check1
-                                  ? Icons.radio_button_off
-                                  : Icons.radio_button_on,
-                              size: 20,
-                              color: check1 ? Colors.black : Colors.blue,
-                            ),
-                            Text('  Thanh toán online'),
-                          ],
-                        ),
-                      )),
-                  RaisedButton(
-                      onPressed: () {
-                        setState(() {
-                          check1 = true;
-                        });
-                      },
-                      highlightColor: Colors.transparent,
-                      color: Colors.white,
-                      elevation: 0.0,
-                      splashColor: Colors.transparent,
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              !check1
-                                  ? Icons.radio_button_off
-                                  : Icons.radio_button_on,
-                              size: 20,
-                              color: !check1 ? Colors.black : Colors.blue,
-                            ),
-                            Text('  Thanh toán tại bệnh viện'),
-                          ],
-                        ),
-                      )),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            check1 = false;
+                          });
+                        },
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Icon(
+                                check1
+                                    ? Icons.radio_button_off
+                                    : Icons.radio_button_on,
+                                size: 20,
+                                color: check1 ? Colors.black : Colors.blue,
+                              ),
+                              Text('  Thanh toán online'),
+                            ],
+                          ),
+                        )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            check1 = true;
+                          });
+                        },
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Icon(
+                                !check1
+                                    ? Icons.radio_button_off
+                                    : Icons.radio_button_on,
+                                size: 20,
+                                color: !check1 ? Colors.black : Colors.blue,
+                              ),
+                              Text('  Thanh toán tại bệnh viện'),
+                            ],
+                          ),
+                        )),
+                  ),
                 ],
               ),
             ),

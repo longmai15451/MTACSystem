@@ -21,7 +21,6 @@ class _dateTimePicker extends State<dateTimePicker> {
     if(_datePicker != null && _datePicker != _date){
       setState(() {
         _date = _datePicker;
-        ;
       });
     }
   }

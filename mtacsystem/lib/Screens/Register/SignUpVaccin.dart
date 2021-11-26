@@ -6,6 +6,7 @@ import 'package:mtacsystem/Components/genderSelect.dart';
 import 'package:mtacsystem/Components/dateTimePicker.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'package:mtacsystem/Screens/Register/ChosseHospital.dart';
+import 'package:mtacsystem/Components/controllerData.dart';
 
 class SignUpVaccin extends StatefulWidget {
   final AccountProfile accountdata;
@@ -17,7 +18,9 @@ class SignUpVaccin extends StatefulWidget {
 }
 
 class _SignUpVaccinState extends State<SignUpVaccin> {
-  final AccountProfile accountdata;
+  TempUserProfile temp = new TempUserProfile();
+  late bool _readonly = true;
+  late AccountProfile accountdata;
   bool _expanded = false;
   final format = DateFormat("dd-MM-yyy");
   _SignUpVaccinState({required this.accountdata});
@@ -145,6 +148,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                             child: TextField(
+                              controller: temp.name = new TextEditingController(text: accountdata.fullName),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -216,7 +221,38 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                               ),
                             ],
                           ), //Ngày Sinh Giới Tính
-
+                          Container(
+                            margin: EdgeInsets.only(left: 20, top: 10),
+                            child: new Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                new Text('Số điện thoại '),
+                                new Text(
+                                  "*",
+                                  style: TextStyle(color: Colors.red),
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            child: TextField(
+                              controller: temp.phone  = new TextEditingController(text: accountdata.phone),
+                              readOnly: _readonly,
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(fontSize: 15),
+                              // initialValue: 'Input text',
+                              decoration: InputDecoration(
+                                hintText: 'Số điện thoại',
+                                // errorText: 'Error message', ------ báo lỗi k nhập
+                                border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(10)),
+                              ),
+                            ),
+                          ),
                           Container(
                             margin: EdgeInsets.only(left: 20, top: 10),
                             child: new Row(
@@ -234,6 +270,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                             child: TextFormField(
+                              controller: temp.idcard = new TextEditingController(text: accountdata.idCard),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -263,6 +301,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                             child: TextFormField(
+                              controller: temp.healthCard = new TextEditingController(text: accountdata.healthCard),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -294,6 +334,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              controller: temp.job = new TextEditingController(text: accountdata.job),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -326,7 +368,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
-                              readOnly: true,
+                              controller: temp.city = new TextEditingController(text: accountdata.city),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -355,6 +398,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              controller: temp.district = new TextEditingController(text: accountdata.district),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -384,6 +429,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              controller: temp.ward = new TextEditingController(text: accountdata.ward),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -413,6 +460,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              controller: temp.address = new TextEditingController(text: accountdata.address),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -442,6 +491,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -471,6 +521,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              controller: temp.country = new TextEditingController(text: accountdata.country),
+                              readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
                               // initialValue: 'Input text',
@@ -509,7 +561,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                         Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ChosseHospital()));
+                                    builder: (context) => ChosseHospital(accountdata: accountdata)));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(70.0)),

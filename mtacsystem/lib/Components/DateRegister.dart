@@ -9,7 +9,7 @@ class DateRegister extends StatefulWidget {
 /// This is the private State class that goes with MyStatefulWidget.
 class _DateRegister extends State<DateRegister> {
   DateTime _date = DateTime.now();
-  // String formattedDate = DateFormat('yyyy-MM-dd').format(_date)
+  late var formattedDate = DateFormat('yyyy-MM-dd');
   bool _decideWhichDayToEnable(DateTime day) {  // set ngày hiện tại đến 10 ngày sau
   if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
       day.isBefore(DateTime.now().add(Duration(days: 10))))) {
@@ -45,7 +45,7 @@ class _DateRegister extends State<DateRegister> {
           style: TextStyle(fontSize: 15),
           readOnly: true,
           decoration: InputDecoration(
-            hintText: (_date.toString()),
+            hintText: ('${formattedDate.format(_date)}'),
             icon: Icon(Icons.date_range)
           ),
         ),
