@@ -348,10 +348,10 @@ class _HomeContentState extends State<HomeContent> {
                               
                             ),
                         onPressed: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => Dialogflow()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Dialogflow()));
                         },
                         child: Column(
                           children: <Widget>[
