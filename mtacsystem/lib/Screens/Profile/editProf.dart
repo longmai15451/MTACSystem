@@ -13,19 +13,34 @@ class EditProfile extends StatefulWidget {
 
   const EditProfile({Key? key, required this.accountdata}) : super(key: key);
   @override
-  _EditProfile createState() => _EditProfile(accountdata);
+  _EditProfile createState() => _EditProfile();
 }
 
 class _EditProfile extends State<EditProfile> {
-  late AccountProfile accountdata;
   late var formattedDate = DateFormat('yyyy-MM-dd');
   TempUserProfile temp = new TempUserProfile(); 
   int count = 0;
   late String gd = 'Nam';
-  _EditProfile(this.accountdata,);
+  late DateTime _date= DateTime.parse(widget.accountdata.birthDate.toString());
 
+  @override
+  initState(){
+    super.initState();
+    _setAnamnesis();
+  }
 
-  late DateTime _date= DateTime.parse(accountdata.birthDate.toString());
+  void _setAnamnesis(){
+    temp.anamnesis[0] = new TextEditingController(text: widget.accountdata.anamnesis1);
+    temp.anamnesis[1] = new TextEditingController(text: widget.accountdata.anamnesis2);
+    temp.anamnesis[2] = new TextEditingController(text: widget.accountdata.anamnesis3);
+    temp.anamnesis[3] = new TextEditingController(text: widget.accountdata.anamnesis4);
+    temp.anamnesis[4] = new TextEditingController(text: widget.accountdata.anamnesis5);
+    temp.anamnesis[5] = new TextEditingController(text: widget.accountdata.anamnesis6);
+    temp.anamnesis[6] = new TextEditingController(text: widget.accountdata.anamnesis7);
+    temp.anamnesis[7] = new TextEditingController(text: widget.accountdata.anamnesis8);
+    temp.anamnesis[8] = new TextEditingController(text: widget.accountdata.anamnesis9);
+    temp.anamnesis[9] = new TextEditingController(text: widget.accountdata.anamnesis10);
+  }
 
   Future<Null> _selectDate(BuildContext context) async{
     DateTime? _datePicker = await showDatePicker(
@@ -60,27 +75,40 @@ class _EditProfile extends State<EditProfile> {
   }
 
   void tempProfileUpdate(){
-      accountdata.fullName = temp.name.text;
-      accountdata.birthDate = temp.birthdate.text;
-      accountdata.gender = temp.gender.text;
-      accountdata.phone = temp.phone.text;
-      accountdata.idCard = temp.idcard.text;
-      accountdata.email = temp.email.text;
-      accountdata.job = temp.job.text;
-      accountdata.healthCard = temp.healthCard.text;
-      accountdata.city = temp.city.text;
-      accountdata.district = temp.district.text;
-      accountdata.ward = temp.ward.text;
-      accountdata.address = temp.address.text;
-      accountdata.country = temp.country.text;
+      widget.accountdata.fullName = temp.name.text;
+      widget.accountdata.birthDate = temp.birthdate.text;
+      widget.accountdata.gender = temp.gender.text;
+      widget.accountdata.phone = temp.phone.text;
+      widget.accountdata.idCard = temp.idcard.text;
+      widget.accountdata.email = temp.email.text;
+      widget.accountdata.job = temp.job.text;
+      widget.accountdata.healthCard = temp.healthCard.text;
+      widget.accountdata.city = temp.city.text;
+      widget.accountdata.district = temp.district.text;
+      widget.accountdata.ward = temp.ward.text;
+      widget.accountdata.address = temp.address.text;
+      widget.accountdata.country = temp.country.text;
       toast('Cập nhật thành công!', Colors.green);
-      Navigator.pop(context,accountdata);
+      Navigator.pop(context,widget.accountdata);
   }
 
-  Future updateProfile() async{
+  void tempAnamnesisUpdate(){
+    widget.accountdata.anamnesis1 = temp.anamnesis[0].text;
+    widget.accountdata.anamnesis2 = temp.anamnesis[1].text;
+    widget.accountdata.anamnesis3 = temp.anamnesis[2].text;
+    widget.accountdata.anamnesis4 = temp.anamnesis[3].text;
+    widget.accountdata.anamnesis5 = temp.anamnesis[4].text;
+    widget.accountdata.anamnesis6 = temp.anamnesis[5].text;
+    widget.accountdata.anamnesis7 = temp.anamnesis[6].text;
+    widget.accountdata.anamnesis8 = temp.anamnesis[7].text;
+    widget.accountdata.anamnesis9 = temp.anamnesis[8].text;
+    widget.accountdata.anamnesis10 = temp.anamnesis[9].text;
+  }
+
+  Future<void> updateProfile() async{
     var url="http://mtac1.000webhostapp.com/CAP1_mobile/UpdateProfile.php";
     var response = await http.post(Uri.parse(url),body: {
-      "old_id_card" : accountdata.idCard.toString(),
+      "old_id_card" : widget.accountdata.idCard.toString(),
       "full_name" : temp.name.text,
       "id_card" : temp.idcard.text,
       "phone" : temp.phone.text,
@@ -94,7 +122,7 @@ class _EditProfile extends State<EditProfile> {
       "district" : temp.district.text,
       "city" : temp.city.text,
       "country" : temp.country.text,
-      "nation" : "Kinh",
+      "nation" : temp.nation.text,
     });
     var data = json.decode(response.body);
     if(data == "Success"){
@@ -105,8 +133,22 @@ class _EditProfile extends State<EditProfile> {
     }
   }
 
-  void updateAnamnesis(TempUserProfile temp){
-    
+  Future<void> updateAnamnesis() async {
+    List<String> anamnesisdata = new List.filled(10, '' ,growable:false);
+    temp.anamnesis.forEach((data) => anamnesisdata.add(data.text));
+    print(anamnesisdata);
+    var url="http://mtac1.000webhostapp.com/CAP1_mobile/UpdateAnamnesis.php";
+    var response = await http.post(Uri.parse(url),body: {
+      "id_card" : widget.accountdata.idCard.toString(),
+      "anamnesis" : anamnesisdata,
+    });
+    var data = json.decode(response.body);
+    if(data == "Success"){
+      tempAnamnesisUpdate();
+    }
+    else{
+      toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
+    }
   }
 
   @override
@@ -184,7 +226,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
-                                  controller: temp.name = new TextEditingController(text: accountdata.fullName),
+                                  controller: temp.name = new TextEditingController(text: widget.accountdata.fullName),
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -281,7 +323,7 @@ class _EditProfile extends State<EditProfile> {
                                                 child: Container(
                                                   child: DropdownButtonHideUnderline(
                                                     child:DropdownButton<String>(
-                                                  value: gd = getGender(accountdata),
+                                                  value: gd = getGender(widget.accountdata),
                                                   isDense: true,
                                                   onChanged: (String? newValue) {
                                                     temp.gender = new TextEditingController(text: newValue=='Nam'?'0':newValue=='Nữ'?'1':'null',);
@@ -325,7 +367,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
-                                  controller: temp.phone  = new TextEditingController(text: accountdata.phone),
+                                  controller: temp.phone  = new TextEditingController(text: widget.accountdata.phone),
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -357,7 +399,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
-                                  controller: temp.idcard = new TextEditingController(text: accountdata.idCard),
+                                  controller: temp.idcard = new TextEditingController(text: widget.accountdata.idCard),
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -387,7 +429,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.email = new TextEditingController(text: accountdata.email),
+                                      controller: temp.email = new TextEditingController(text: widget.accountdata.email),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -423,7 +465,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      //controller: temp.nation = new TextEditingController(text: accountdata.nation),
+                                      controller: temp.nation = new TextEditingController(text: widget.accountdata.nation),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -459,7 +501,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.job = new TextEditingController(text: accountdata.job),
+                                      controller: temp.job = new TextEditingController(text: widget.accountdata.job),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -495,7 +537,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.healthCard = new TextEditingController(text: accountdata.healthCard),
+                                      controller: temp.healthCard = new TextEditingController(text: widget.accountdata.healthCard),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -531,7 +573,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.city = new TextEditingController(text: accountdata.city),
+                                      controller: temp.city = new TextEditingController(text: widget.accountdata.city),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -567,7 +609,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.district = new TextEditingController(text: accountdata.district),
+                                      controller: temp.district = new TextEditingController(text: widget.accountdata.district),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -603,7 +645,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.ward = new TextEditingController(text: accountdata.ward),
+                                      controller: temp.ward = new TextEditingController(text: widget.accountdata.ward),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -639,7 +681,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.address = new TextEditingController(text: accountdata.address),
+                                      controller: temp.address = new TextEditingController(text: widget.accountdata.address),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -675,7 +717,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.country = new TextEditingController(text: accountdata.country),
+                                      controller: temp.country = new TextEditingController(text: widget.accountdata.country),
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -1346,7 +1388,11 @@ class _EditProfile extends State<EditProfile> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                     child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() async {
+                            updateAnamnesis();
+                          });
+                        },
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(70.0)),
                         textColor: Colors.white,

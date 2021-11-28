@@ -1,13 +1,13 @@
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
 import 'package:mtacsystem/Chatbot/ChatMain.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'covidstats.dart';
-import 'detail_vaccin_regis.dart';
+
 
 class HomeContent extends StatefulWidget {
   final AccountProfile accountdata;
