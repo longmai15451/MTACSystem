@@ -4,13 +4,11 @@ import 'dart:async';
 import 'dart:convert';
 
 class LocationService {
-  static final apiKey = "AIzaSyDFpvQkkEDoCpIenFNX_5v2xO6wFVgZvyg";
+  static final apiKey = "AIzaSyA66KwUrjxcFG5u0exynlJ45CrbrNe3hEc";
   Future<Map<String, dynamic>> getDirection(String origin, String destination) async {
     final String url = 
     'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$apiKey';
-    print('FDickQw');
     var response = await http.get(Uri.parse(url));
-    print(response.body);
     var json = jsonDecode(response.body);
 
     var result = {
@@ -22,8 +20,6 @@ class LocationService {
       'distance': json['routes'][0]['leg'][0]['distance'][0]['text'],
       'duration': json['routes'][0]['leg'][0]['duration'][0]['text'],
     };
-    print('FDickQw');
-    print(json);
     return result;
   }
 }

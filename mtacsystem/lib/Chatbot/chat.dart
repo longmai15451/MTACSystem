@@ -167,7 +167,7 @@ class _ChatState extends State<Chat> {
           );
 
           ChatMessage botMessage = new ChatMessage(
-            text: fulfillmentText,
+            text: queryResult.fulfillmentText,
             name: "Bot",
             type: false,
           );

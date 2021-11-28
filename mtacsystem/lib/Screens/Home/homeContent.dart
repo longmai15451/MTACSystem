@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mtacsystem/Screens/Home/direction_model.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
@@ -9,7 +8,6 @@ import 'package:mtacsystem/Chatbot/ChatMain.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'covidstats.dart';
 import 'detail_vaccin_regis.dart';
-import 'directions_reponsitory.dart';
 
 class HomeContent extends StatefulWidget {
   final AccountProfile accountdata;
@@ -20,18 +18,7 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  final LatLng or = LatLng(15.069203, 108.193960);
-  final LatLng des = LatLng(12.069203, 108.193960);
-  Direction _info = new Direction();
   
-
-  void getInfo(LatLng or, LatLng des) async{
-    final directions = await DirectionReponsitory().getDirection(
-      origin: or,
-      destination: des,
-    );
-    setState(() => _info = directions);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -283,13 +270,11 @@ class _HomeContentState extends State<HomeContent> {
                               
                             ),
                         onPressed: () {
-                          setState(() async {
-                            getInfo(or, des);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Detail(info: _info)));
-                          });
+                                  builder: (context) => Detail()));
+
                           
                         },
                         child: Column(

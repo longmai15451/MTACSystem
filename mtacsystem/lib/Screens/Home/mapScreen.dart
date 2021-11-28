@@ -3,14 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'location_service.dart';
-import 'direction_model.dart';
-import 'directions_reponsitory.dart';
 
 
 class MapScreen extends StatefulWidget{
-  final Direction info;
-
-  const MapScreen({Key? key, required this.info}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -34,9 +29,9 @@ class _MapScreen extends State<MapScreen>{
       );
   @override
   initState() {
-    LocationService().getDirection('46 Xuân Đán 1, Thanh Khê, Đà Nẵng', '404 Trần Cao Vân, Đà Nẵng');
     super.initState();
   }
+  
 
   @override
   Widget build(BuildContext context) {
