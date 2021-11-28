@@ -12,7 +12,7 @@ class _Dialogflow extends State<Dialogflow> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tư vấn'),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.blue,
       ),
       body: Center(
         child: Chat()),

@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sound_stream/sound_stream.dart';
+import 'package:bubble/bubble.dart';
 
 // TODO import Dialogflow
 
@@ -167,7 +168,7 @@ class _ChatState extends State<Chat> {
           );
 
           ChatMessage botMessage = new ChatMessage(
-            text: queryResult.fulfillmentText,
+            text: fulfillmentText,  
             name: "Bot",
             type: false,
           );
@@ -203,7 +204,7 @@ class _ChatState extends State<Chat> {
             itemBuilder: (_, int index) => _messages[index],
             itemCount: _messages.length,
           )),
-      Divider(height: 1.0),
+      Divider(height: 1.0, color: Colors.greenAccent,),
       Container(
           decoration: BoxDecoration(color: Theme.of(context).cardColor),
           child: IconTheme(
@@ -266,7 +267,15 @@ class ChatMessage extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold)),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: Text(text),
+              child: Bubble(
+                child: Text(
+                  text, 
+                  style: TextStyle(
+                    color: Colors.white
+                  ),),
+                radius: Radius.circular(15.0),
+                color: Colors.blueGrey,
+              ),
             ),
           ],
         ),
@@ -283,7 +292,16 @@ class ChatMessage extends StatelessWidget {
             Text(this.name, style: Theme.of(context).textTheme.subtitle1),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: Text(text),
+              // child: Text(text),
+              child: Bubble(
+                child: Text(
+                  text, 
+                  style: TextStyle(
+                    color: Colors.white
+                  ),),
+                radius: Radius.circular(15.0),
+                color: Colors.blueAccent,
+              ),
             ),
           ],
         ),
