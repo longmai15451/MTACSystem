@@ -7,6 +7,7 @@ import 'package:mtacsystem/Components/dateTimePicker.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'package:mtacsystem/Screens/Register/ChosseHospital.dart';
 import 'package:mtacsystem/Components/controllerData.dart';
+// import 'package:geocoder/geocoder.dart';
 
 class SignUpVaccin extends StatefulWidget {
   final AccountProfile accountdata;
@@ -24,6 +25,19 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
   bool _expanded = false;
   final format = DateFormat("dd-MM-yyy");
   _SignUpVaccinState({required this.accountdata});
+  @override
+  initState(){
+    
+    super.initState();
+  }
+
+  // Future<String> getCoridle() async {
+  //   final query = "46 Xuân Đán 1, Xuân hà, Thanh Khê, Đà Nẵng 550000";
+  //   var addresses = await Geocoder.google("AIzaSyDFpvQkkEDoCpIenFNX_5v2xO6wFVgZvyg").findAddressesFromQuery(query);
+  //   var first = addresses.first;
+  //   return "${first.featureName} : ${first.coordinates}";
+  // }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -558,6 +572,12 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                       onPressed: () {
+                        
+                        setState(() {
+                          // getCoridle().then((value){
+                          //   print(value);
+                          // });
+                        });
                         Navigator.push(
                                 context,
                                 MaterialPageRoute(

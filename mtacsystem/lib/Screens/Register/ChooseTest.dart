@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
+import 'package:mtacsystem/Components/controllerData.dart';
 
 class ChooseTest extends StatefulWidget {
   @override
   State<ChooseTest> createState() => _ChooseTest();
 }
 class _ChooseTest extends State<ChooseTest>{
-
+  VacRegister regisdata = new VacRegister();
   late bool check1;
   late bool check2;
 
@@ -37,7 +38,7 @@ class _ChooseTest extends State<ChooseTest>{
               ),
             ),
             Container(
-              child: DateRegister()
+              child: DateRegister(regisdata: regisdata)
             ),
             Container(
               child: TextField(

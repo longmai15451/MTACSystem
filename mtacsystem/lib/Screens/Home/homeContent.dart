@@ -1,14 +1,38 @@
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mtacsystem/Screens/Home/direction_model.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/DeclarationH/DeclarationH.dart';
 import 'package:mtacsystem/Chatbot/ChatMain.dart';
 import 'package:mtacsystem/Components/account.dart';
 import 'covidstats.dart';
+import 'detail_vaccin_regis.dart';
+import 'directions_reponsitory.dart';
 
-class HomeContent extends StatelessWidget {
+class HomeContent extends StatefulWidget {
   final AccountProfile accountdata;
   HomeContent({required this.accountdata});
+
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  final LatLng or = LatLng(15.069203, 108.193960);
+  final LatLng des = LatLng(12.069203, 108.193960);
+  Direction _info = new Direction();
+  
+
+  void getInfo(LatLng or, LatLng des) async{
+    final directions = await DirectionReponsitory().getDirection(
+      origin: or,
+      destination: des,
+    );
+    setState(() => _info = directions);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +95,7 @@ class HomeContent extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SignUpVaccin(accountdata: accountdata,)));
+                                      builder: (context) => SignUpVaccin(accountdata: widget.accountdata,)));
                             },
                             child: Column(
                               children: <Widget>[
@@ -259,6 +283,14 @@ class HomeContent extends StatelessWidget {
                               
                             ),
                         onPressed: () {
+                          setState(() async {
+                            getInfo(or, des);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Detail(info: _info)));
+                          });
+                          
                         },
                         child: Column(
                           children: <Widget>[

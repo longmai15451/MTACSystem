@@ -28,9 +28,13 @@ dependencies:
   date_time_picker: ^2.1.0
   datetime_picker_formfield: ^2.0.0
   dialogflow_grpc: ^0.2.9
+  dio: ^4.0.4
   flutter:
     sdk: flutter
+  flutter_polyline_points: ^1.0.0
+  flutter_typeahead: ^3.2.3
   fluttertoast: null
+  google_maps_flutter: ^2.1.1
   http: ^0.13.4
   intl: ^0.17.0
   rxdart: ^0.27.3

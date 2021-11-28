@@ -124,7 +124,7 @@ class _ChosseHospital extends State<ChosseHospital> {
               ),
             ),
             Container(
-              child: DateRegister(),
+              child: DateRegister(regisdata: regisdata),
             ),
             Container(
               child: TextField(
