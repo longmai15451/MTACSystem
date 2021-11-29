@@ -22,8 +22,8 @@ class TempUserProfile {
 class VacRegister{
   late TextEditingController idVac = new TextEditingController();
   late TextEditingController idHos = new TextEditingController();
-  late TextEditingController registerDate = new TextEditingController(text: '2021-11-27');
-  late TextEditingController registerTime = new TextEditingController(text:'13:00:00');
+  late TextEditingController registerDate = new TextEditingController();
+  late String registerTime;
   late String startTime;
   late String endTime;
 }

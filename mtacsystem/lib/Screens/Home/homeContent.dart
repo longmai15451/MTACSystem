@@ -79,8 +79,7 @@ class _HomeContentState extends State<HomeContent> {
                               
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
+                              Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) => SignUpVaccin(accountdata: widget.accountdata,)));
                             },
@@ -203,9 +202,8 @@ class _HomeContentState extends State<HomeContent> {
                               
                             ),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
+                          Navigator.of(context).push(
+                                  MaterialPageRoute( settings: RouteSettings(name: "/Home"),
                                   builder: (context) => SignUpTest()));
                         },
                         child: Column(

@@ -103,6 +103,7 @@ class _EditProfile extends State<EditProfile> {
     widget.accountdata.anamnesis8 = temp.anamnesis[7].text;
     widget.accountdata.anamnesis9 = temp.anamnesis[8].text;
     widget.accountdata.anamnesis10 = temp.anamnesis[9].text;
+    toast('Cập nhật thành công!', Colors.green);
   }
 
   Future<void> updateProfile() async{
@@ -134,13 +135,19 @@ class _EditProfile extends State<EditProfile> {
   }
 
   Future<void> updateAnamnesis() async {
-    List<String> anamnesisdata = new List.filled(10, '' ,growable:false);
-    temp.anamnesis.forEach((data) => anamnesisdata.add(data.text));
-    print(anamnesisdata);
     var url="http://mtac1.000webhostapp.com/CAP1_mobile/UpdateAnamnesis.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card" : widget.accountdata.idCard.toString(),
-      "anamnesis" : anamnesisdata,
+      "anamnesis1" : temp.anamnesis[0].text,
+      "anamnesis2" : temp.anamnesis[1].text,
+      "anamnesis3" : temp.anamnesis[2].text,
+      "anamnesis4" : temp.anamnesis[3].text,
+      "anamnesis5" : temp.anamnesis[4].text,
+      "anamnesis6" : temp.anamnesis[5].text,
+      "anamnesis7" : temp.anamnesis[6].text,
+      "anamnesis8" : temp.anamnesis[7].text,
+      "anamnesis9" : temp.anamnesis[8].text,
+      "anamnesis10" : temp.anamnesis[9].text,
     });
     var data = json.decode(response.body);
     if(data == "Success"){

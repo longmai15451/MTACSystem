@@ -20,6 +20,7 @@ class LocationService {
       'polyline_decoded': PolylinePoints().decodePolyline(json['routes'][0]['overview_polyline']['points']),
       'distance': json['routes'][0]['legs'][0]['distance']['text'],
       'duration': json['routes'][0]['legs'][0]['duration']['text'],
+      'duration_seconds': json['routes'][0]['legs'][0]['duration']['value'],
     };
     return result;
   }

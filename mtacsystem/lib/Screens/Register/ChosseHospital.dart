@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/controllerData.dart';
@@ -7,7 +8,8 @@ import 'package:mtacsystem/Components/account.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-
+import '../../Network/location_service.dart';
+import '../../Components/mapScreen.dart';
 
 class ChosseHospital extends StatefulWidget {
   final AccountProfile accountdata;
@@ -27,12 +29,20 @@ class _ChosseHospital extends State<ChosseHospital> {
   late bool check1;
   late bool check2;
   late List<bool> select = new List.filled(6, false ,growable:false);
+  String? distance, duration;
+  int durationSeconds = 1800;
   @override
   initState() {
     setState(() {
       check1 = check2 = false;
     });
     super.initState();
+  }
+
+  void _getControllerText(String text){
+    setState((){
+      regisdata.registerDate.text = text;
+    });
   }
 
   void toast(String msg, Color textcolor) {
@@ -48,23 +58,75 @@ class _ChosseHospital extends State<ChosseHospital> {
     }
 
   Future signup() async {
+     print(accountdata.idCard.toString());
+      print(regisdata.idHos.text);
+       print(regisdata.idVac.text);
+        print(regisdata.registerDate.text);
+         print(regisdata.registerTime);
+          print(regisdata.startTime);
+    print(regisdata.endTime);
     var url="http://mtac1.000webhostapp.com/CAP1_mobile/vaccination_register.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card": accountdata.idCard.toString(),
       "id_hos" : regisdata.idHos.text,
       "id_vac" : regisdata.idVac.text,
       "registerDate": regisdata.registerDate.text,
-      "registerTime": regisdata.registerTime.text,
+      "registerTime": regisdata.registerTime,
       "startTime": regisdata.startTime,
       "endTime": regisdata.endTime,
     });
     var data = json.decode(response.body);
     if(data == "Success"){
-      toast('Thanh cong', Colors.green);
+      toast('Đăng ký thành công', Colors.green);
     }
     else{
       toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
     }
+  }
+
+  Widget customAlertDialogContainer(){
+    return Container(
+      height: 300,
+      width: 300,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 1,
+        itemBuilder: (BuildContext context, int index){
+          return Column(
+            children: [
+              for(int i=0; i<19; ++i)
+              TextButton(
+                  onPressed: () async { 
+                      var direction = await LocationService().getDirection('46 Xuân Đán 1, Thanh Khê, Đà Nẵng', '404 Trần Cao Vân, Đà Nẵng');
+                      setState((){
+                        regisdata.idHos.text = '$i';
+                        distance = direction['distance'];
+                        duration = direction['duration'];
+                        _getSeconds(direction);
+                        Navigator.pop(context);
+                      });
+                    },
+                  child: ListTile(
+                    title: Text('Hey there $i'),
+                    subtitle: Text('Hi there $i'),
+                  ),
+                ),
+              
+            ],
+          );
+        }
+      )
+    );
+  }
+
+  void _getSeconds(Map<String, dynamic> direction) {
+    durationSeconds = direction['duration_seconds'];
+    durationSeconds<=300?durationSeconds += 420
+    :durationSeconds<=900?durationSeconds += 600:durationSeconds = 1800;
+    var today = DateTime.now();
+    var estimate = today.add(Duration(seconds: durationSeconds));
+    var timeFormat = DateFormat('Hms');
+    regisdata.registerTime = timeFormat.format(estimate);
   }
 
   @override
@@ -108,6 +170,7 @@ class _ChosseHospital extends State<ChosseHospital> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+            MapScreen(height: 180, width: 345, distance: distance, duration: duration),
             Container(
               child: TextField(
                 controller: regisdata.idVac,
@@ -119,12 +182,23 @@ class _ChosseHospital extends State<ChosseHospital> {
             Container(
               child: TextField(
                 controller: regisdata.idHos,
+                onTap:(){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context){
+                      return AlertDialog(
+                        title: Text('Danh Sách Bệnh Viện'),
+                        content: customAlertDialogContainer(),
+                      );
+                    }
+                  );
+                },
                 decoration: InputDecoration(
                     hintText: 'Chọn bệnh viện', icon: Icon(Icons.local_hospital_sharp)),
               ),
             ),
             Container(
-              child: DateRegister(regisdata: regisdata),
+              child: DateRegister(getControllerText: _getControllerText),
             ),
             Container(
               child: TextField(
@@ -227,6 +301,8 @@ class _ChosseHospital extends State<ChosseHospital> {
                         onPressed: () { setState((){
                             select[5] = true;
                             setSelect(5,select);
+                            regisdata.startTime = '15:00:00';
+                            regisdata.endTime = '17:00:00';
                           }); },
                         child: Text('17:00 - 19:00',style: TextStyle(fontSize: 14, color: Colors.black)),
                         style: ButtonStyle(
@@ -303,7 +379,6 @@ class _ChosseHospital extends State<ChosseHospital> {
                 onPressed: () {
                   setState(() async{
                     signup();
-                    print(regisdata.startTime);
                   });
                 },
                 shape: RoundedRectangleBorder(
@@ -333,7 +408,6 @@ class _ChosseHospital extends State<ChosseHospital> {
                 )
               ),
             ),
-
           ]
         )
       ),

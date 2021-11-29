@@ -3,10 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'location_service.dart';
+import '../Network/location_service.dart';
 
 
 class MapScreen extends StatefulWidget{
+  String? distance, duration;
+  final double height;
+  final double width;
+
+  MapScreen({Key? key, required this.height, required this.width, this.distance, this.duration}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -21,15 +26,15 @@ class _MapScreen extends State<MapScreen>{
   Set<Marker> _markers = Set<Marker>();
   Completer<GoogleMapController> _controller = Completer();
   int _polylineIdCounter = 1;
-  String? distance, duration;
+  
   int markerId = 1;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 225,
-        width: 345,
+        height: widget.height,
+        width: widget.width,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -61,8 +66,8 @@ class _MapScreen extends State<MapScreen>{
                   ]
                 ),
                 child: Text(
-                  distance!=null&&duration!=null?
-                  '${distance}, ${duration}':'',
+                  widget.distance!=null&&widget.duration!=null?
+                  '${widget.distance}, ${widget.duration}':'',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -91,8 +96,8 @@ class _MapScreen extends State<MapScreen>{
                     );
                     _setPolyline(direction['polyline_decoded']);
                     setState((){
-                      distance = direction['distance'];
-                      duration = direction['duration'];
+                      widget.distance = direction['distance'];
+                      widget.duration = direction['duration'];
                     });
                  },
                 ),

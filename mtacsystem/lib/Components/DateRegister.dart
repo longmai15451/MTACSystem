@@ -3,20 +3,18 @@ import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/controllerData.dart';
 
 class DateRegister extends StatefulWidget {
-  final VacRegister regisdata;
+  final Function getControllerText;
 
-  const DateRegister({Key? key, required this.regisdata}) : super(key: key);
+  const DateRegister({Key? key, required this.getControllerText}) : super(key: key);
+  
   @override
-  State<DateRegister> createState() => _DateRegister(regisdata: regisdata);
+  State<DateRegister> createState() => _DateRegister();
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _DateRegister extends State<DateRegister> {
-  final VacRegister regisdata;
   DateTime _date = DateTime.now();
   late var formattedDate = DateFormat('yyyy-MM-dd');
-
-  _DateRegister({required this.regisdata});
   bool _decideWhichDayToEnable(DateTime day) {  // set ngày hiện tại đến 10 ngày sau
   if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
       day.isBefore(DateTime.now().add(Duration(days: 10))))) {
@@ -36,6 +34,7 @@ class _DateRegister extends State<DateRegister> {
       setState(() {
         _date = _datePicker;
       });
+      widget.getControllerText('${formattedDate.format(_date)}');
     }
   }
 
@@ -43,10 +42,10 @@ class _DateRegister extends State<DateRegister> {
   Widget build(BuildContext context) {
     return Container(
         child: TextField(
-          controller: regisdata.registerDate,
           onTap: () {
             setState(() {
               _selectDate(context);
+              
             });
           },
           keyboardType: TextInputType.text,

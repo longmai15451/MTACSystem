@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'location_service.dart';
-import 'mapScreen.dart';
+import '../../Network/location_service.dart';
+import '../../Components/mapScreen.dart';
 
 class Detail extends StatefulWidget{
 
@@ -17,7 +17,7 @@ class _Detail extends State<Detail> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SingleChildScrollView(child: MapScreen()),
+          SingleChildScrollView(child: MapScreen(height: 225, width: 345)),
           SingleChildScrollView(
               child: ListTile(
                 title: Column(

@@ -375,9 +375,8 @@ class _SignUpTest extends State<SignUpTest>{
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                     onPressed: () {
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
+                        Navigator.of(context).push(
+                                  MaterialPageRoute( 
                                     builder: (context) => ChooseTest()));
                       },
                     shape: RoundedRectangleBorder(

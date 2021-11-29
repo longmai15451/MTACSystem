@@ -19,6 +19,13 @@ class _ChooseTest extends State<ChooseTest>{
     });
     super.initState();
   }
+
+  void _getControllerText(String text){
+    setState((){
+      regisdata.registerDate.text = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -38,7 +45,7 @@ class _ChooseTest extends State<ChooseTest>{
               ),
             ),
             Container(
-              child: DateRegister(regisdata: regisdata)
+              child: DateRegister(getControllerText: _getControllerText)
             ),
             Container(
               child: TextField(
@@ -103,7 +110,9 @@ class _ChooseTest extends State<ChooseTest>{
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).popUntil(ModalRoute.withName("/Home"));
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),
                 textColor: Colors.white,
