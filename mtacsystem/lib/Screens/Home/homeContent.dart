@@ -6,6 +6,7 @@ import 'package:mtacsystem/Screens/DeclarationH/DeclarationH.dart';
 import 'package:mtacsystem/Screens/Profile/editProf.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
+import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'covidstats.dart';
 
@@ -19,7 +20,12 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-  
+  NotifyHelper notifyHelper = NotifyHelper();
+
+   @override
+  initState(){
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -294,8 +300,8 @@ class _HomeContentState extends State<HomeContent> {
                                     borderRadius: BorderRadius.circular(50.0),
                                   
                                 ),
-                            onPressed: () {
-                            
+                            onPressed: () async{
+                              
                             },
                             child: Column(
                               children: <Widget>[
@@ -466,4 +472,5 @@ class _HomeContentState extends State<HomeContent> {
     )
     );
   }
+  
 }

@@ -39,7 +39,7 @@ class _ChangePassword extends State<ChangePassword>{
       {
         toast("Đã thay đổi mật khẩu, vui lòng đăng nhập để sử dụng.",Colors.green);
         Timer(Duration(milliseconds: 50),(){
-            Get.to(LoginScreen()); 
+            //Get.to(LoginScreen()); 
         });
       }
       else

@@ -110,7 +110,7 @@ class _ChosseHospital extends State<ChosseHospital> {
       _addSchetoDb(data);
       Timer(Duration(milliseconds: 30),(){
           setState((){
-            Get.offAll(MainScreen());
+           // Get.offAll(MainScreen());
           });
       });
     }

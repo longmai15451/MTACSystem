@@ -65,7 +65,7 @@ class _RegisterState extends State<RegisterScreen> {
           fontSize: 16.0
         );
         Timer(Duration(milliseconds: 50),(){
-          Get.to(LoginScreen());
+          Get.back();
         });
       }
     }

@@ -114,7 +114,7 @@ class _ChooseTest extends State<ChooseTest>{
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
                 onPressed: () {
-                   Get.to(()=>MainScreen());
+                  // Get.to(()=>MainScreen());
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),

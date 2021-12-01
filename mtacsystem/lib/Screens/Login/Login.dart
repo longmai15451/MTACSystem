@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
@@ -12,8 +13,14 @@ import 'package:mtacsystem/main.dart';
 import 'forgotPassword.dart';
 import 'package:mtacsystem/Network/Profiledata.dart';
 import 'package:animations/animations.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
 
 class LoginScreen extends StatefulWidget{
+  final FlutterLocalNotificationsPlugin notify;
+
+  const LoginScreen({Key? key, required this.notify}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }
@@ -37,12 +44,32 @@ class _LoginState extends State<LoginScreen> {
       toast("Đăng nhập thành công!", Colors.green,);
       accountdata = GetProfData.getdata(data);
       Timer(Duration(milliseconds: 25),(){
-        setState((){
+        setState(()async{
+          await scheduledNotification();
           Get.to(MainScreen());
         });
       });
     }
   }
+
+  scheduledNotification()async{
+		await flutterLocalNotificationsPlugin.zonedSchedule(
+    0,
+    'scheduled title',
+    'scheduled body',
+      tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+    const NotificationDetails(
+        android: AndroidNotificationDetails(
+            'your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+              priority: Priority.high,)),
+    androidAllowWhileIdle: true,
+    uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
+	}
+
+  
 
   void toast(String msg, Color textcolor) {
     Fluttertoast.showToast(
