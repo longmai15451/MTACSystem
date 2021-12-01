@@ -1,4 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -25,7 +26,7 @@ class _PasswordRetrive extends State<PasswordRetrive>{
     if(data == "Exist")
     {
       setState((){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePassword(phone: phone.text,)));
+        Get.to(ChangePassword(phone: phone.text,));
       });
     }
     else

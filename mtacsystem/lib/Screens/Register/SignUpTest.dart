@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
 import 'package:mtacsystem/Screens/Register/ChooseTest.dart';
@@ -375,9 +376,7 @@ class _SignUpTest extends State<SignUpTest>{
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                     onPressed: () {
-                        Navigator.of(context).push(
-                                  MaterialPageRoute( 
-                                    builder: (context) => ChooseTest()));
+                        Get.to(ChooseTest());
                       },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(70.0)),

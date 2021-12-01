@@ -6,9 +6,9 @@ import 'dart:convert';
 
 class LocationService {
   static final apiKey = "AIzaSyA66KwUrjxcFG5u0exynlJ45CrbrNe3hEc";
-  Future<Map<String, dynamic>> getDirection(String origin, String destination) async {
+  Future<Map<String, dynamic>> getDirection(int map) async {
     final String url = 
-    'http://mtac1.000webhostapp.com/CAP1_mobile/mapapi1.json';//'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$apiKey';
+    'http://mtac1.000webhostapp.com/CAP1_mobile/mapapi${map}.json';//'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$apiKey';
     var response = await http.get(Uri.parse(url));
     var json = jsonDecode(response.body);
     var result = {

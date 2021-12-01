@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mtacsystem/Components/controllerData.dart';
+import 'package:mtacsystem/controller/controllerData.dart';
 
 class DateRegister extends StatefulWidget {
   final Function getControllerText;

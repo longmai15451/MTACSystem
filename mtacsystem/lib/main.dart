@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'Screens/Home/homeappbar.dart';
+import 'package:get/get.dart';
 import 'Screens/Home/homeContent.dart';
-import 'Screens/Notify/notifyappbar.dart';
 import 'Screens/Notify/notifyContent.dart';
-import 'Screens/Calendar/calendarappbar.dart';
 import 'Screens/Calendar/calendarContent.dart';
 import 'Screens/Profile/profile.dart';
-import 'Screens/Profile/profileAppbar.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
-import 'package:mtacsystem/Components/account.dart';
+import 'package:mtacsystem/models/account.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'db/dbHelper.dart';
 
 late AccountProfile accountdata;
-void main(){
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  await DBHelper.initDb();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context){
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'MTACSystem',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -53,16 +55,6 @@ class MainScreen extends StatefulWidget{
 }
 
 
-PreferredSizeWidget _appbar(int index){
-  switch(index){
-    case 1: return CalendarAppBar(appbar: AppBar(toolbarHeight: 80.0,));
-    case 2: return NotifyAppBar(appBar: AppBar(toolbarHeight: 80.0,));
-    case 3: return ProfileAppBar(appbar: AppBar(toolbarHeight: 80.0,));
-    default: return HomeAppBar(appBar: AppBar(toolbarHeight: 80.0,), accountdata: accountdata,);
-  }
-}
-
-
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
   //HomeScreen({required this.selectedIndex});
@@ -76,12 +68,7 @@ class HomeScreen extends State<MainScreen>{
   @override
   Widget build(BuildContext context){
     return Scaffold( 
-         appBar: app = _appbar(selectedIndex),
-         body: ListView(
-           children: <Widget>[
-              _bodycontent[selectedIndex],
-           ]
-         ),
+         body: _bodycontent[selectedIndex],
          bottomNavigationBar: CurvedNavigationBar(
           color: Colors.blue.shade200,
           height: 50,

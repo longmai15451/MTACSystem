@@ -7,11 +7,12 @@ import '../Network/location_service.dart';
 
 
 class MapScreen extends StatefulWidget{
+  final int mapindex;
   String? distance, duration;
   final double height;
   final double width;
-
-  MapScreen({Key? key, required this.height, required this.width, this.distance, this.duration}) : super(key: key);
+  bool? load = true;
+  MapScreen({Key? key,required this.mapindex, required this.height, required this.width, this.distance, this.duration, this.load}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -26,8 +27,34 @@ class _MapScreen extends State<MapScreen>{
   Set<Marker> _markers = Set<Marker>();
   Completer<GoogleMapController> _controller = Completer();
   int _polylineIdCounter = 1;
-  
   int markerId = 1;
+
+  @override
+  initState(){
+    super.initState();
+    if(widget.load == true)
+      _loadMap();
+  }
+
+  void _loadMap() async{
+    var direction = await LocationService().getDirection(widget.mapindex);
+    _gotoPlace(
+      direction['start_location']['lat'],
+      direction['start_location']['lng'],
+      direction['end_location']['lat'],
+      direction['end_location']['lng'],
+      direction['bounds_ne'],
+      direction['bounds_sw'],
+    );
+    _setPolyline(direction['polyline_decoded']);
+    setState((){
+      widget.distance = direction['distance'];
+      widget.duration = direction['duration'];
+    });
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -85,20 +112,7 @@ class _MapScreen extends State<MapScreen>{
                 ),
                 child: IconButton(icon: Icon(Icons.replay_rounded, size: 15,), 
                 onPressed: () async{ 
-                    var direction = await LocationService().getDirection('46 Xuân Đán 1, Thanh Khê, Đà Nẵng', '404 Trần Cao Vân, Đà Nẵng');
-                    _gotoPlace(
-                      direction['start_location']['lat'],
-                      direction['start_location']['lng'],
-                      direction['end_location']['lat'],
-                      direction['end_location']['lng'],
-                      direction['bounds_ne'],
-                      direction['bounds_sw'],
-                    );
-                    _setPolyline(direction['polyline_decoded']);
-                    setState((){
-                      widget.distance = direction['distance'];
-                      widget.duration = direction['duration'];
-                    });
+                    _loadMap();
                  },
                 ),
               ),

@@ -1,4 +1,4 @@
-import 'package:mtacsystem/Components/account.dart';
+import 'package:mtacsystem/models/account.dart';
 
 class GetProfData {
   static AccountProfile getdata(var responseBody){

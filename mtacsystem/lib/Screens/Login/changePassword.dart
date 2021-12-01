@@ -1,4 +1,5 @@
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -38,7 +39,7 @@ class _ChangePassword extends State<ChangePassword>{
       {
         toast("Đã thay đổi mật khẩu, vui lòng đăng nhập để sử dụng.",Colors.green);
         Timer(Duration(milliseconds: 50),(){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            Get.to(LoginScreen()); 
         });
       }
       else

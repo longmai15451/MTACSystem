@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
 import 'package:mtacsystem/Components/background.dart';
-import 'package:mtacsystem/Components/controllerData.dart';
-import 'package:mtacsystem/Components/account.dart';
+import 'package:mtacsystem/Screens/Calendar/calendarContent.dart';
+import 'package:mtacsystem/controller/controllerData.dart';
+import 'package:mtacsystem/controller/schedule_controller.dart';
+import 'package:mtacsystem/models/account.dart';
 import 'package:http/http.dart' as http;
+import 'package:mtacsystem/Network/hospital_service.dart';
+import 'package:mtacsystem/Network/vaccine.dart';
+import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
+import 'package:mtacsystem/models/schedule.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
 import '../../Components/mapScreen.dart';
+import '../../main.dart';
 
 class ChosseHospital extends StatefulWidget {
   final AccountProfile accountdata;
@@ -21,6 +29,7 @@ class ChosseHospital extends StatefulWidget {
 }
 
 class _ChosseHospital extends State<ChosseHospital> {
+  final ScheduleController _scheduleController = Get.put(ScheduleController());
   final AccountProfile accountdata;
   _ChosseHospital({
     required this.accountdata,
@@ -28,15 +37,24 @@ class _ChosseHospital extends State<ChosseHospital> {
   VacRegister regisdata = new VacRegister();
   late bool check1;
   late bool check2;
+  static var vacdata;
+  static var hosdata;
+  static int index=1;
   late List<bool> select = new List.filled(6, false ,growable:false);
   String? distance, duration;
-  int durationSeconds = 1800;
+  int durationSeconds = 2100;
   @override
   initState() {
-    setState(() {
-      check1 = check2 = false;
-    });
+    _getVaccineAndHos();
     super.initState();
+  }
+
+  void _getVaccineAndHos() async{
+    //vacdata = await Vaccine().getVaccineData();
+    //hosdata = await HospitalService().getHospitalData();
+    setState((){
+       check1 = check2 = false;
+    });
   }
 
   void _getControllerText(String text){
@@ -57,13 +75,23 @@ class _ChosseHospital extends State<ChosseHospital> {
       );
     }
 
+  _addSchetoDb(var data) async{
+    var value = await _scheduleController.addSchedule(
+      schedule: Schedule(
+        id: int.parse(data['id']),
+        idCard: data['id_card'],
+        idVac: int.parse(data['id_vac']),
+        idHos: int.parse(data['id_hos']),
+        title: 'Lịch hẹn tiêm vaccine',
+        note: 'Bạn có lịch hẹn tiêm vaccine tại: 46 Xuân Dán 1',
+        registerDate: data['registerDate'],
+        registerTime: data['registerTimed'],
+      )
+    );
+    print(value);
+  }
+
   Future signup() async {
-     print(accountdata.idCard.toString());
-      print(regisdata.idHos.text);
-       print(regisdata.idVac.text);
-        print(regisdata.registerDate.text);
-         print(regisdata.registerTime);
-          print(regisdata.startTime);
     print(regisdata.endTime);
     var url="http://mtac1.000webhostapp.com/CAP1_mobile/vaccination_register.php";
     var response = await http.post(Uri.parse(url),body: {
@@ -76,8 +104,15 @@ class _ChosseHospital extends State<ChosseHospital> {
       "endTime": regisdata.endTime,
     });
     var data = json.decode(response.body);
-    if(data == "Success"){
-      toast('Đăng ký thành công', Colors.green);
+    if(data != "Faild" && data != null){
+       toast('Đăng ký thành công', Colors.green);
+       print(data);
+      _addSchetoDb(data);
+      Timer(Duration(milliseconds: 30),(){
+          setState((){
+            Get.offAll(MainScreen());
+          });
+      });
     }
     else{
       toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
@@ -96,14 +131,15 @@ class _ChosseHospital extends State<ChosseHospital> {
             children: [
               for(int i=0; i<19; ++i)
               TextButton(
-                  onPressed: () async { 
-                      var direction = await LocationService().getDirection('46 Xuân Đán 1, Thanh Khê, Đà Nẵng', '404 Trần Cao Vân, Đà Nẵng');
+                  onPressed: () async {
+                      index = i;
+                      var direction = await LocationService().getDirection(i);
                       setState((){
                         regisdata.idHos.text = '$i';
                         distance = direction['distance'];
                         duration = direction['duration'];
                         _getSeconds(direction);
-                        Navigator.pop(context);
+                         Get.back();
                       });
                     },
                   child: ListTile(
@@ -122,7 +158,7 @@ class _ChosseHospital extends State<ChosseHospital> {
   void _getSeconds(Map<String, dynamic> direction) {
     durationSeconds = direction['duration_seconds'];
     durationSeconds<=300?durationSeconds += 420
-    :durationSeconds<=900?durationSeconds += 600:durationSeconds = 1800;
+    :durationSeconds<=900?durationSeconds += 600:durationSeconds = 2100;
     var today = DateTime.now();
     var estimate = today.add(Duration(seconds: durationSeconds));
     var timeFormat = DateFormat('Hms');
@@ -170,7 +206,7 @@ class _ChosseHospital extends State<ChosseHospital> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-            MapScreen(height: 180, width: 345, distance: distance, duration: duration),
+            //MapScreen(mapindex: index,height: 180, width: 345, distance: distance, duration: duration, load: false),
             Container(
               child: TextField(
                 controller: regisdata.idVac,
@@ -205,7 +241,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                 readOnly: true,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Chọn giờ tiêm',
+                    hintText: 'Chọn khung giờ có thể đến',
                     hintStyle: TextStyle(color: Colors.black),
                     icon: Icon(Icons.timelapse)),
               ),
@@ -378,7 +414,7 @@ class _ChosseHospital extends State<ChosseHospital> {
               child: RaisedButton(
                 onPressed: () {
                   setState(() async{
-                    signup();
+                    await signup();
                   });
                 },
                 shape: RoundedRectangleBorder(

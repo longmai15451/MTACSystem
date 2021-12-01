@@ -1,13 +1,13 @@
 import 'dart:ui';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/genderSelect.dart';
 import 'package:mtacsystem/Components/dateTimePicker.dart';
-import 'package:mtacsystem/Components/account.dart';
+import 'package:mtacsystem/models/account.dart';
 import 'package:mtacsystem/Screens/Register/ChosseHospital.dart';
-import 'package:mtacsystem/Components/controllerData.dart';
-// import 'package:geocoder/geocoder.dart';
+import 'package:mtacsystem/controller/controllerData.dart';
 
 class SignUpVaccin extends StatefulWidget {
   final AccountProfile accountdata;
@@ -31,12 +31,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
     super.initState();
   }
 
-  // Future<String> getCoridle() async {
-  //   final query = "46 Xuân Đán 1, Xuân hà, Thanh Khê, Đà Nẵng 550000";
-  //   var addresses = await Geocoder.google("AIzaSyDFpvQkkEDoCpIenFNX_5v2xO6wFVgZvyg").findAddressesFromQuery(query);
-  //   var first = addresses.first;
-  //   return "${first.featureName} : ${first.coordinates}";
-  // }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -505,6 +500,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             alignment: Alignment.center,
                             margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             child: TextFormField(
+                              controller: temp.nation = new TextEditingController(text: accountdata.nation),
                               readOnly: _readonly,
                               keyboardType: TextInputType.text,
                               style: TextStyle(fontSize: 15),
@@ -574,14 +570,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                       onPressed: () {
                         
                         setState(() {
-                          // getCoridle().then((value){
-                          //   print(value);
-                          // });
                         });
-                        Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChosseHospital(accountdata: accountdata)));
+                        Get.to(ChosseHospital(accountdata: accountdata));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(70.0)),

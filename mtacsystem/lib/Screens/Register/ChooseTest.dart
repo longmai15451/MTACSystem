@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
-import 'package:mtacsystem/Components/controllerData.dart';
+import 'package:mtacsystem/controller/controllerData.dart';
+
+import '../../main.dart';
 
 class ChooseTest extends StatefulWidget {
   @override
@@ -111,7 +114,7 @@ class _ChooseTest extends State<ChooseTest>{
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
                 onPressed: () {
-                  Navigator.of(context).popUntil(ModalRoute.withName("/Home"));
+                   Get.to(()=>MainScreen());
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),

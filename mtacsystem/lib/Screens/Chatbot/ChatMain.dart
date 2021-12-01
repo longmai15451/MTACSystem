@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mtacsystem/Chatbot/chat.dart';
+import 'package:mtacsystem/Screens/Chatbot/chat.dart';
 
 class Dialogflow extends StatefulWidget {
   @override

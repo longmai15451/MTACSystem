@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/logo.dart';
 import 'package:http/http.dart' as http;
@@ -64,7 +65,7 @@ class _RegisterState extends State<RegisterScreen> {
           fontSize: 16.0
         );
         Timer(Duration(milliseconds: 50),(){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          Get.to(LoginScreen());
         });
       }
     }

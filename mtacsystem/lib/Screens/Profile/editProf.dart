@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mtacsystem/Components/account.dart';
+import 'package:mtacsystem/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:mtacsystem/Components/controllerData.dart';
+import 'package:mtacsystem/controller/controllerData.dart';
 
 class EditProfile extends StatefulWidget {
   final AccountProfile accountdata;
@@ -89,7 +90,7 @@ class _EditProfile extends State<EditProfile> {
       widget.accountdata.address = temp.address.text;
       widget.accountdata.country = temp.country.text;
       toast('Cập nhật thành công!', Colors.green);
-      Navigator.pop(context,widget.accountdata);
+      Get.back(result: widget.accountdata);
   }
 
   void tempAnamnesisUpdate(){

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
 import 'package:mtacsystem/Components/logo.dart';
@@ -37,7 +38,7 @@ class _LoginState extends State<LoginScreen> {
       accountdata = GetProfData.getdata(data);
       Timer(Duration(milliseconds: 25),(){
         setState((){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+          Get.to(MainScreen());
         });
       });
     }
@@ -159,7 +160,7 @@ class _LoginState extends State<LoginScreen> {
                       ),
                     ),
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordRetrive()));// link qua trang quen mat khau
+                      Get.to(PasswordRetrive());// link qua trang quen mat khau
                     },
                   ),
                 ),
@@ -230,7 +231,7 @@ class _LoginState extends State<LoginScreen> {
                   },
                   child: TextButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));//link qua trang dang ky
+                      Get.to(RegisterScreen());//link qua trang dang ky
                     }, 
                     child: Text(
                       "Đăng ký tại đây.",
