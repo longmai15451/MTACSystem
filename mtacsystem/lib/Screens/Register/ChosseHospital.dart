@@ -4,15 +4,16 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
 import 'package:mtacsystem/Components/background.dart';
-import 'package:mtacsystem/Screens/Calendar/calendarContent.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
-import 'package:mtacsystem/controller/schedule_controller.dart';
+import 'package:mtacsystem/controller/diseases_controller.dart';
+import 'package:mtacsystem/controller/hospital_controller.dart';
+import 'package:mtacsystem/controller/notify_helper.dart';
+import 'package:mtacsystem/controller/vaccine_controller.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:http/http.dart' as http;
-import 'package:mtacsystem/Network/hospital_service.dart';
-import 'package:mtacsystem/Network/vaccine.dart';
-import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
-import 'package:mtacsystem/models/schedule.dart';
+import 'package:mtacsystem/models/diseases.dart';
+import 'package:mtacsystem/models/hospital.dart';
+import 'package:mtacsystem/models/vaccine.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
@@ -25,35 +26,39 @@ class ChosseHospital extends StatefulWidget {
     required this.accountdata,
   });
   @override
-  State<ChosseHospital> createState() => _ChosseHospital(accountdata: accountdata);
+  State<ChosseHospital> createState() => _ChosseHospital();
 }
 
 class _ChosseHospital extends State<ChosseHospital> {
-  final ScheduleController _scheduleController = Get.put(ScheduleController());
-  final AccountProfile accountdata;
-  _ChosseHospital({
-    required this.accountdata,
-  });
+
   VacRegister regisdata = new VacRegister();
   late bool check1;
   late bool check2;
-  static var vacdata;
-  static var hosdata;
+  late Future<List<Vaccine>> vacData;
+  late Future<List<Hospital>> hosData;
+  late Future<List<Diseases>> diseaseData;
+  late bool selectDisease;
+  var notify;
   static int index=1;
   late List<bool> select = new List.filled(6, false ,growable:false);
   String? distance, duration;
   int durationSeconds = 2100;
+ 
+  
   @override
   initState() {
     _getVaccineAndHos();
+    notify = NotifyHelper();
     super.initState();
+    selectDisease = false;
   }
 
   void _getVaccineAndHos() async{
-    //vacdata = await Vaccine().getVaccineData();
-    //hosdata = await HospitalService().getHospitalData();
+    hosData = HospitalController().fetchData();
+    diseaseData = DiseaseController().fetchData();
     setState((){
        check1 = check2 = false;
+       regisdata.registerDate.text = DateFormat("dd-MM-yyy").format(DateTime.now());
     });
   }
 
@@ -75,29 +80,13 @@ class _ChosseHospital extends State<ChosseHospital> {
       );
     }
 
-  _addSchetoDb(var data) async{
-    var value = await _scheduleController.addSchedule(
-      schedule: Schedule(
-        id: int.parse(data['id']),
-        idCard: data['id_card'],
-        idVac: int.parse(data['id_vac']),
-        idHos: int.parse(data['id_hos']),
-        title: 'Lịch hẹn tiêm vaccine',
-        note: 'Bạn có lịch hẹn tiêm vaccine tại: 46 Xuân Dán 1',
-        registerDate: data['registerDate'],
-        registerTime: data['registerTimed'],
-      )
-    );
-    print(value);
-  }
-
   Future signup() async {
     print(regisdata.endTime);
     var url="http://mtac1.000webhostapp.com/CAP1_mobile/vaccination_register.php";
     var response = await http.post(Uri.parse(url),body: {
-      "id_card": accountdata.idCard.toString(),
-      "id_hos" : regisdata.idHos.text,
-      "id_vac" : regisdata.idVac.text,
+      "id_card": widget.accountdata.idCard.toString(),
+      "id_hos" : regisdata.idHos.toString(),
+      "id_vac" : regisdata.idVac.toString(),
       "registerDate": regisdata.registerDate.text,
       "registerTime": regisdata.registerTime,
       "startTime": regisdata.startTime,
@@ -105,13 +94,17 @@ class _ChosseHospital extends State<ChosseHospital> {
     });
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
-       toast('Đăng ký thành công', Colors.green);
-       print(data);
-      _addSchetoDb(data);
-      Timer(Duration(milliseconds: 30),(){
-          setState((){
-           // Get.offAll(MainScreen());
-          });
+      await notify.scheduledNotification(
+        int.parse(data['registerDate'].toString().split("-")[1]),
+        int.parse(data['registerDate'].toString().split("-")[2]),
+        int.parse(data['registerTimed'].toString().split(":")[0]),
+        int.parse(data['registerTimed'].toString().split(":")[1]),
+        'Lịch hẹn tiêm vaccine',
+        'bạn có lịch hẹn tiêm vaccine tại địa chỉ: ${data['address']}'       
+      );
+      toast('Đăng ký thành công', Colors.green);
+      setState((){
+        Get.offAll(MainScreen());
       });
     }
     else{
@@ -119,41 +112,175 @@ class _ChosseHospital extends State<ChosseHospital> {
     }
   }
 
-  Widget customAlertDialogContainer(){
+  timeSelected(int start, int end, List<bool> select, int index){
+    return TextButton(
+      onPressed: () { 
+        setState((){
+          setSelect(index,select);
+          regisdata.startTime = '$start:00:00';
+          regisdata.endTime = '$end:00:00';
+        });
+        },
+      child: Text('$start:00 - $end:00',style: TextStyle(fontSize: 14, color: Colors.black)),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(select[index]?Colors.blue.shade300:Colors.blue.shade100),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          )
+        )
+      ),
+    );
+  }
+
+  Widget hospitalAlertDialogContainer(){
     return Container(
       height: 300,
       width: 300,
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: 1,
-        itemBuilder: (BuildContext context, int index){
-          return Column(
-            children: [
-              for(int i=0; i<19; ++i)
-              TextButton(
-                  onPressed: () async {
-                      index = i;
-                      var direction = await LocationService().getDirection(i);
-                      setState((){
-                        regisdata.idHos.text = '$i';
-                        distance = direction['distance'];
-                        duration = direction['duration'];
-                        _getSeconds(direction);
-                         Get.back();
-                      });
-                    },
-                  child: ListTile(
-                    title: Text('Hey there $i'),
-                    subtitle: Text('Hi there $i'),
-                  ),
-                ),
-              
-            ],
-          );
-        }
-      )
+      child: FutureBuilder <List<Hospital>>(
+            future: hosData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Hospital> data = snapshot.data!;
+                return 
+                ListView.builder(
+                shrinkWrap: true,
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index){
+                  return Column(
+                    children: [
+                      for(int i=0; i<data.length; ++i)
+                      TextButton(
+                        onPressed: () async {
+                            index = i;
+                            print(data[index].toJson());
+                            var direction = await LocationService().getDirection(i+1);
+                            setState((){
+                              regisdata.hos.text = '${data[index].hosName}';
+                              regisdata.idHos = data[i].idHos.toString();
+                              distance = direction['distance'];
+                              duration = direction['duration'];
+                              _getSeconds(direction);
+                              Get.back();
+                            });
+                          },
+                        child: ListTile(
+                          title: Text('${data[i].hosName}'),
+                          subtitle: Text('${data[i].hosAddress}'),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              // By default show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
     );
   }
+
+
+  Widget vaccineAlertDialogContainer(){
+    return Container(
+      height: 300,
+      width: 300,
+      child: FutureBuilder <List<Vaccine>>(
+            future: vacData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Vaccine> data = snapshot.data!;
+                return 
+                ListView.builder(
+                shrinkWrap: true,
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index){
+                  return Column(
+                    children: [
+                      for(int i=0; i<data.length; ++i)
+                      TextButton(
+                        onPressed: () async {
+                            index = i;
+                            setState((){
+                              regisdata.vac.text = '${data[i].vacName}';
+                              regisdata.idVac= data[i].idVac.toString();
+                              Get.back();
+                            });
+                          },
+                        child: ListTile(
+                          title: Text('${data[i].vacName}'),
+                          subtitle: Column(
+                            children: [
+                              Text('Phù hợp với độ tuổi từ ${data[i].ageUseFrom} - ${data[i].ageUseTo}'),
+                              Text('Thông tin vaccine : ${data[i].description}')
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              // By default show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
+    );
+  }
+
+
+  Widget diseaseAlertDialogContainer(){
+    return Container(
+      height: 300,
+      width: 300,
+      child: FutureBuilder <List<Diseases>>(
+            future: diseaseData,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<Diseases> data = snapshot.data!;
+                return 
+                ListView.builder(
+                shrinkWrap: true,
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index){
+                  return Column(
+                    children: [
+                      for(int i=0; i<data.length; ++i)
+                      TextButton(
+                        onPressed: () async {
+                            index = i;
+                            print(data[index].toJson());
+                            vacData = VaccineController().fetchData(data[i].idDiseases.toString());
+                            selectDisease = true;
+                            setState((){
+                              regisdata.des.text = '${data[i].diseaseName}';
+                              Get.back();
+                            });
+                          },
+                        child: ListTile(
+                          title: Text('${data[i].diseaseName}'),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              // By default show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
+    );
+  }
+
 
   void _getSeconds(Map<String, dynamic> direction) {
     durationSeconds = direction['duration_seconds'];
@@ -206,25 +333,56 @@ class _ChosseHospital extends State<ChosseHospital> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-            //MapScreen(mapindex: index,height: 180, width: 345, distance: distance, duration: duration, load: false),
+            MapScreen(mapindex: index,height: 180, width: 345, distance: distance, duration: duration),
             Container(
               child: TextField(
-                controller: regisdata.idVac,
+                controller: regisdata.des,
+                onTap:(){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context){
+                      return AlertDialog(
+                        title: Text('Danh Sách bệnh'),
+                        content: diseaseAlertDialogContainer(),
+                      );
+                    }
+                  );
+                },
                 decoration: InputDecoration(
                     hintText: 'Chọn loại bệnh tiêm',
                     icon: Icon(Icons.sticky_note_2)),
               ),
             ),
+            if(selectDisease == true)
+              Container(
+                child: TextField(
+                  controller: regisdata.vac,
+                  onTap:(){
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context){
+                        return AlertDialog(
+                          title: Text('Danh Sách Vaccine'),
+                          content: vaccineAlertDialogContainer(),
+                        );
+                      }
+                    );
+                  },
+                  decoration: InputDecoration(
+                      hintText: 'Chọn loại vaccine',
+                      icon: Icon(Icons.sticky_note_2)),
+                ),
+              ),
             Container(
               child: TextField(
-                controller: regisdata.idHos,
+                controller: regisdata.hos,
                 onTap:(){
                   showDialog(
                     context: context,
                     builder: (BuildContext context){
                       return AlertDialog(
                         title: Text('Danh Sách Bệnh Viện'),
-                        content: customAlertDialogContainer(),
+                        content: hospitalAlertDialogContainer(),
                       );
                     }
                   );
@@ -257,99 +415,15 @@ class _ChosseHospital extends State<ChosseHospital> {
                   return Row(
                     children: [
                       SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () { 
-                          setState((){
-                            select[0] = true;
-                            setSelect(0,select);
-                            regisdata.startTime = '07:00:00';
-                            regisdata.endTime = '09:00:00';
-                          });
-                         },
-                        child: Text('07:00 - 09:00',style: TextStyle(fontSize: 14, color: Colors.black)),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(select[0]?Colors.blue.shade300:Colors.blue.shade100),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                          )
-                        ),
-                      ),
+                      timeSelected(7,9,select,0),
                       SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () { 
-                          setState((){
-                            select[1] = true;
-                            setSelect(1,select);
-                            regisdata.startTime = '09:00:00';
-                            regisdata.endTime = '11:00:00';
-                          });
-                         },
-                        child: Text('09:00 - 11:00',style: TextStyle(fontSize: 14, color: Colors.black)),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(select[1]?Colors.blue.shade300:Colors.blue.shade100),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                          )
-                        ),
-                      ),
+                      timeSelected(9,11,select,1),
                       SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () { setState((){
-                            select[3] = true;
-                            setSelect(3,select);
-                            regisdata.startTime = '13:00:00';
-                            regisdata.endTime = '15:00:00';
-                          }); },
-                        child: Text('13:00 - 15:00',style: TextStyle(fontSize: 14, color: Colors.black)),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(select[3]?Colors.blue.shade300:Colors.blue.shade100),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                          )
-                        ),
-                      ),
+                      timeSelected(13,15,select,3),
                       SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () { setState((){
-                            select[4] = true;
-                            setSelect(4,select);
-                            regisdata.startTime = '15:00:00';
-                            regisdata.endTime = '17:00:00';
-                          }); },
-                        child: Text('15:00 - 17:00',style: TextStyle(fontSize: 14, color: Colors.black)),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(select[4]?Colors.blue.shade300:Colors.blue.shade100),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                          )
-                        ),
-                      ),
+                      timeSelected(15,17,select,4),
                       SizedBox(width: 10),
-                      TextButton(
-                        onPressed: () { setState((){
-                            select[5] = true;
-                            setSelect(5,select);
-                            regisdata.startTime = '15:00:00';
-                            regisdata.endTime = '17:00:00';
-                          }); },
-                        child: Text('17:00 - 19:00',style: TextStyle(fontSize: 14, color: Colors.black)),
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(select[5]?Colors.blue.shade300:Colors.blue.shade100),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            )
-                          )
-                        ),
-                      ),
+                      timeSelected(17,19,select,5),
                       SizedBox(width: 10),
                     ],
                   );
@@ -413,9 +487,10 @@ class _ChosseHospital extends State<ChosseHospital> {
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
                 onPressed: () {
-                  setState(() async{
-                    await signup();
-                  });
+                  if(regisdata.idHos!=null && regisdata.idVac!=null)
+                    setState(() async{
+                      await signup();
+                    });
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),
@@ -451,9 +526,10 @@ class _ChosseHospital extends State<ChosseHospital> {
   }
 }
 
+
 void setSelect(int index, List<bool> select) {
   for(int i=0;i<select.length;++i){
-    if(i==index) continue;
+    if(i==index) select[i] = true;
     select[i] = false;
   }
 }

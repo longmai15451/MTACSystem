@@ -1,22 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:mtacsystem/models/schedule.dart';
 import '../../Network/location_service.dart';
 import '../../Components/mapScreen.dart';
 import '../../Network/sign_up_info.dart';
 
 class Detail extends StatefulWidget{
-  final String idCard;
-  final String idVac;
-  final String idHos;
-  final String date;
-  final String time;
+  Schedule schedule;
   String? origin;
   String? destination;
   Detail({
-    Key? key, required this.idCard, 
-    required this.idVac, required this.idHos,
-    required this.date, required this.time,
+    Key? key, required this.schedule,
     this.origin, this.destination,
   }) : super(key: key);
   @override
@@ -34,7 +29,10 @@ class _Detail extends State<Detail> {
   }
   
   void _getData() async{
-    data = await SignUpInfo().getRegisterData(widget.idCard,widget.idVac,widget.idHos,widget.date,widget.time);
+    if(widget.schedule.type == 0)
+      data = await SignUpInfo().getTestRegisterData(widget.schedule.regisID.toString());
+    else
+      data = await SignUpInfo().getVacRegisterData(widget.schedule.regisID.toString());
     setState(() {
     });
   }
@@ -74,11 +72,12 @@ class _Detail extends State<Detail> {
                           Text('Cơ sở y tế:  ${data['hos_name']}'),
                         ],
                       ),
-                      Row(
-                        children: [
-                          Text('Vaccine: ${data['vaccine']}'),
-                        ],
-                      ),
+                      if(widget.schedule.type == 1)
+                        Row(
+                          children: [
+                            Text('Vaccine: ${data['vaccine']}'),
+                          ],
+                        ),
                       Row(
                         children: [
                           Text('Ngày Hẹn: ${data['register_date']}'),

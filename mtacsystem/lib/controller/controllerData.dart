@@ -20,9 +20,22 @@ class TempUserProfile {
 }
 
 class VacRegister{
-  late TextEditingController idVac = new TextEditingController();
-  late TextEditingController idHos = new TextEditingController();
+  late TextEditingController des = new TextEditingController();
+  late TextEditingController vac = new TextEditingController();
+  late TextEditingController hos = new TextEditingController();
   late TextEditingController registerDate = new TextEditingController();
+  late String? idDes;
+  late String? idVac;
+  late String? idHos;
+  late String registerTime;
+  late String startTime;
+  late String endTime;
+}
+
+class TestRegister{
+  late TextEditingController hos = new TextEditingController();
+  late TextEditingController registerDate = new TextEditingController();
+  late String? idHos;
   late String registerTime;
   late String startTime;
   late String endTime;

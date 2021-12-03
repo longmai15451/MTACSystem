@@ -1,46 +1,41 @@
 
 class Schedule{
-  int? id;
-  var idCard;
-  int? idVac;
-  int? idHos;
+  String? regisID;
   String? title;
   String? note;
+  String? address;
   String? registerDate;
   String? registerTime;
+  int? type;
 
   Schedule({
-    this.id,
-    this.idCard,
-    this.idVac,
-    this.idHos,
+    this.regisID,
     this.title,
     this.note,
     this.registerDate,
     this.registerTime,
+    this.type,
   });
 
   Schedule.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    idCard = json['id_card'];
-    idVac = json['id_vac'];
-    idHos = json['id_hos'];
+    regisID = json['regisID'];
     title = json['title'];
     note = json['note'];
+    address = json['address'];
     registerDate = json['registerDate'];
     registerTime = json['registerTime'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson(){
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['id_card'] = this.idCard;
-    data['id_vac'] = this.idVac;
-    data['id_hos'] = this.idHos;
+    data['regisID'] = this.regisID;
     data['title'] = this.title;
     data['note'] = this.note;
+    data['address'] = this.address;
     data['registerDate'] = this.registerDate;
     data['registerTime'] = this.registerTime;
+    data['type'] = this.type;
     return data;
   }
 }

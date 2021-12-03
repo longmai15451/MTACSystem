@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mtacsystem/models/schedule.dart';
 
 class TaskTile extends StatelessWidget {
@@ -19,7 +18,7 @@ class TaskTile extends StatelessWidget {
         //  width: SizeConfig.screenWidth * 0.78,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          color: _getBGClr(0),
+          color: _getBGClr(schedule?.type??2),
         ),
         child: Row(children: [
           Expanded(
@@ -47,7 +46,7 @@ class TaskTile extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      schedule?.registerTime??"Null mẹ r",
+                      schedule?.registerTime??"",
                       style: 
                         TextStyle(fontSize: 13, color: Colors.grey[100]),
                     ),
@@ -55,7 +54,7 @@ class TaskTile extends StatelessWidget {
                 ),
                 SizedBox(height: 12),
                 Text(
-                  schedule?.note??"Note",
+                  schedule!.address!= null? "${schedule!.note} ${schedule!.address}":"",
                   style: TextStyle(fontSize: 15, color: Colors.grey[100]),
                   
                 ),
@@ -72,12 +71,11 @@ class TaskTile extends StatelessWidget {
             quarterTurns: 3,
             child: Text(
               "TODO",
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
+              style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
-              ),
+              
             ),
           ),
         ]),
@@ -88,7 +86,11 @@ class TaskTile extends StatelessWidget {
   _getBGClr(int no) {
     switch (no) {
       case 0:
-        return Colors.lightBlue.shade100;
+        return Colors.lightGreen.shade600;
+      case 1:
+        return Colors.lightBlue.shade600;
+      default:
+        return Colors.grey.shade600;
     }
   }
 }

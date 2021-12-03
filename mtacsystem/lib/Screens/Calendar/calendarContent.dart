@@ -4,28 +4,27 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:mtacsystem/Components/task_tile.dart';
-import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/controller/schedule_controller.dart';
 import 'package:mtacsystem/models/schedule.dart';
 
 class CalendarContent extends StatefulWidget{
-  
+  final String idCard;
+
+  const CalendarContent({Key? key, required this.idCard}) : super(key: key); 
   @override
   State<CalendarContent> createState() => _CalendarContentState();
 }
 
 class _CalendarContentState extends State<CalendarContent> {
-  final _scheduleController = Get.put(ScheduleController());
   static DateTime _selectDate = DateTime.now();
-
-  var notifyHelper;
-
+  final _scheduleController = ScheduleController();
   @override
   initState(){
-    super.initState();
-    notifyHelper = NotifyHelper();
+    _selectDate = DateTime.now();
     _getSchedule();
-    notifyHelper.scheduledNotification();
+    setState((){
+    });
+    super.initState();
   }
 
   @override
@@ -55,17 +54,14 @@ class _CalendarContentState extends State<CalendarContent> {
           _dateBar(),
           SizedBox(height: 10),
           _showSchedule(),
-          
         ],
       )
     );
   }
 
   _getSchedule()async{
-    _scheduleController.getSchedule();
-    setState((){
-
-    });
+    _scheduleController.getSchedule(widget.idCard,DateFormat('yyyy-MM-dd').format(_selectDate));
+    
   }
 
 
@@ -76,15 +72,9 @@ class _CalendarContentState extends State<CalendarContent> {
           itemCount: _scheduleController.scheduleList.length,
 
           itemBuilder: (_, index){
-
             Schedule schedule = _scheduleController.scheduleList[index];
-            print(schedule.note);
+            print(schedule.title);
             if(schedule.registerDate == DateFormat('yyyy-MM-dd').format(_selectDate) ) {
-              // notifyHelper.scheduledNotification(
-              //   int.parse(schedule.registerTime.toString().split(":")[0]),
-              //   int.parse(schedule.registerTime.toString().split(":")[1]),
-              //   schedule
-              // );
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -93,9 +83,6 @@ class _CalendarContentState extends State<CalendarContent> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            setState((){
-
-                            });
                           },
                           child:TaskTile(schedule),
                         )
@@ -105,9 +92,8 @@ class _CalendarContentState extends State<CalendarContent> {
                 )
               );
             }
-            else{
+            else
               return Container();
-            }
           }
         );
       })
@@ -140,8 +126,9 @@ class _CalendarContentState extends State<CalendarContent> {
             color: Colors.grey,
           ),
           onDateChange: (date){
+            _selectDate=date;
+            _getSchedule();
             setState((){
-              _selectDate=date;
             });
           },
         ),

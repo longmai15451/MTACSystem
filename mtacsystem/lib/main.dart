@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
+import 'package:mtacsystem/controller/notify_helper.dart';
 import 'Screens/Home/homeContent.dart';
 import 'Screens/Notify/notifyContent.dart';
 import 'Screens/Calendar/calendarContent.dart';
@@ -10,30 +9,14 @@ import 'Screens/Profile/profile.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'db/dbHelper.dart';import 'package:timezone/timezone.dart' as tz;
 
 late AccountProfile accountdata;
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =  FlutterLocalNotificationsPlugin();
+NotifyHelper notify = NotifyHelper();
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await _configureLocalTimeZone();
-  await DBHelper.initDb();
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_icon');
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-  );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      );
+  await notify.initializeNotification();
   runApp(MyApp());
 }
-
-  Future<void> _configureLocalTimeZone()async{
-		tz.initializeTimeZones();
-		final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-		tz.setLocalLocation(tz.getLocation(timeZoneName));
-	}
 
 class MyApp extends StatelessWidget{
   @override
@@ -54,7 +37,7 @@ class MyApp extends StatelessWidget{
               'assets/images/Splash.png',
           ),
         ),
-        nextScreen: LoginScreen(notify: flutterLocalNotificationsPlugin),
+        nextScreen: LoginScreen(),
         splashTransition: SplashTransition.fadeTransition,
         backgroundColor: Colors.blue.shade50,
       ),
@@ -76,7 +59,7 @@ class HomeScreen extends State<MainScreen>{
   //HomeScreen({required this.selectedIndex});
   final List<Widget> _bodycontent = [
     HomeContent(accountdata: accountdata,),
-    CalendarContent(),
+    CalendarContent(idCard: accountdata.idCard.toString(),),
     NotifyContent(),
     Profile(accountdata: accountdata,),
   ];

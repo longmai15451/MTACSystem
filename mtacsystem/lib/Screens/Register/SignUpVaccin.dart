@@ -27,12 +27,24 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
   _SignUpVaccinState({required this.accountdata});
   @override
   initState(){
-    
+    temp.birthdate.text = accountdata.birthDate.toString();
+    temp.gender.text = accountdata.gender.toString();
     super.initState();
   }
 
-  
 
+  void _getControllerText(String text){
+    setState((){
+      temp.birthdate.text = text;
+    });
+  }
+  void getGenderController(String value){
+    setState((){
+      temp.gender.text = value;
+    });
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -212,7 +224,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                                     width: 170,
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(left: 20, right: 10),
-                                    child: dateTimePicker(),
+                                    child: dateTimePicker(getControllerText: _getControllerText,),
                                   ),
                                 ],
                               ),
@@ -224,7 +236,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                                     //   border: Border.all(color: Colors.red)
                                     // ),
                                     margin: EdgeInsets.symmetric(horizontal: 21, vertical: 5),
-                                    child: Gender(),
+                                    child: Gender(accountgender: accountdata.gender.toString(), getGenderController: getGenderController,),
                                   ),
                                 ],
                               ),
@@ -568,9 +580,6 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                       onPressed: () {
-                        
-                        setState(() {
-                        });
                         Get.to(ChosseHospital(accountdata: accountdata));
                       },
                       shape: RoundedRectangleBorder(

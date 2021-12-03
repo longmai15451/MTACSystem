@@ -1,13 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mtacsystem/Screens/Chatbot/ChatMain.dart';
-import 'package:mtacsystem/Screens/DeclarationH/DeclarationH.dart';
 import 'package:mtacsystem/Screens/Profile/editProf.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
+import 'Chatbot/ChatMain.dart';
 import 'covidstats.dart';
 
 
@@ -179,7 +178,6 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
-                              Get.to(DeclarationH());
                             },
                             child: Column(
                               children: <Widget>[
@@ -237,7 +235,7 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
-                              Get.to(SignUpTest());
+                              Get.to(SignUpTest(accountdata: widget.accountdata,));
                             },
                             child: Column(
                               children: <Widget>[

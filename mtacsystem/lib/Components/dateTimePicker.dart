@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class dateTimePicker extends StatefulWidget {
+  final Function getControllerText;
+  
+  const dateTimePicker({Key? key, required this.getControllerText}) : super(key: key);
+  
   @override
   State<dateTimePicker> createState() => _dateTimePicker();
 }
@@ -22,6 +26,7 @@ class _dateTimePicker extends State<dateTimePicker> {
       setState(() {
         _date = _datePicker;
       });
+      widget.getControllerText('${formattedDate.format(_date)}');
     }
   }
 

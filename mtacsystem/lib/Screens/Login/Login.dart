@@ -13,14 +13,11 @@ import 'package:mtacsystem/main.dart';
 import 'forgotPassword.dart';
 import 'package:mtacsystem/Network/Profiledata.dart';
 import 'package:animations/animations.dart';
-import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:timezone/timezone.dart' as tz;
 
 
 class LoginScreen extends StatefulWidget{
-  final FlutterLocalNotificationsPlugin notify;
 
-  const LoginScreen({Key? key, required this.notify}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
 }
@@ -43,59 +40,14 @@ class _LoginState extends State<LoginScreen> {
     }else{
       toast("Đăng nhập thành công!", Colors.green,);
       accountdata = GetProfData.getdata(data);
-      Timer(Duration(milliseconds: 25),(){
-        setState(()async{
-          await scheduleNotification();
-          Get.to(MainScreen());
+        Get.to(MainScreen());
+        setState((){
+          
         });
-      });
     }
   }
 
-  Future<void> scheduleNotification() async {
-
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-    0,
-    'scheduled title',
-    'scheduled body',
-      _convertTime(),
-    const NotificationDetails(
-        android: AndroidNotificationDetails(
-            'your channel id', 'your channel name',
-            channelDescription: 'your channel description')),
-    androidAllowWhileIdle: true,
-    uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
-  }
-
-  tz.TZDateTime _convertTime(){
-		final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-		tz.TZDateTime scheduleDate = tz.TZDateTime(tz.local, now.year, now.month, now.day, 20, 42);
-		if(scheduleDate.isBefore(now)){
-			scheduleDate = scheduleDate.add(const Duration(days: 1));
-		}
-		return scheduleDate;
-	}
-
-  // scheduledNotification()async{
-	// 	await flutterLocalNotificationsPlugin.zonedSchedule(
-  //   0,
-  //   'scheduled title',
-  //   'scheduled body',
-  //     tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-  //   const NotificationDetails(
-  //       android: AndroidNotificationDetails(
-  //           'your channel id', 'your channel name',
-  //           channelDescription: 'your channel description',
-  //           importance: Importance.max,
-  //             priority: Priority.high,)),
-  //   androidAllowWhileIdle: true,
-  //   uiLocalNotificationDateInterpretation:
-  //       UILocalNotificationDateInterpretation.absoluteTime);
-	// }
-
-  
-
+   
   void toast(String msg, Color textcolor) {
     Fluttertoast.showToast(
       msg: msg,
