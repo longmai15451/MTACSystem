@@ -10,6 +10,7 @@ import 'package:mtacsystem/Components/mapScreen.dart';
 import 'package:mtacsystem/Network/location_service.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
 import 'package:mtacsystem/controller/hospital_controller.dart';
+import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:mtacsystem/models/hospital.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +38,7 @@ class _ChooseTest extends State<ChooseTest>{
   @override
   initState() {
     _getHos();    
+    notify = NotifyHelper();
     super.initState();
   }
 
@@ -73,9 +75,10 @@ class _ChooseTest extends State<ChooseTest>{
     });
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
+      String registerDate = data['registerDate'].toString().split(" ")[0];
       await notify.scheduledNotification(
-        int.parse(data['registerDate'].toString().split("-")[1]),
-        int.parse(data['registerDate'].toString().split("-")[2]),
+        int.parse(registerDate.split("-")[1]),
+        int.parse(registerDate.split("-")[2]),
         int.parse(data['registerTimed'].toString().split(":")[0]),
         int.parse(data['registerTimed'].toString().split(":")[1]),
         'Lịch hẹn xét nghiệm',
@@ -95,6 +98,7 @@ class _ChooseTest extends State<ChooseTest>{
     return TextButton(
       onPressed: () { 
         setState((){
+          select[index] = true;
           setSelect(index,select);
           regisdata.startTime = '$start:00:00';
           regisdata.endTime = '$end:00:00';
@@ -170,7 +174,7 @@ class _ChooseTest extends State<ChooseTest>{
 
   void setSelect(int index, List<bool> select) {
   for(int i=0;i<select.length;++i){
-    if(i==index) select[i] = true;
+    if(i==index) continue;
     select[i] = false;
   }
 }
@@ -197,7 +201,7 @@ class _ChooseTest extends State<ChooseTest>{
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-            MapScreen(mapindex: mindex,height: 180, width: 345, distance: distance, duration: duration),
+            MapScreen(mapindex: mindex,height: 180, width: 345),
             Container(
               child: TextField(
                 controller: regisdata.hos,
@@ -312,7 +316,10 @@ class _ChooseTest extends State<ChooseTest>{
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
                 onPressed: () {
-                  // Get.to(()=>MainScreen());
+                  if(regisdata.idHos!=null)
+                    setState(() {
+                      signup();
+                    });
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),

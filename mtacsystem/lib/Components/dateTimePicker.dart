@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 class dateTimePicker extends StatefulWidget {
   final Function getControllerText;
-  
-  const dateTimePicker({Key? key, required this.getControllerText}) : super(key: key);
+  final bool readOnly;
+  const dateTimePicker({Key? key, required this.getControllerText, required this.readOnly}) : super(key: key);
   
   @override
   State<dateTimePicker> createState() => _dateTimePicker();
@@ -34,15 +34,16 @@ class _dateTimePicker extends State<dateTimePicker> {
   Widget build(BuildContext context) {
     return Container(
         child: TextField(
+          readOnly: widget.readOnly,
           controller: _datecontrol,
           onTap: () {
             setState(() {
+              if(!widget.readOnly)
               _selectDate(context);
             });
           },
           keyboardType: TextInputType.text,
           style: TextStyle(fontSize: 15),
-          readOnly: true,
           decoration: InputDecoration(
             hintText: ('${formattedDate.format(_date)}'),
             // errorText: 'Error message', ------ báo lỗi k nhập

@@ -8,6 +8,7 @@ import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'Chatbot/ChatMain.dart';
 import 'covidstats.dart';
+import 'vaccine_info.dart';
 
 
 class HomeContent extends StatefulWidget {
@@ -178,6 +179,7 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
+                              Get.to(Dialogflow());
                             },
                             child: Column(
                               children: <Widget>[
@@ -191,7 +193,7 @@ class _HomeContentState extends State<HomeContent> {
                                   height: 50.0,
                                   width: 60.0,
                                   child: Text(
-                                    'Khai báo y tế',
+                                    'Tư vấn bệnh',
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     style: TextStyle(
@@ -298,8 +300,8 @@ class _HomeContentState extends State<HomeContent> {
                                     borderRadius: BorderRadius.circular(50.0),
                                   
                                 ),
-                            onPressed: () async{
-                              
+                            onPressed: () {
+                              Get.to(()=>VaccineInfo());
                             },
                             child: Column(
                               children: <Widget>[
@@ -313,7 +315,7 @@ class _HomeContentState extends State<HomeContent> {
                                   height: 50.0,
                                   width: 120.0,
                                   child: Text(
-                                    'Chứng nhận ngừa Covid',
+                                    'Thông tin vaccine',
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     style: TextStyle(

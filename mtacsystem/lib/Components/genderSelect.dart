@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Gender extends StatefulWidget {
   String accountgender;
+  final bool readOnly;
   final Function getGenderController;
-  Gender({required this.accountgender, required this.getGenderController});
+  Gender({required this.accountgender, required this.getGenderController, required this.readOnly});
   @override
   State<Gender> createState() => _Gender();
 }
@@ -36,7 +37,8 @@ class _Gender extends State<Gender> {
               value: gender = getGender(widget.accountgender),
               isDense: true,
               onChanged: (String? newValue) {
-                widget.getGenderController(newValue=='Nam'?'0':newValue=='Nữ'?'1':'null');
+                if(!widget.readOnly)
+                  widget.getGenderController(newValue=='Nam'?'0':newValue=='Nữ'?'1':'null');
                 setState(() {
                   gender = newValue!;
                 });

@@ -30,7 +30,7 @@ class _Profile extends State<Profile>{
         child: Container(
           child: IconButton(
             onPressed: () async{
-                 //Get.offAll(LoginScreen());
+                 Get.offAll(LoginScreen());
             },
             icon: Icon(Icons.exit_to_app),
             color: Colors.white,
@@ -225,7 +225,7 @@ class _Profile extends State<Profile>{
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
                           onTap: ()async{
-                             //Get.offAll(LoginScreen());
+                             Get.offAll(LoginScreen());
                           },
                           child: Container(
                             width: 200,

@@ -6,7 +6,7 @@ class Schedule{
   String? address;
   String? registerDate;
   String? registerTime;
-  int? type;
+  var type;
 
   Schedule({
     this.regisID,

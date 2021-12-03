@@ -27,8 +27,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
   _SignUpVaccinState({required this.accountdata});
   @override
   initState(){
-    temp.birthdate.text = accountdata.birthDate.toString();
-    temp.gender.text = accountdata.gender.toString();
+    _getControllerText(accountdata.birthDate.toString());
+    getGenderController(accountdata.gender.toString());
     super.initState();
   }
 
@@ -224,7 +224,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                                     width: 170,
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(left: 20, right: 10),
-                                    child: dateTimePicker(getControllerText: _getControllerText,),
+                                    child: dateTimePicker(getControllerText: _getControllerText,readOnly: _readonly),
                                   ),
                                 ],
                               ),
@@ -236,7 +236,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                                     //   border: Border.all(color: Colors.red)
                                     // ),
                                     margin: EdgeInsets.symmetric(horizontal: 21, vertical: 5),
-                                    child: Gender(accountgender: accountdata.gender.toString(), getGenderController: getGenderController,),
+                                    child: Gender(accountgender: temp.gender.text, getGenderController: getGenderController,readOnly: _readonly),
                                   ),
                                 ],
                               ),

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class TempUserProfile {
   late TextEditingController avatar;
   late TextEditingController name;
-  late TextEditingController birthdate;
-  late TextEditingController gender;
+  late TextEditingController birthdate = new TextEditingController();
+  late TextEditingController gender = new TextEditingController();
   late TextEditingController phone;
   late TextEditingController idcard;
   late TextEditingController email;

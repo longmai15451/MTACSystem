@@ -196,7 +196,7 @@ class _SignUpTest extends State<SignUpTest>{
                                     width: 170,
                                     alignment: Alignment.center,
                                     margin: EdgeInsets.only(left: 20, right: 10),
-                                    child: dateTimePicker(getControllerText: _getControllerText,),
+                                    child: dateTimePicker(getControllerText: _getControllerText,readOnly: _readonly),
                                   ),
                                 ],
                               ),
@@ -208,7 +208,7 @@ class _SignUpTest extends State<SignUpTest>{
                                     //   border: Border.all(color: Colors.red)
                                     // ),
                                     margin: EdgeInsets.symmetric(horizontal: 21, vertical: 5),
-                                    child: Gender(accountgender: widget.accountdata.gender.toString(), getGenderController: getGenderController,),
+                                    child: Gender(accountgender: temp.gender.text, getGenderController: getGenderController,readOnly: _readonly),
                                   ),
                                 ],
                               ),

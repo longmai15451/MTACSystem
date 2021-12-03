@@ -38,8 +38,9 @@ class _ChosseHospital extends State<ChosseHospital> {
   late Future<List<Hospital>> hosData;
   late Future<List<Diseases>> diseaseData;
   late bool selectDisease;
+  late bool selectMap;
   var notify;
-  static int index=1;
+  static int mindex=1;
   late List<bool> select = new List.filled(6, false ,growable:false);
   String? distance, duration;
   int durationSeconds = 2100;
@@ -51,6 +52,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     notify = NotifyHelper();
     super.initState();
     selectDisease = false;
+    selectMap = false;
   }
 
   void _getVaccineAndHos() async{
@@ -116,6 +118,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     return TextButton(
       onPressed: () { 
         setState((){
+          select[index] = true;
           setSelect(index,select);
           regisdata.startTime = '$start:00:00';
           regisdata.endTime = '$end:00:00';
@@ -153,7 +156,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                       TextButton(
                         onPressed: () async {
                             index = i;
-                            print(data[index].toJson());
+                            mindex=i;
                             var direction = await LocationService().getDirection(i+1);
                             setState((){
                               regisdata.hos.text = '${data[index].hosName}';
@@ -161,8 +164,9 @@ class _ChosseHospital extends State<ChosseHospital> {
                               distance = direction['distance'];
                               duration = direction['duration'];
                               _getSeconds(direction);
-                              Get.back();
+                              mindex=i;
                             });
+                            Get.back(result: null);
                           },
                         child: ListTile(
                           title: Text('${data[i].hosName}'),
@@ -333,7 +337,7 @@ class _ChosseHospital extends State<ChosseHospital> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-            MapScreen(mapindex: index,height: 180, width: 345, distance: distance, duration: duration),
+              MapScreen(mapindex: mindex,height: 180, width: 345, ),
             Container(
               child: TextField(
                 controller: regisdata.des,
@@ -386,6 +390,9 @@ class _ChosseHospital extends State<ChosseHospital> {
                       );
                     }
                   );
+                  setState((){
+
+                  });
                 },
                 decoration: InputDecoration(
                     hintText: 'Chọn bệnh viện', icon: Icon(Icons.local_hospital_sharp)),
@@ -488,8 +495,8 @@ class _ChosseHospital extends State<ChosseHospital> {
               child: RaisedButton(
                 onPressed: () {
                   if(regisdata.idHos!=null && regisdata.idVac!=null)
-                    setState(() async{
-                      await signup();
+                    setState(() {
+                      signup();
                     });
                 },
                 shape: RoundedRectangleBorder(
@@ -529,7 +536,7 @@ class _ChosseHospital extends State<ChosseHospital> {
 
 void setSelect(int index, List<bool> select) {
   for(int i=0;i<select.length;++i){
-    if(i==index) select[i] = true;
+    if(i==index) continue;
     select[i] = false;
   }
 }

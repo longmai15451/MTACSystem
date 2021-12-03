@@ -7,6 +7,8 @@ import 'package:mtacsystem/Components/task_tile.dart';
 import 'package:mtacsystem/controller/schedule_controller.dart';
 import 'package:mtacsystem/models/schedule.dart';
 
+import 'detail_vaccin_regis.dart';
+
 class CalendarContent extends StatefulWidget{
   final String idCard;
 
@@ -73,8 +75,8 @@ class _CalendarContentState extends State<CalendarContent> {
 
           itemBuilder: (_, index){
             Schedule schedule = _scheduleController.scheduleList[index];
-            print(schedule.title);
-            if(schedule.registerDate == DateFormat('yyyy-MM-dd').format(_selectDate) ) {
+            print(schedule.regisID);
+            if(schedule.registerDate.toString().split(" ")[0] == DateFormat('yyyy-MM-dd').format(_selectDate) ) {
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -83,6 +85,7 @@ class _CalendarContentState extends State<CalendarContent> {
                       children: [
                         GestureDetector(
                           onTap: (){
+                            Get.to(()=>Detail(schedule: schedule));
                           },
                           child:TaskTile(schedule),
                         )
@@ -105,8 +108,8 @@ class _CalendarContentState extends State<CalendarContent> {
         margin: const EdgeInsets.only(top: 20, left: 20),
         child: DatePicker(
           DateTime.now(),
-          height: 100,
-          width: 80,
+          height: 85,
+          width: 60,
           initialSelectedDate: DateTime.now(),
           selectionColor: Colors.blue,
           selectedTextColor: Colors.white,

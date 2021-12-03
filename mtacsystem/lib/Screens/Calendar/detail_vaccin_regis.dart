@@ -20,16 +20,17 @@ class Detail extends StatefulWidget{
 
 class _Detail extends State<Detail> {
 
-  static int index = Random().nextInt(4);
+  static int index = -1;
   static var data;
   @override
   initState(){
     super.initState();
+    index = Random().nextInt(4);
       _getData();
   }
   
   void _getData() async{
-    if(widget.schedule.type == 0)
+    if(widget.schedule.type == '0')
       data = await SignUpInfo().getTestRegisterData(widget.schedule.regisID.toString());
     else
       data = await SignUpInfo().getVacRegisterData(widget.schedule.regisID.toString());
@@ -45,7 +46,7 @@ class _Detail extends State<Detail> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SingleChildScrollView(child: MapScreen(height: 225, width: 345, mapindex:index )),
+          SingleChildScrollView(child: MapScreen(height: 225, width: 345, mapindex:index)),
           SingleChildScrollView(
               child: ListTile(
                 title: Column(
@@ -54,43 +55,43 @@ class _Detail extends State<Detail> {
                     children: <Widget>[
                       Row(
                         children: [
-                          Text('Họ Tên: ${data['full_name']}'),
+                          Text('Họ Tên: ${data!=null?data['full_name']:""}'),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Số Điện Thoại:  ${data['phone']}'),
+                          Text('Số Điện Thoại:  ${data!=null?data['phone']:""}'),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('CCCD: ${data['id_card']}'),
+                          Text('CCCD: ${data!=null?data['id_card']:""}'),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Cơ sở y tế:  ${data['hos_name']}'),
+                          Text('Cơ sở y tế:  ${data!=null?data['hos_name']:""}'),
                         ],
                       ),
-                      if(widget.schedule.type == 1)
+                      if(widget.schedule.type == '1')
                         Row(
                           children: [
-                            Text('Vaccine: ${data['vaccine']}'),
+                            Text('Vaccine: ${data!=null?data['vaccine']:""}'),
                           ],
                         ),
                       Row(
                         children: [
-                          Text('Ngày Hẹn: ${data['register_date']}'),
+                          Text('Ngày Hẹn: ${data!=null?data['register_date']:""}'),
                         ],
                       ),
                       Row(
                         children: [
-                          Text('Giờ Hẹn: ${data['register_time']}'),
+                          Text('Giờ Hẹn: ${data!=null?data['register_time']:""}'),
                         ],
                       ),
                       ListTile(
                           title: Text('Địa Chỉ Bệnh Viện:'),
-                          subtitle: Text('${data['hos_address']}'),
+                          subtitle: Text('${data!=null?data['hos_address']:""}'),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

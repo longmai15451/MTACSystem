@@ -8,11 +8,9 @@ import '../Network/location_service.dart';
 
 class MapScreen extends StatefulWidget{
   final int mapindex;
-  String? distance, duration;
   final double height;
   final double width;
-  bool? load = true;
-  MapScreen({Key? key,required this.mapindex, required this.height, required this.width, this.distance, this.duration, this.load}) : super(key: key);
+  MapScreen({Key? key,required this.mapindex, required this.height, required this.width}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -28,11 +26,10 @@ class _MapScreen extends State<MapScreen>{
   Completer<GoogleMapController> _controller = Completer();
   int _polylineIdCounter = 1;
   int markerId = 1;
-
+  String? distance, duration;
   @override
   initState(){
     super.initState();
-    if(widget.load == true)
       _loadMap();
   }
 
@@ -47,9 +44,10 @@ class _MapScreen extends State<MapScreen>{
       direction['bounds_sw'],
     );
     _setPolyline(direction['polyline_decoded']);
+     distance = direction['distance'];
+      duration = direction['duration'];
     setState((){
-      widget.distance = direction['distance'];
-      widget.duration = direction['duration'];
+     
     });
   }
 
@@ -74,7 +72,6 @@ class _MapScreen extends State<MapScreen>{
                 _controller.complete(controller);
               },
             ),
-            if(widget.load==true)
               Positioned(
                 top: 10.0,
                 child: Container(
@@ -94,8 +91,8 @@ class _MapScreen extends State<MapScreen>{
                     ]
                   ),
                   child: Text(
-                    widget.distance!=null&&widget.duration!=null?
-                    '${widget.distance}, ${widget.duration}':'',
+                    distance!=null&&duration!=null?
+                    '$distance, $duration':'',
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -103,21 +100,7 @@ class _MapScreen extends State<MapScreen>{
                   ),
                 ),
               ),
-            Positioned(
-              top: 5.0,
-              left: 0,
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                ),
-                child: IconButton(icon: Icon(Icons.replay_rounded, size: 15,), 
-                onPressed: () async{ 
-                    _loadMap();
-                 },
-                ),
-              ),
-            )
+            
           ],
         ),
       ),
