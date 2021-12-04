@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('localhost','id17804959_root','Root-123456789','id17804959_mtacsystem');
+$db = mysqli_connect('localhost','root','','mtacsystem');
 mysqli_set_charset($db, 'UTF8');
 if(!$db){
     echo "Connection Faild";
@@ -16,7 +16,7 @@ $count = mysqli_num_rows($result);
 
 if($count == 0){
     $insertUsers = "INSERT INTO patients
-    VALUES('".$cccd."','".$name."',CURRENT_DATE(),Null,'','".$phone."','','','','','','','','','".$pass."','',0)";
+    VALUES('".$cccd."','".$name."',CURRENT_DATE(),'male','','".$phone."','','','','','','','','','".$pass."','',0,null,null,null)";
     $query = mysqli_query($db,$insertUsers);
     if($query){
         echo json_encode("Success");

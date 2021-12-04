@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('localhost','id17804959_root','Root-123456789','id17804959_mtacsystem');
+$db = mysqli_connect('localhost','root','','mtacsystem');
 mysqli_set_charset($db, 'UTF8');
 if(!$db){
     echo "Connection Faild";
@@ -28,7 +28,7 @@ $count = mysqli_num_rows($result);
 
 if($count == 1){
     $updateUsers = "Update patients Set 
-    id_card = '".$cccd."', full_name = '".$name."', birthDate = '".$birthdate."', gender = ".$gender.", health_card = '".$health_card."', phone = '".$phone."', email = '".$email."', job = '".$job."', address = '".$address."', ward = '".$ward."', district = '".$district."', city = '".$city."', country = '".$country."', nation = '".$nation."' Where id_card = '".$old_id."'";
+    id_card = '".$cccd."', full_name = '".$name."', birthDate = '".$birthdate."', gender = '".$gender."', health_card = '".$health_card."', phone = '".$phone."', email = '".$email."', job = '".$job."', address = '".$address."', ward = '".$ward."', district = '".$district."', city = '".$city."', country = '".$country."', nation = '".$nation."' Where id_card = '".$old_id."'";
     $query = mysqli_query($db,$updateUsers);
     if($query){
         echo json_encode("Success");

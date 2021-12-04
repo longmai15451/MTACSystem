@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('localhost','id17804959_root','Root-123456789','id17804959_mtacsystem');
+$db = mysqli_connect('localhost','root','','mtacsystem');
 mysqli_set_charset($db, 'UTF8');
 
 if(!$db){
@@ -9,7 +9,7 @@ if(!$db){
 $Phone = $_POST['phone'];
 $Pass = $_POST['password'];
 
-$sql = "CALL Get_patients_data('".$Phone."', '".$Pass."')";
+$sql = "CALL Get_patients_data('".$Phone."', '".$Pass."');";
 $result = mysqli_query($db,$sql);
 $count = mysqli_num_rows($result);
 

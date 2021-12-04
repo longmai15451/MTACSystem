@@ -1,5 +1,5 @@
 <?php
-$db = mysqli_connect('localhost','id17804959_root','Root-123456789','id17804959_mtacsystem');
+$db = mysqli_connect('localhost','root','','mtacsystem');
 mysqli_set_charset($db, 'UTF8');
 
 if(!$db){
