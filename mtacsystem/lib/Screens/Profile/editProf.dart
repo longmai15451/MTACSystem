@@ -72,7 +72,7 @@ class _EditProfile extends State<EditProfile> {
   String getGender(AccountProfile data){
     count==0?temp.gender = new TextEditingController(text:data.gender):{};
     count=1;
-    return temp.gender.text=='1'?'Nữ':temp.gender.text=='0'?'Nam':'Khác';
+    return temp.gender.text=='female'?'Nữ':'Nam';
   }
 
   void tempProfileUpdate(){
@@ -334,12 +334,12 @@ class _EditProfile extends State<EditProfile> {
                                                   value: gd = getGender(widget.accountdata),
                                                   isDense: true,
                                                   onChanged: (String? newValue) {
-                                                    temp.gender = new TextEditingController(text: newValue=='Nam'?'0':newValue=='Nữ'?'1':'null',);
+                                                    temp.gender = new TextEditingController(text: newValue=='Nam'?'male':'female',);
                                                     setState(() {
                                                       gd = newValue!;
                                                     });
                                                   },
-                                                  items: <String>['Nam', 'Nữ', 'Khác']
+                                                  items: <String>['Nam', 'Nữ']
                                                       .map<DropdownMenuItem<String>>((String value) {
                                                     return DropdownMenuItem<String>(
                                                       value: value,

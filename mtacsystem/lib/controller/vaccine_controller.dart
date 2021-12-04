@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mtacsystem/models/vaccine.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 class VaccineController extends GetxController{
   Future <List<Vaccine>> fetchData(String idDes) async {
-    String url = 'http://mtac1.000webhostapp.com/CAP1_mobile/vaccine_data.php'; 
+    String url = sver.serverip+'/CAP1_mobile/vaccine_data.php'; 
     final response =
       await http.post(Uri.parse(url), body: 
         {
@@ -27,7 +28,7 @@ class VaccineController extends GetxController{
   var vaccineList = <Vaccine>[].obs;
 
   Future <List<Vaccine>> fetchDataforSearch() async {
-    String url = 'http://mtac1.000webhostapp.com/CAP1_mobile/vaccine_data_forSearch.php'; 
+    String url = 'http://192.168.1.101/CAP1_mobile/vaccine_data_forSearch.php'; 
     final response =
       await http.post(Uri.parse(url),);
     print(response.body);

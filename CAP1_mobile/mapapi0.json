@@ -1,0 +1,181 @@
+{
+   "geocoded_waypoints" : [
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJuxHzHwwZQjERf5kUjPn_WTg",
+         "types" : [ "street_address" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJoyDeF-kZQjER2jghT1grb28",
+         "types" : [ "cafe", "establishment", "food", "point_of_interest", "store" ]
+      }
+   ],
+   "routes" : [
+      {
+         "bounds" : {
+            "northeast" : {
+               "lat" : 16.0508245,
+               "lng" : 108.183998
+            },
+            "southwest" : {
+               "lat" : 16.0456676,
+               "lng" : 108.181288
+            }
+         },
+         "copyrights" : "Map data ©2021",
+         "legs" : [
+            {
+               "distance" : {
+                  "text" : "1.2 km",
+                  "value" : 1187
+               },
+               "duration" : {
+                  "text" : "4 mins",
+                  "value" : 224
+               },
+               "end_address" : "K321/11, Ton Dan Street, An Hoa Ward, Lien Chieu District, Hoà An, Cẩm Lệ, Đà Nẵng 550000, Vietnam",
+               "end_location" : {
+                  "lat" : 16.0486985,
+                  "lng" : 108.1818531
+               },
+               "start_address" : "243 Trường Chinh, An Khê, Q. Thanh Khê, Đà Nẵng 550000, Vietnam",
+               "start_location" : {
+                  "lat" : 16.0503646,
+                  "lng" : 108.182764
+               },
+               "steps" : [
+                  {
+                     "distance" : {
+                        "text" : "54 m",
+                        "value" : 54
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 4
+                     },
+                     "end_location" : {
+                        "lat" : 16.0508245,
+                        "lng" : 108.1826052
+                     },
+                     "html_instructions" : "Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eTrường Chinh\u003c/b\u003e/\u003cwbr/\u003e\u003cb\u003eQL1A\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Công Ty TNHH TM &amp; XL Cơ Điện Lạnh Nguyên Mạnh Tiến (on the right)\u003c/div\u003e",
+                     "polyline" : {
+                        "points" : "wy}`BgmhsSWFa@Ja@H"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0503646,
+                        "lng" : 108.182764
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.5 km",
+                        "value" : 530
+                     },
+                     "duration" : {
+                        "text" : "2 mins",
+                        "value" : 100
+                     },
+                     "end_location" : {
+                        "lat" : 16.0463478,
+                        "lng" : 108.183998
+                     },
+                     "html_instructions" : "Make a \u003cb\u003eU-turn\u003c/b\u003e at CÔNG TY CỔ PHẦN THƯƠNG MẠI XUẤT NHẬP KHẨU HOSANA\u003cdiv style=\"font-size:0.9em\"\u003ePass by Học quảng cáo Facebook uy tín - AZMedia (on the right in 300&nbsp;m)\u003c/div\u003e",
+                     "maneuver" : "uturn-left",
+                     "polyline" : {
+                        "points" : "s|}`BilhsS@JBFlFkA`@M`@K`@K`@K`@K`@K`@K`@K`@K`@KDAZI`@Ib@K`@I\\IBA`@I`@Kb@IBA\\I"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0508245,
+                        "lng" : 108.1826052
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 200
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 55
+                     },
+                     "end_location" : {
+                        "lat" : 16.0456676,
+                        "lng" : 108.1822706
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eNguyễn Phước Nguyên\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Mỳ Quảng Dung (on the left)\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "u`}`B_uhsSLf@@JNn@Px@FRNV@BJTJTLZF\\FTDN"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0463478,
+                        "lng" : 108.183998
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.3 km",
+                        "value" : 341
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 49
+                     },
+                     "end_location" : {
+                        "lat" : 16.048581,
+                        "lng" : 108.181288
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e at Cf Ngố onto \u003cb\u003eĐ. Tôn Đản\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Công Ty Tnhh Dầu Tư Xây Dựng Văn Huy Vũ (on the left)\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "m||`BejhsSe@Dc@FWFWHg@Rk@NmBf@_ATcBb@m@NA?u@L"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0456676,
+                        "lng" : 108.1822706
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "62 m",
+                        "value" : 62
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 16
+                     },
+                     "end_location" : {
+                        "lat" : 16.0486985,
+                        "lng" : 108.1818531
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e at Dịch Vụ Sửa Tivi\u003cdiv style=\"font-size:0.9em\"\u003ePass by Quoc’s house (on the right)\u003c/div\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the left\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "sn}`BadhsSMy@EYCY?A"
+                     },
+                     "start_location" : {
+                        "lat" : 16.048581,
+                        "lng" : 108.181288
+                     },
+                     "travel_mode" : "DRIVING"
+                  }
+               ],
+               "traffic_speed_entry" : [],
+               "via_waypoint" : []
+            }
+         ],
+         "overview_polyline" : {
+            "points" : "wy}`BgmhsSy@Ra@H@JBFlFkAbAYfCo@fCo@lEaAfBa@p@|Cd@dAXp@Nr@DNe@D{@N_A\\yCv@sEhAu@LMy@Is@?A"
+         },
+         "summary" : "Trường Chinh/QL1A and Đ. Tôn Đản",
+         "warnings" : [],
+         "waypoint_order" : []
+      }
+   ],
+   "status" : "OK"
+}

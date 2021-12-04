@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mtacsystem/models/schedule.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 class ScheduleController extends GetxController{
   static var scheduleVac;
@@ -11,7 +12,7 @@ class ScheduleController extends GetxController{
   var scheduleList = <Schedule>[].obs;
 
   Future <List<Schedule>> fetchVaccineData(String idCard, String registerDate) async {
-    String url = 'http://mtac1.000webhostapp.com/CAP1_mobile/vaccine_schedule.php'; 
+    String url = sver.serverip+'/CAP1_mobile/vaccine_schedule.php'; 
     final response =
       await http.post(Uri.parse(url),body: 
         {
@@ -33,7 +34,7 @@ class ScheduleController extends GetxController{
   }
 
   Future <List<Schedule>> fetchTestData(String idCard, String registerDate) async {
-    String url = 'http://mtac1.000webhostapp.com/CAP1_mobile/test_schedule.php'; 
+    String url = 'http://192.168.1.101/CAP1_mobile/test_schedule.php'; 
     final response =
       await http.post(Uri.parse(url),body: 
         {

@@ -18,7 +18,7 @@ class _Gender extends State<Gender> {
     super.initState();
   }
   String getGender(String gender){
-      return gender=='1'?'Nữ':gender=='0'?'Nam':'Khác';
+      return gender=='female'?'Nữ':'Nam';
     }
 
   @override
@@ -38,12 +38,12 @@ class _Gender extends State<Gender> {
               isDense: true,
               onChanged: (String? newValue) {
                 if(!widget.readOnly)
-                  widget.getGenderController(newValue=='Nam'?'0':newValue=='Nữ'?'1':'null');
+                  widget.getGenderController(newValue=='Nam'?'male':'female');
                 setState(() {
                   gender = newValue!;
                 });
               },
-              items: <String>['Nam', 'Nữ', 'Khác']
+              items: <String>['Nam', 'Nữ']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,

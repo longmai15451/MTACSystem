@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:animations/animations.dart';
-
+import 'package:mtacsystem/server/Server.dart' as sver;
 import 'changePassword.dart';
 
 class PasswordRetrive extends StatefulWidget{
@@ -18,7 +18,7 @@ class _PasswordRetrive extends State<PasswordRetrive>{
   TextEditingController phone = TextEditingController();
   
   Future checkAccount()async{
-    var url = "http://mtac1.000webhostapp.com/CAP1_mobile/Get_Information.php";
+    var url = sver.serverip+"/CAP1_mobile/Get_Information.php";
     var response = await http.post(Uri.parse(url),body: {
       "phone" : phone.text,
     });

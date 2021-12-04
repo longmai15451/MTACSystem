@@ -1,0 +1,277 @@
+{
+   "geocoded_waypoints" : [
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJDWcmXhUYQjER6GxTwvGZpQA",
+         "types" : [ "establishment", "point_of_interest" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJVe5qg3YZQjEROBL4sLW9vbk",
+         "types" : [ "establishment", "home_goods_store", "point_of_interest", "store" ]
+      }
+   ],
+   "routes" : [
+      {
+         "bounds" : {
+            "northeast" : {
+               "lat" : 16.0878238,
+               "lng" : 108.2155123
+            },
+            "southwest" : {
+               "lat" : 16.0368953,
+               "lng" : 108.1782337
+            }
+         },
+         "copyrights" : "Map data ©2021",
+         "legs" : [
+            {
+               "distance" : {
+                  "text" : "8.8 km",
+                  "value" : 8841
+               },
+               "duration" : {
+                  "text" : "16 mins",
+                  "value" : 989
+               },
+               "end_address" : "379 Trường Chinh, An Khê, Thanh Khê, Đà Nẵng, Vietnam",
+               "end_location" : {
+                  "lat" : 16.0385526,
+                  "lng" : 108.1866961
+               },
+               "start_address" : "173 Đ. 3 Tháng 2, Thuận Phước, Hải Châu, Đà Nẵng 550000, Vietnam",
+               "start_location" : {
+                  "lat" : 16.0874941,
+                  "lng" : 108.2155123
+               },
+               "steps" : [
+                  {
+                     "distance" : {
+                        "text" : "22 m",
+                        "value" : 22
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 2
+                     },
+                     "end_location" : {
+                        "lat" : 16.0876025,
+                        "lng" : 108.2153421
+                     },
+                     "html_instructions" : "Head \u003cb\u003enorthwest\u003c/b\u003e on \u003cb\u003eĐ. 3 Tháng 2\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "yaeaB}ynsSU`@"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0874941,
+                        "lng" : 108.2155123
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "3.3 km",
+                        "value" : 3326
+                     },
+                     "duration" : {
+                        "text" : "6 mins",
+                        "value" : 340
+                     },
+                     "end_location" : {
+                        "lat" : 16.0726096,
+                        "lng" : 108.1919107
+                     },
+                     "html_instructions" : "At the roundabout, take the \u003cb\u003e3rd\u003c/b\u003e exit onto \u003cb\u003eNguyễn Tất Thành\u003c/b\u003e",
+                     "maneuver" : "roundabout-right",
+                     "polyline" : {
+                        "points" : "obeaB{xnsSE?C?C@G@EBCBCDCDADAF?D?H@D@B@BBB@@FFB@B@B?B@B?B?B?BAB?BABAf@HNDLBnA\\fCz@`Bn@`@N`Bl@ZLbDjAB@ZJ~@\\`@Nt@X~@`@z@d@bAn@z@p@VT~DbDt@p@VPHFlAx@rA|@B@lAz@nAbA~@|@rAlAt@z@PPt@z@v@~@bAnAv@fARVlAhB`AbB~@bBLVTd@d@~@v@dBr@nBZz@Tl@r@xBv@rCj@|B@BXxAVpAXhB^rCD\\PhBN~AJ`BDlAJtD@rBAbDg@nP"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0876025,
+                        "lng" : 108.2153421
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 153
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 37
+                     },
+                     "end_location" : {
+                        "lat" : 16.0712646,
+                        "lng" : 108.1916274
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eHà Khê\u003c/b\u003e",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "ydbaBmfjsSX@lAVVBlCX"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0726096,
+                        "lng" : 108.1919107
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "1.5 km",
+                        "value" : 1458
+                     },
+                     "duration" : {
+                        "text" : "3 mins",
+                        "value" : 203
+                     },
+                     "end_location" : {
+                        "lat" : 16.0657408,
+                        "lng" : 108.1831858
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eTrần Cao Vân\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Shop Shoes Ha Trang (on the right in 1.2&nbsp;km)\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "k|aaBudjsS@fBEh@?rBAfBCzBCf@Ar@Ap@C`@ANMnAAHIr@EVE`@CRMf@IVIXGXEVAR?T@BDRHPFJHHLHLJb@Rv@VB@`Bz@n@`@jAfAXTjAnA~AjBv@n@r@f@JHXTb@f@f@r@v@fA|@_@v@[`Bo@DEFGdAa@DAv@]"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0712646,
+                        "lng" : 108.1916274
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "54 m",
+                        "value" : 54
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 8
+                     },
+                     "end_location" : {
+                        "lat" : 16.0652979,
+                        "lng" : 108.1829912
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e toward \u003cb\u003eĐiện Biên Phủ\u003c/b\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "{y`aB}ohsSRDF@F@HBHD@@\\P"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0657408,
+                        "lng" : 108.1831858
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.1 km",
+                        "value" : 133
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 14
+                     },
+                     "end_location" : {
+                        "lat" : 16.0645239,
+                        "lng" : 108.182045
+                     },
+                     "html_instructions" : "Slight \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eĐiện Biên Phủ\u003c/b\u003e",
+                     "maneuver" : "turn-slight-right",
+                     "polyline" : {
+                        "points" : "cw`aBunhsSDFv@jAdAtAVR"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0652979,
+                        "lng" : 108.1829912
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.4 km",
+                        "value" : 388
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 35
+                     },
+                     "end_location" : {
+                        "lat" : 16.0626091,
+                        "lng" : 108.179086
+                     },
+                     "html_instructions" : "Keep \u003cb\u003eright\u003c/b\u003e to stay on \u003cb\u003eĐiện Biên Phủ\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Trường Trung Cấp Ý Việt (on the right)\u003c/div\u003e",
+                     "maneuver" : "keep-right",
+                     "polyline" : {
+                        "points" : "gr`aBwhhsS@L@B~@|AX`@~@pAb@p@`@l@p@`AJLNTFFHJ\\h@JLDJDJ@JBN?PAP"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0645239,
+                        "lng" : 108.182045
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "3.1 km",
+                        "value" : 3107
+                     },
+                     "duration" : {
+                        "text" : "5 mins",
+                        "value" : 290
+                     },
+                     "end_location" : {
+                        "lat" : 16.0368953,
+                        "lng" : 108.1871222
+                     },
+                     "html_instructions" : "At the roundabout, take the \u003cb\u003e3rd\u003c/b\u003e exit onto \u003cb\u003eTrường Chinh\u003c/b\u003e/\u003cwbr/\u003e\u003cb\u003eQL1A\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Phe Loan Shop (on the right in 3.1&nbsp;km)\u003c/div\u003e",
+                     "maneuver" : "roundabout-right",
+                     "polyline" : {
+                        "points" : "if`aBivgsSCLAJ?L?N@LBLBLDJFJJJJJLHNFLBJ@H@F?H?H?NCLCJEJGJIJKFM?AFKFUBUFOFKHKHGHGLGDAFCXGlCk@`ASl@IZApCm@rD}@lD}@XKREVG`@I`@Kb@K`@I`@K`@I`@K`@Kb@I`@KfOmD~Cw@pCo@lFkA`@M`@K`@K`@K`@K`@K`@K`@K`@K`@KDAZI`@Ib@K`@I\\IBA`@I`@Kb@IBA\\IJCp@QxHeBvFoAhKiChJuBlK_CnBc@"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0626091,
+                        "lng" : 108.179086
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 200
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 60
+                     },
+                     "end_location" : {
+                        "lat" : 16.0385526,
+                        "lng" : 108.1866961
+                     },
+                     "html_instructions" : "Make a \u003cb\u003eU-turn\u003c/b\u003e at Đồng Tiến Bakery\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the left\u003c/div\u003e",
+                     "maneuver" : "uturn-left",
+                     "polyline" : {
+                        "points" : "se{`BohisSCQuATSDoBd@kBb@"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0368953,
+                        "lng" : 108.1871222
+                     },
+                     "travel_mode" : "DRIVING"
+                  }
+               ],
+               "traffic_speed_entry" : [],
+               "via_waypoint" : []
+            }
+         ],
+         "overview_polyline" : {
+            "points" : "yaeaB}ynsSU`@E?G@UNGXDVPNNBNAFCv@N|A`@hFjBbIvC`Cz@tBz@~BtAhI|GbEpCpA|@nC`ChChCfAlAzBnCjA~AnClElAzBz@dBv@dBr@nBp@hBjBlGl@`Cp@jDx@|FVfCZ`EPbG?vGg@nPX@dBZlCX@fBEh@?rBEbFKnD[|CKx@Qz@a@bBAh@FVP\\VRp@^z@X`Bz@n@`@dB|AjDzDjBvAd@^jAzAv@fA|@_@xCkALMjAc@v@]RDNBr@\\|@rAdAtAVRBPxA~BvDrFl@v@h@v@JVDZAb@EX?\\DZHXRVXT\\JTBj@CXIVQRYFMJk@N[RSVOtDy@nB]ZApCm@`J{Bl@Q~Bi@fCk@nRoEpHgBnGyAfCo@fCo@lEcAjBa@tKeCvFoAhKiCvVuFnBc@CQiBZ{EhA"
+         },
+         "summary" : "Nguyễn Tất Thành and Trường Chinh/QL1A",
+         "warnings" : [],
+         "waypoint_order" : []
+      }
+   ],
+   "status" : "OK"
+}

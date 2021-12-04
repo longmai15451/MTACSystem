@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Screens/Register/Register.dart';
@@ -29,7 +29,7 @@ class _LoginState extends State<LoginScreen> {
   TextEditingController pass = TextEditingController();
 
   Future login()async{
-    var url="http://mtac1.000webhostapp.com/CAP1_mobile/App_Login.php";
+    var url=sver.serverip+"/CAP1_mobile/App_Login.php";
     var response = await http.post(Uri.parse(url),body: {
       "phone" : phone.text,
       "password" : pass.text,

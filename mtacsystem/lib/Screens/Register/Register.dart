@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mtacsystem/Screens/Login/Login.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 
 class RegisterScreen extends StatefulWidget{
@@ -35,7 +35,7 @@ class _RegisterState extends State<RegisterScreen> {
       );
     }
     else{
-      var url="http://mtac1.000webhostapp.com/CAP1_mobile/App_register.php";
+      var url= sver.serverip+"/CAP1_mobile/App_register.php";
       var response = await http.post(Uri.parse(url),body: {
         "full_name" : name.text,
         "id_card" : cccd.text,

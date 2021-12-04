@@ -58,7 +58,7 @@ class AccountProfile {
 
   AccountProfile.fromJson(Map<String, dynamic> json) {
     idCard = json['id_card'];
-    fullName = json['full_name'];
+    fullName = json['fullname'];
     birthDate = json['birthDate'];
     gender = json['gender'];
     healthCard = json['health_card'];

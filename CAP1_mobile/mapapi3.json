@@ -1,0 +1,300 @@
+{
+   "geocoded_waypoints" : [
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJVygeIwIZQjERs5sKW-BvtYE",
+         "types" : [ "premise" ]
+      },
+      {
+         "geocoder_status" : "OK",
+         "place_id" : "ChIJTSgFUSoZQjERSqgtnUgV85U",
+         "types" : [ "establishment", "point_of_interest" ]
+      }
+   ],
+   "routes" : [
+      {
+         "bounds" : {
+            "northeast" : {
+               "lat" : 16.0716736,
+               "lng" : 108.1835595
+            },
+            "southwest" : {
+               "lat" : 16.0436576,
+               "lng" : 108.1704251
+            }
+         },
+         "copyrights" : "Map data ©2021",
+         "legs" : [
+            {
+               "distance" : {
+                  "text" : "5.0 km",
+                  "value" : 5046
+               },
+               "duration" : {
+                  "text" : "11 mins",
+                  "value" : 636
+               },
+               "end_address" : "44 Trần Đình Nam, Hoà An, Cẩm Lệ, Đà Nẵng, Vietnam",
+               "end_location" : {
+                  "lat" : 16.0442241,
+                  "lng" : 108.1781786
+               },
+               "start_address" : "600 Điện Biên Phủ, Thanh Khê Đông, Thanh Khê, Đà Nẵng 550000, Vietnam",
+               "start_location" : {
+                  "lat" : 16.0655692,
+                  "lng" : 108.1835595
+               },
+               "steps" : [
+                  {
+                     "distance" : {
+                        "text" : "44 m",
+                        "value" : 44
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 7
+                     },
+                     "end_location" : {
+                        "lat" : 16.0657408,
+                        "lng" : 108.1831858
+                     },
+                     "html_instructions" : "Head \u003cb\u003ewest\u003c/b\u003e toward \u003cb\u003eTrần Cao Vân\u003c/b\u003e",
+                     "polyline" : {
+                        "points" : "yx`aBgrhsSAFADGRUf@"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0655692,
+                        "lng" : 108.1835595
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 225
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 40
+                     },
+                     "end_location" : {
+                        "lat" : 16.0675469,
+                        "lng" : 108.1822497
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eTrần Cao Vân\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Chè Ông Cúc (on the left)\u003c/div\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "{y`aB}ohsSw@\\E@eA`@GFEDaBn@w@Z}@^"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0657408,
+                        "lng" : 108.1831858
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 230
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 37
+                     },
+                     "end_location" : {
+                        "lat" : 16.0693028,
+                        "lng" : 108.1811242
+                     },
+                     "html_instructions" : "Continue straight onto \u003cb\u003eDũng Sĩ Thanh Khê\u003c/b\u003e",
+                     "maneuver" : "straight",
+                     "polyline" : {
+                        "points" : "eeaaBajhsSe@b@w@f@ID{@j@MF_Af@kBr@"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0675469,
+                        "lng" : 108.1822497
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "1.0 km",
+                        "value" : 951
+                     },
+                     "duration" : {
+                        "text" : "2 mins",
+                        "value" : 110
+                     },
+                     "end_location" : {
+                        "lat" : 16.0716736,
+                        "lng" : 108.1733424
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eYên Khê 1\u003c/b\u003e",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "cpaaB_chsSD\\L|@Lv@Hv@B`@Cf@Or@MZ[f@oBlB_BtA[VEFa@`@WZQ^GNGTENAPCV@`@@`@J`@LfAZxCDh@CZCVI^MZWf@q@lAKVKP_@bAO\\"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0693028,
+                        "lng" : 108.1811242
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.6 km",
+                        "value" : 553
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 74
+                     },
+                     "end_location" : {
+                        "lat" : 16.0675127,
+                        "lng" : 108.170511
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e after CHAN Coffee&amp;Tea (on the right)",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "}~aaBkrfsSx@j@dF~ClAl@vAx@fAp@`@Vl@`@jCxAx@j@ZN"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0716736,
+                        "lng" : 108.1733424
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "1.2 km",
+                        "value" : 1236
+                     },
+                     "duration" : {
+                        "text" : "3 mins",
+                        "value" : 151
+                     },
+                     "end_location" : {
+                        "lat" : 16.0566572,
+                        "lng" : 108.1723923
+                     },
+                     "html_instructions" : "Continue onto \u003cb\u003eNam Trân\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eGo through 1 roundabout\u003c/div\u003e\u003cdiv style=\"font-size:0.9em\"\u003ePass by Công Ty Tnhh Samaco Đà Nẵng (on the right in 1.1&nbsp;km)\u003c/div\u003e",
+                     "polyline" : {
+                        "points" : "}daaBu`fsSXNj@?~AMpG]tEYDAz@Eb@A^G|@MdBW~AUn@IbDe@jAKf@KpEw@|BOzBQt@OREb@Ip@M?@@?@@@??@@?@?@@@?@?@?@A@?@?@A@?@A@??A@??A@?BE?AA??AfCW"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0675127,
+                        "lng" : 108.170511
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.4 km",
+                        "value" : 435
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 57
+                     },
+                     "end_location" : {
+                        "lat" : 16.0529809,
+                        "lng" : 108.1729286
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e onto \u003cb\u003eLê Thạch\u003c/b\u003e",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "ca_aBmlfsST`@BHDD@@DBB?@?D?x@E`ASfCg@F?pFy@lDg@"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0566572,
+                        "lng" : 108.1723923
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "63 m",
+                        "value" : 63
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 10
+                     },
+                     "end_location" : {
+                        "lat" : 16.0531444,
+                        "lng" : 108.1734913
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e after Nhà Xe Hải Vân (on the right)",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "cj~`ByofsS_@oB"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0529809,
+                        "lng" : 108.1729286
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "1.1 km",
+                        "value" : 1099
+                     },
+                     "duration" : {
+                        "text" : "2 mins",
+                        "value" : 125
+                     },
+                     "end_location" : {
+                        "lat" : 16.0436576,
+                        "lng" : 108.1763019
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eright\u003c/b\u003e after Cơm Tấm Sài Gòn (on the right)",
+                     "maneuver" : "turn-right",
+                     "polyline" : {
+                        "points" : "ck~`BisfsSdEo@lDi@dGgAjCY|GgA`@GlBc@p@StAg@jCw@hA]nA[@?`Du@`B]"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0531444,
+                        "lng" : 108.1734913
+                     },
+                     "travel_mode" : "DRIVING"
+                  },
+                  {
+                     "distance" : {
+                        "text" : "0.2 km",
+                        "value" : 210
+                     },
+                     "duration" : {
+                        "text" : "1 min",
+                        "value" : 25
+                     },
+                     "end_location" : {
+                        "lat" : 16.0442241,
+                        "lng" : 108.1781786
+                     },
+                     "html_instructions" : "Turn \u003cb\u003eleft\u003c/b\u003e onto \u003cb\u003eTrần Đình Nam\u003c/b\u003e\u003cdiv style=\"font-size:0.9em\"\u003eDestination will be on the left\u003c/div\u003e",
+                     "maneuver" : "turn-left",
+                     "polyline" : {
+                        "points" : "{o|`B{dgsSGU]gBiAyF"
+                     },
+                     "start_location" : {
+                        "lat" : 16.0436576,
+                        "lng" : 108.1763019
+                     },
+                     "travel_mode" : "DRIVING"
+                  }
+               ],
+               "traffic_speed_entry" : [],
+               "via_waypoint" : []
+            }
+         ],
+         "overview_polyline" : {
+            "points" : "yx`aBgrhsSCL]z@}@^mAh@}EpBe@b@w@f@eAp@mAn@kBr@D\\ZtBLxACf@Or@i@bAoEbEa@^y@|@Yn@Md@Eh@BbAJ`@LfA`@bEGr@Wz@iAtBgAjC~GjEdDfBbHdEtAz@XNj@?pJk@zE[~AG|AUxK}ArBWpEw@|BOzBQt@Ov@Or@KBBH@HCHE@IfCWXj@PJF?x@E`ASnCg@~KaB_@oBdEo@lDi@dGgAjCY|GgAnCk@fC{@tEuAtIoBoBwJ"
+         },
+         "summary" : "Nam Trân",
+         "warnings" : [],
+         "waypoint_order" : []
+      }
+   ],
+   "status" : "OK"
+}

@@ -1,11 +1,12 @@
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 class SignUpInfo{
   
   Future<Map<String, dynamic>> getVacRegisterData(String regisID) async {
-    String url = 'http://mtac1.000webhostapp.com/CAP1_mobile/vaccination_info.php';
+    String url = sver.serverip+'/CAP1_mobile/vaccination_info.php';
     var response = await http.post(Uri.parse(url),body: {
         "regisId": regisID,
     });
@@ -23,7 +24,7 @@ class SignUpInfo{
     return result;
   }
   Future<Map<String, dynamic>> getTestRegisterData(String regisID) async {
-    String url = 'http://mtac1.000webhostapp.com/CAP1_mobile/test_info.php';
+    String url = sver.serverip+'/CAP1_mobile/test_info.php';
     var response = await http.post(Uri.parse(url),body: {
         "regisId": regisID,
     });

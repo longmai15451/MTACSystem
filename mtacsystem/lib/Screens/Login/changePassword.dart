@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 import 'Login.dart';
 
@@ -29,7 +30,7 @@ class _ChangePassword extends State<ChangePassword>{
       toast("Mật khẩu xác nhận không trùng khớp!",Colors.red);
     }
     else{
-      var url = "http://mtac1.000webhostapp.com/CAP1_mobile/Change_password.php";
+      var url = sver.serverip+"/CAP1_mobile/Change_password.php";
       var response = await http.post(Uri.parse(url), body: {
         "phone" : phone,
         "password" : password.text,
@@ -39,7 +40,7 @@ class _ChangePassword extends State<ChangePassword>{
       {
         toast("Đã thay đổi mật khẩu, vui lòng đăng nhập để sử dụng.",Colors.green);
         Timer(Duration(milliseconds: 50),(){
-            //Get.to(LoginScreen()); 
+            Get.to(LoginScreen()); 
         });
       }
       else

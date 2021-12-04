@@ -19,6 +19,8 @@ import 'dart:convert';
 import '../../Network/location_service.dart';
 import '../../Components/mapScreen.dart';
 import '../../main.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
+
 
 class ChosseHospital extends StatefulWidget {
   final AccountProfile accountdata;
@@ -84,7 +86,7 @@ class _ChosseHospital extends State<ChosseHospital> {
 
   Future signup() async {
     print(regisdata.endTime);
-    var url="http://mtac1.000webhostapp.com/CAP1_mobile/vaccination_register.php";
+    var url=sver.serverip+"/CAP1_mobile/vaccination_register.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card": widget.accountdata.idCard.toString(),
       "id_hos" : regisdata.idHos.toString(),

@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -64,7 +64,7 @@ class _ChooseTest extends State<ChooseTest>{
 
   Future signup() async {
     print(regisdata.endTime);
-    var url="http://mtac1.000webhostapp.com/CAP1_mobile/test_register.php";
+    var url=sver.serverip+"/CAP1_mobile/test_register.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card": widget.accountdata.idCard.toString(),
       "id_hos" : regisdata.idHos.toString(),
