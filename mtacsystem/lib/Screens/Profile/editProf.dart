@@ -747,8 +747,9 @@ class _EditProfile extends State<EditProfile> {
                                             horizontal: 50, vertical: 10),
                                         child: RaisedButton(
                                             onPressed: () {
-                                              setState(() async {
-                                                updateProfile();
+                                               updateProfile();
+                                              setState(() {
+                                               
                                               });
                                             },
                                             shape: RoundedRectangleBorder(

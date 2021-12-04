@@ -102,7 +102,7 @@ class _ChosseHospital extends State<ChosseHospital> {
         int.parse(data['registerDate'].toString().split("-")[1]),
         int.parse(data['registerDate'].toString().split("-")[2]),
         int.parse(data['registerTimed'].toString().split(":")[0]),
-        int.parse(data['registerTimed'].toString().split(":")[1]),
+        int.parse(data['registerTimed'].toString().split(":")[1]) - (durationSeconds / 60),
         'Lịch hẹn tiêm vaccine',
         'bạn có lịch hẹn tiêm vaccine tại địa chỉ: ${data['address']}'       
       );
@@ -424,7 +424,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                   return Row(
                     children: [
                       SizedBox(width: 10),
-                      timeSelected(7,9,select,0),
+                      timeSelected(0,9,select,0),
                       SizedBox(width: 10),
                       timeSelected(9,11,select,1),
                       SizedBox(width: 10),

@@ -28,7 +28,7 @@ class VaccineController extends GetxController{
   var vaccineList = <Vaccine>[].obs;
 
   Future <List<Vaccine>> fetchDataforSearch() async {
-    String url = 'http://192.168.1.101/CAP1_mobile/vaccine_data_forSearch.php'; 
+    String url = sver.serverip+'/CAP1_mobile/searchvaccine.php'; 
     final response =
       await http.post(Uri.parse(url),);
     print(response.body);

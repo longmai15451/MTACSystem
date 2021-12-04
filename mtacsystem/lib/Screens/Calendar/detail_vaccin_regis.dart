@@ -55,7 +55,7 @@ class _Detail extends State<Detail> {
                     children: <Widget>[
                       Row(
                         children: [
-                          Text('Họ Tên: ${data!=null?data['full_name']:""}'),
+                          Text('Họ Tên: ${data!=null?data['fullname']:""}'),
                         ],
                       ),
                       Row(

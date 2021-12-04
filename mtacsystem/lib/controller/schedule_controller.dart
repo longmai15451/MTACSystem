@@ -34,7 +34,7 @@ class ScheduleController extends GetxController{
   }
 
   Future <List<Schedule>> fetchTestData(String idCard, String registerDate) async {
-    String url = 'http://192.168.1.101/CAP1_mobile/test_schedule.php'; 
+    String url = sver.serverip+'/CAP1_mobile/test_schedule.php'; 
     final response =
       await http.post(Uri.parse(url),body: 
         {
