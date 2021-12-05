@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Anamnesis_update` (IN `id` INT(10), IN `idcard` VARCHAR(12) CHARSET utf8, IN `a1` BIT(1), IN `a2` BIT(1), IN `a3` BIT(1), IN `a4` BIT(1), IN `a5` BIT(1), IN `a6` BIT(1), IN `a7` BIT(1), IN `a8` BIT(1), IN `a9` BIT(1), IN `a10` BIT(1))  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `Anamnesis_update` (IN `id` INT(10), IN `idcard` VARCHAR(12) CHARSET utf8, IN `a1` BIT(1), IN `a2` BIT(1), IN `a3` BIT(1), IN `a4` BIT(1), IN `a5` BIT(1), IN `a6` BIT(1), IN `a7` BIT(1), IN `a8` BIT(1), IN `a9` BIT(1), IN `a10` BIT(1))  NO SQL
 BEGIN
 set id = (SELECT anamnesisID from patients WHERE id_card = idcard);
 if (id = 0) THEN
@@ -41,31 +41,31 @@ UPDATE anamnesis set anamnesis1 = a1, anamnesis2 = a2, anamnesis3 = a3, anamnesi
 end if;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkAvailibleTestRegis` (IN `id_hos` INT(255))  select * from time_web_moblie WHERE time_web_moblie.id_hos = id_hos and type = 1$$
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `checkAvailibleTestRegis` (IN `id_hos` INT(255))  select * from time_web_moblie WHERE time_web_moblie.id_hos = id_hos and type = 1$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `checkAvailibleVacRegis` (IN `id_hos` INT(11))  select * from time_web_moblie WHERE time_web_moblie.id_hos = id_hos and type = 0$$
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `checkAvailibleVacRegis` (IN `id_hos` INT(11))  select * from time_web_moblie WHERE time_web_moblie.id_hos = id_hos and type = 0$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `disease_data` ()  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `disease_data` ()  NO SQL
 SELECT * from diseases$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_patients_data` (IN `phone` CHAR(255) CHARSET utf8, IN `pass` VARCHAR(255) CHARSET utf8)  READS SQL DATA
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `Get_patients_data` (IN `phone` CHAR(255) CHARSET utf8, IN `pass` VARCHAR(255) CHARSET utf8)  READS SQL DATA
 SELECT patients.*, anamnesis.anamnesis1,anamnesis.anamnesis2,anamnesis.anamnesis3,anamnesis.anamnesis4,anamnesis.anamnesis5,anamnesis.anamnesis6,anamnesis.anamnesis7,anamnesis.anamnesis8,anamnesis.anamnesis9,anamnesis.anamnesis10
 FROM patients, anamnesis
 WHERE anamnesis.anamnesisID=patients.anamnesisID and patients.phone like phone and patients.password like pass$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `hospital_data` ()  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `hospital_data` ()  NO SQL
 SELECT h.id, h.name, h.phone, h.address from hospitals as h$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Searchvaccine` ()  select v.id,v.name,v.country,v.description, v.age_use_from,v.age_use_to,d.name as `disease_name`, d.symptom from vaccines as v, diseases as d WHERE d.id = v.id_disease$$
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `Searchvaccine` ()  select v.id,v.name,v.country,v.description, v.age_use_from,v.age_use_to,d.name as `disease_name`, d.symptom from vaccines as v, diseases as d WHERE d.id = v.id_disease$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `testhistory` (IN `id_card` VARCHAR(12) CHARSET utf8)  SELECT tp.id as `regisID`,'Lịch xét nghiệm' as `title`,'Địa chỉ xét nghiệm: ' as `note`,h.address as `address`, tp.date as `registerDate`, tp.registerTime, '0' as `type` from test_patient as tp, hospitals as h WHERE h.id = tp.id_hos and tp.id_card = idCard and tp.wait_at = '1'$$
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `testhistory` (IN `id_card` VARCHAR(12) CHARSET utf8)  SELECT tp.id as `regisID`,'Lịch xét nghiệm' as `title`,'Địa chỉ xét nghiệm: ' as `note`,h.address as `address`, tp.date as `registerDate`, tp.registerTime, '0' as `type` from test_patient as tp, hospitals as h WHERE h.id = tp.id_hos and tp.id_card = idCard and tp.wait_at = '1'$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `testRegisInfo` (IN `regisID` INT(12))  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `testRegisInfo` (IN `regisID` INT(12))  NO SQL
 SELECT p.fullname, p.phone, p.id_card, h.name as `hos_name`, tp.date as `registerDate`, tp.registerTime, h.address as `hos_address`
 FROM patients as p, hospitals as h, test_patient as tp
 WHERE p.id_card = tp.id_card and h.id = tp.id_hos and  tp.id = regisID$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `test_register` (IN `id_card` VARCHAR(12) CHARSET utf8, IN `id_hosp` INT(11), IN `registerDate` DATE, IN `registerTimed` TIME(6), IN `startTime` TIME(6), IN `endTime` TIME(6))  MODIFIES SQL DATA
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `test_register` (IN `id_card` VARCHAR(12) CHARSET utf8, IN `id_hosp` INT(11), IN `registerDate` DATE, IN `registerTimed` TIME(6), IN `startTime` TIME(6), IN `endTime` TIME(6))  MODIFIES SQL DATA
 BEGIN
 Set @count = (SELECT Count(*) from test_patient WHERE test_patient.id_hos = id_hosp and test_patient.date = registerDate and test_patient.wait_at = 0);
 if registerTimed < startTime and registerDate = CURRENT_DATE() THEN
@@ -118,18 +118,18 @@ end if;
 SELECT  registerDate, registerTimed,h.address as `address` from hospitals as h WHERE h.id = id_hosp;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `test_regis_schedule` (IN `idCard` VARCHAR(12) CHARSET utf8, IN `registerDate` DATE)  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `test_regis_schedule` (IN `idCard` VARCHAR(12) CHARSET utf8, IN `registerDate` DATE)  NO SQL
 SELECT tp.id as `regisID`,'Lịch xét nghiệm' as `title`,'Địa chỉ xét nghiệm: ' as `note`,h.address as `address`, tp.date as `registerDate`, tp.registerTime, '0' as `type` from test_patient as tp, hospitals as h WHERE h.id = tp.id_hos and tp.id_card = idCard and tp.date = registerDate and tp.wait_at = '0'$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `vaccineHistory` (IN `id_card` VARCHAR(12) CHARSET utf8)  SELECT vp.id as `regisID`,'Lịch tiêm vaccine' as `title`,'Địa chỉ tiêm: ' as `note`,h.address as `address`, vp.date as `registerDate`, vp.registerTime, '1' as `type` from vaccine_patients as vp, hospitals as h WHERE h.id = vp.id_hos and vp.id_card = idCard and vp.done_inject = '1'$$
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `vaccineHistory` (IN `id_card` VARCHAR(12) CHARSET utf8)  SELECT vp.id as `regisID`,'Lịch tiêm vaccine' as `title`,'Địa chỉ tiêm: ' as `note`,h.address as `address`, vp.date as `registerDate`, vp.registerTime, '1' as `type` from vaccine_patients as vp, hospitals as h WHERE h.id = vp.id_hos and vp.id_card = idCard and vp.done_inject = '1'$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `vaccine_data` (IN `id_disease` INT(12))  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `vaccine_data` (IN `id_disease` INT(12))  NO SQL
 SELECT v.id, v.name, v.country, v.description, v.age_use_from, v.age_use_to from vaccines as v where v.id_disease = id_disease$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `vaccine_regis_schedule` (IN `idCard` VARCHAR(12) CHARSET utf8, IN `registerDate` DATE)  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `vaccine_regis_schedule` (IN `idCard` VARCHAR(12) CHARSET utf8, IN `registerDate` DATE)  NO SQL
 SELECT vp.id as `regisID`,'Lịch tiêm vaccine' as `title`,'Địa chỉ tiêm: ' as `note`,h.address as `address`, vp.date as `registerDate`, vp.registerTime, '1' as `type` from vaccine_patients as vp, hospitals as h WHERE h.id = vp.id_hos and vp.id_card = idCard and vp.date = registerDate and vp.done_inject = '0'$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Vacc_register` (IN `id_card` VARCHAR(12) CHARSET utf8, IN `id_hosp` INT(11), IN `id_vac` INT(11), IN `registerDate` DATE, IN `registerTimed` TIME(6), IN `startTime` TIME(6), IN `endTime` TIME(6))  MODIFIES SQL DATA
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `Vacc_register` (IN `id_card` VARCHAR(12) CHARSET utf8, IN `id_hosp` INT(11), IN `id_vac` INT(11), IN `registerDate` DATE, IN `registerTimed` TIME(6), IN `startTime` TIME(6), IN `endTime` TIME(6))  MODIFIES SQL DATA
 BEGIN
 set @count = (SELECT COUNT(*) FROM vaccine_patients WHERE vaccine_patients.done_inject = '0' and vaccine_patients.date = registerDate and registerTime BETWEEN startTime AND endTime and id_hos = id_hosp);
 if registerTimed < startTime and registerDate = CURRENT_DATE() THEN
@@ -182,10 +182,10 @@ end if;
 SELECT  registerDate, registerTimed,h.address as `address` from hospitals as h WHERE h.id = id_hosp;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `vacDetail` ()  NO SQL
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `vacDetail` ()  NO SQL
 SELECT v.*,d.name,d.symptom from vaccines as v, diseases as d WHERE d.id = v.id_disease$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `vacResgisInfo` (IN `regisID` INT(255))  READS SQL DATA
+CREATE DEFINER=`id17989172_root`@`%` PROCEDURE `vacResgisInfo` (IN `regisID` INT(255))  READS SQL DATA
 SELECT p.fullname, p.phone, p.id_card, h.name as `hos_name`, v.name as `vaccine_name`, vp.date as `registerDate`, vp.registerTime, h.address as `hos_address`
 FROM patients as p, hospitals as h, vaccine_patients as vp, vaccines as v
 WHERE p.id_card = vp.id_card and h.id = vp.id_hos and v.id = vp.id_vac and vp.id = regisID$$
