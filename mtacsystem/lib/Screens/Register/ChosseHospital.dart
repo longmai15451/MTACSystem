@@ -102,7 +102,7 @@ class _ChosseHospital extends State<ChosseHospital> {
         int.parse(data['registerDate'].toString().split("-")[1]),
         int.parse(data['registerDate'].toString().split("-")[2]),
         int.parse(data['registerTimed'].toString().split(":")[0]),
-        int.parse(data['registerTimed'].toString().split(":")[1]) - (durationSeconds / 60),
+        int.parse(data['registerTimed'].toString().split(":")[1]),
         'Lịch hẹn tiêm vaccine',
         'bạn có lịch hẹn tiêm vaccine tại địa chỉ: ${data['address']}'       
       );

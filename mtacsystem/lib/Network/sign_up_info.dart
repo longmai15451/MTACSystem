@@ -12,7 +12,7 @@ class SignUpInfo{
     });
     var json = jsonDecode(response.body);
     var result = {
-        "full_name": json['full_name'],
+        "full_name": json['fullname'],
         "phone": json['phone'],
         "id_card": json['id_card'],
         "hos_name": json['hos_name'],
@@ -30,7 +30,7 @@ class SignUpInfo{
     });
     var json = jsonDecode(response.body);
     var result = {
-        "full_name": json['full_name'],
+        "full_name": json['fullname'],
         "phone": json['phone'],
         "id_card": json['id_card'],
         "hos_name": json['hos_name'],

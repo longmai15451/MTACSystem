@@ -80,7 +80,7 @@ class _ChooseTest extends State<ChooseTest>{
         int.parse(registerDate.split("-")[1]),
         int.parse(registerDate.split("-")[2]),
         int.parse(data['registerTimed'].toString().split(":")[0]),
-        int.parse(data['registerTimed'].toString().split(":")[1]) - (durationSeconds / 60),
+        int.parse(data['registerTimed'].toString().split(":")[1]),
         'Lịch hẹn xét nghiệm',
         'bạn có lịch hẹn xét nghiệm tại địa chỉ: ${data['address']}'       
       );

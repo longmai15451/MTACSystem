@@ -16,11 +16,11 @@ class SummaryModel {
   late int testsPerOneMillion;
   late int population;
   late String continent;
-  late int oneCasePerPeople;
-  late int oneDeathPerPeople;
-  late int oneTestPerPeople;
-  late double activePerOneMillion;
-  late double recoveredPerOneMillion;
+  late var oneCasePerPeople;
+  late var oneDeathPerPeople;
+  late var oneTestPerPeople;
+  late var activePerOneMillion;
+  late var recoveredPerOneMillion;
   late var criticalPerOneMillion;
 
   SummaryModel(
