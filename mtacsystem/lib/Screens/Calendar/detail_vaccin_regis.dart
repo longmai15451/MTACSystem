@@ -19,14 +19,14 @@ class Detail extends StatefulWidget{
 }
 
 class _Detail extends State<Detail> {
-
+  var direction;
   static int index = -1;
   static var data;
   @override
   initState(){
     super.initState();
     index = Random().nextInt(4);
-      _getData();
+    _getData();
   }
   
   void _getData() async{
@@ -34,6 +34,7 @@ class _Detail extends State<Detail> {
       data = await SignUpInfo().getTestRegisterData(widget.schedule.regisID.toString());
     else
       data = await SignUpInfo().getVacRegisterData(widget.schedule.regisID.toString());
+    direction = await LocationService().getDirection(index);
     setState(() {
     });
   }
@@ -46,7 +47,7 @@ class _Detail extends State<Detail> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SingleChildScrollView(child: MapScreen(height: 225, width: 345, mapindex:index)),
+          SingleChildScrollView(child: MapScreen(height: 225, width: 345, direction: direction)),
           SingleChildScrollView(
               child: ListTile(
                 title: Column(

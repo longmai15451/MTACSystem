@@ -7,10 +7,10 @@ import '../Network/location_service.dart';
 
 
 class MapScreen extends StatefulWidget{
-  final int mapindex;
   final double height;
   final double width;
-  MapScreen({Key? key,required this.mapindex, required this.height, required this.width}) : super(key: key);
+  var direction;
+  MapScreen({Key? key,this.direction, required this.height, required this.width}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -18,7 +18,7 @@ class MapScreen extends StatefulWidget{
 class _MapScreen extends State<MapScreen>{
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(16.069203, 108.193960),
-    zoom: 15.5,
+    zoom: 13,
   );
 
   Set<Polyline> _polylines = Set<Polyline>();
@@ -34,18 +34,17 @@ class _MapScreen extends State<MapScreen>{
   }
 
   void _loadMap() async{
-    var direction = await LocationService().getDirection(widget.mapindex);
     _gotoPlace(
-      direction['start_location']['lat'],
-      direction['start_location']['lng'],
-      direction['end_location']['lat'],
-      direction['end_location']['lng'],
-      direction['bounds_ne'],
-      direction['bounds_sw'],
+      widget.direction['start_location']['lat'],
+      widget.direction['start_location']['lng'],
+      widget.direction['end_location']['lat'],
+      widget.direction['end_location']['lng'],
+      widget.direction['bounds_ne'],
+      widget.direction['bounds_sw'],
     );
-    _setPolyline(direction['polyline_decoded']);
-     distance = direction['distance'];
-      duration = direction['duration'];
+    _setPolyline(widget.direction['polyline_decoded']);
+     distance = widget.direction['distance'];
+      duration = widget.direction['duration'];
     setState((){
      
     });

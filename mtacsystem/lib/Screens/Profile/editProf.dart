@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:mtacsystem/controller/controllerData.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 class EditProfile extends StatefulWidget {
   final AccountProfile accountdata;
@@ -27,10 +28,23 @@ class _EditProfile extends State<EditProfile> {
   @override
   initState(){
     super.initState();
-    _setAnamnesis();
+    _settempData();
   }
 
-  void _setAnamnesis(){
+  void _settempData(){
+    temp.name = new TextEditingController(text: widget.accountdata.fullName);
+    temp.birthdate = new TextEditingController(text: formattedDate.format(_date));
+    temp.phone  = new TextEditingController(text: widget.accountdata.phone);
+    temp.idcard = new TextEditingController(text: widget.accountdata.idCard);
+    temp.email = new TextEditingController(text: widget.accountdata.email);
+    temp.nation = new TextEditingController(text: widget.accountdata.nation);
+    temp.job = new TextEditingController(text: widget.accountdata.job);
+    temp.healthCard = new TextEditingController(text: widget.accountdata.healthCard);
+    temp.city = new TextEditingController(text: widget.accountdata.city);
+    temp.district = new TextEditingController(text: widget.accountdata.district);
+    temp.ward = new TextEditingController(text: widget.accountdata.ward);
+    temp.address = new TextEditingController(text: widget.accountdata.address);
+    temp.country = new TextEditingController(text: widget.accountdata.country);
     temp.anamnesis[0] = new TextEditingController(text: widget.accountdata.anamnesis1);
     temp.anamnesis[1] = new TextEditingController(text: widget.accountdata.anamnesis2);
     temp.anamnesis[2] = new TextEditingController(text: widget.accountdata.anamnesis3);
@@ -108,7 +122,7 @@ class _EditProfile extends State<EditProfile> {
   }
 
   Future<void> updateProfile() async{
-    var url="http://mtac1.000webhostapp.com/CAP1_mobile/UpdateProfile.php";
+    var url=sver.serverip+"/CAP1_mobile/UpdateProfile.php";
     var response = await http.post(Uri.parse(url),body: {
       "old_id_card" : widget.accountdata.idCard.toString(),
       "full_name" : temp.name.text,
@@ -136,7 +150,7 @@ class _EditProfile extends State<EditProfile> {
   }
 
   Future<void> updateAnamnesis() async {
-    var url="http://mtac1.000webhostapp.com/CAP1_mobile/UpdateAnamnesis.php";
+    var url=sver.serverip+"/CAP1_mobile/UpdateAnamnesis.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card" : widget.accountdata.idCard.toString(),
       "anamnesis1" : temp.anamnesis[0].text,
@@ -234,7 +248,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
-                                  controller: temp.name = new TextEditingController(text: widget.accountdata.fullName),
+                                  controller: temp.name,
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -291,7 +305,7 @@ class _EditProfile extends State<EditProfile> {
                                             left: 20, right: 10),
                                         child: Container(
                                           child: TextField(
-                                            controller: temp.birthdate = new TextEditingController(text: formattedDate.format(_date)),
+                                            controller: temp.birthdate,
                                             onTap: () {
                                               setState(() {
                                                 _selectDate(context);
@@ -334,7 +348,8 @@ class _EditProfile extends State<EditProfile> {
                                                   value: gd = getGender(widget.accountdata),
                                                   isDense: true,
                                                   onChanged: (String? newValue) {
-                                                    temp.gender = new TextEditingController(text: newValue=='Nam'?'male':'female',);
+                                                    temp.gender.text = newValue=='Nam'?'male':'female';
+                                                    print(temp.gender.text);
                                                     setState(() {
                                                       gd = newValue!;
                                                     });
@@ -375,7 +390,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
-                                  controller: temp.phone  = new TextEditingController(text: widget.accountdata.phone),
+                                  controller: temp.phone,
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -407,7 +422,7 @@ class _EditProfile extends State<EditProfile> {
                                 margin: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 5),
                                 child: TextField(
-                                  controller: temp.idcard = new TextEditingController(text: widget.accountdata.idCard),
+                                  controller: temp.idcard,
                                   keyboardType: TextInputType.text,
                                   style: TextStyle(fontSize: 15),
                                   // initialValue: 'Input text',
@@ -437,7 +452,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.email = new TextEditingController(text: widget.accountdata.email),
+                                      controller: temp.email,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -473,7 +488,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.nation = new TextEditingController(text: widget.accountdata.nation),
+                                      controller: temp.nation,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -509,7 +524,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.job = new TextEditingController(text: widget.accountdata.job),
+                                      controller: temp.job,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -545,7 +560,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.healthCard = new TextEditingController(text: widget.accountdata.healthCard),
+                                      controller: temp.healthCard,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -581,7 +596,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.city = new TextEditingController(text: widget.accountdata.city),
+                                      controller: temp.city,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -617,7 +632,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.district = new TextEditingController(text: widget.accountdata.district),
+                                      controller: temp.district,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -653,7 +668,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.ward = new TextEditingController(text: widget.accountdata.ward),
+                                      controller: temp.ward,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -689,7 +704,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.address = new TextEditingController(text: widget.accountdata.address),
+                                      controller: temp.address,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',
@@ -725,7 +740,7 @@ class _EditProfile extends State<EditProfile> {
                                     margin: EdgeInsets.symmetric(
                                         horizontal: 20, vertical: 5),
                                     child: TextField(
-                                      controller: temp.country = new TextEditingController(text: widget.accountdata.country),
+                                      controller: temp.country,
                                       keyboardType: TextInputType.text,
                                       style: TextStyle(fontSize: 15),
                                       // initialValue: 'Input text',

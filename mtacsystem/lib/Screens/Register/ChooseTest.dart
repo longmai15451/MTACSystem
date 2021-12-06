@@ -30,6 +30,7 @@ class _ChooseTest extends State<ChooseTest>{
   late bool check2;
   late Future<List<Hospital>> hosData;
   var notify;
+  var direction;
   static int mindex=1;
   late List<bool> select = new List.filled(6, false ,growable:false);
   String? distance, duration;
@@ -143,7 +144,7 @@ class _ChooseTest extends State<ChooseTest>{
                         onPressed: () async {
                             index = i;
                             mindex = i;
-                            var direction = await LocationService().getDirection(i+1);
+                            direction = await LocationService().getDirection(i);
                             setState((){
                               regisdata.hos.text = '${data[index].hosName}';
                               regisdata.idHos = data[i].idHos.toString();
@@ -201,7 +202,7 @@ class _ChooseTest extends State<ChooseTest>{
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-            MapScreen(mapindex: mindex,height: 180, width: 345),
+            MapScreen(direction: direction,height: 180, width: 345),
             Container(
               child: TextField(
                 controller: regisdata.hos,
