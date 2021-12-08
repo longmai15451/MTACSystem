@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
-import 'package:mtacsystem/Components/mapScreen.dart';
 import 'package:mtacsystem/Network/location_service.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
 import 'package:mtacsystem/controller/hospital_controller.dart';
@@ -25,15 +27,24 @@ class ChooseTest extends StatefulWidget {
   State<ChooseTest> createState() => _ChooseTest();
 }
 class _ChooseTest extends State<ChooseTest>{
+  static const _initialCameraPosition = CameraPosition(
+    target: LatLng(16.069203, 108.193960),
+    zoom: 13,
+  );
+  
+  Set<Polyline> _polylines = Set<Polyline>();
+  Set<Marker> _markers = Set<Marker>();
+  Completer<GoogleMapController> _controller = Completer();
+  int _polylineIdCounter = 1;
+  int markerId = 1;
+  String? distance, duration;
   TestRegister regisdata = new TestRegister();
   late bool check1;
   late bool check2;
   late Future<List<Hospital>> hosData;
   var notify;
   var direction;
-  static int mindex=1;
   late List<bool> select = new List.filled(6, false ,growable:false);
-  String? distance, duration;
   int durationSeconds = 2100;
 
   @override
@@ -41,6 +52,73 @@ class _ChooseTest extends State<ChooseTest>{
     _getHos();    
     notify = NotifyHelper();
     super.initState();
+    _loadMap();
+  }
+
+  Future<void> _gotoPlace(
+    double orlat, 
+    double orlng, 
+    double desLat, 
+    double desLng,
+    Map<String, dynamic> boundsNe,
+    Map<String, dynamic> boundsSw,
+  ) async{
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newLatLngBounds(
+      LatLngBounds(
+        southwest: LatLng(boundsSw['lat'], boundsSw['lng']), 
+        northeast: LatLng(boundsNe['lat'], boundsNe['lng']),
+      ),
+      25,
+    ));
+    _setMarker(LatLng(orlat,orlng));
+    _setMarker(LatLng(desLat,desLng));
+    
+  }
+  void _setMarker(LatLng point) {
+    setState((){
+      if(markerId>=3)
+        markerId=1;
+      final String markerIdVal = 'marker_$markerId';
+      markerId++;
+      _markers.add(Marker(
+        markerId: MarkerId(markerIdVal),
+        icon: BitmapDescriptor.defaultMarker,
+        position: point,
+      ));
+    });
+  }
+
+  void _setPolyline(List<PointLatLng> points) {
+    if(_polylineIdCounter>=2)
+        _polylineIdCounter=1;
+    final String polylineIdVal = 'polyline_$_polylineIdCounter';
+    _polylineIdCounter++;
+    _polylines.add(
+      Polyline(
+        polylineId: PolylineId(polylineIdVal),
+        width: 3,
+        color: Colors.blue,
+        points: points.map((point) => LatLng(point.latitude ,point.longitude )).toList(),
+      )
+    );
+  }
+
+  void _loadMap() async{
+    _gotoPlace(
+      direction['start_location']['lat'],
+      direction['start_location']['lng'],
+      direction['end_location']['lat'],
+      direction['end_location']['lng'],
+      direction['bounds_ne'],
+      direction['bounds_sw'],
+    );
+    _setPolyline(direction['polyline_decoded']);
+     distance = direction['distance'];
+      duration = direction['duration'];
+    setState((){
+     
+    });
   }
 
   void _getHos() async{
@@ -143,16 +221,14 @@ class _ChooseTest extends State<ChooseTest>{
                       TextButton(
                         onPressed: () async {
                             index = i;
-                            mindex = i;
                             direction = await LocationService().getDirection(i);
-                            setState((){
-                              regisdata.hos.text = '${data[index].hosName}';
+                            regisdata.hos.text = '${data[index].hosName}';
                               regisdata.idHos = data[i].idHos.toString();
                               distance = direction['distance'];
                               duration = direction['duration'];
                               _getSeconds(direction);
-                              Get.back();
-                            });
+                             _loadMap();
+                               Get.back(result: direction);
                           },
                         child: ListTile(
                           title: Text('${data[i].hosName}'),
@@ -202,7 +278,56 @@ class _ChooseTest extends State<ChooseTest>{
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-            MapScreen(direction: direction,height: 180, width: 345),
+           Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 180,
+                    width: 345,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        GoogleMap(
+                          initialCameraPosition: _initialCameraPosition,
+                          myLocationButtonEnabled: false,
+                          markers: _markers,
+                          polylines: _polylines,
+                          onMapCreated: (GoogleMapController controller){
+                            _controller.complete(controller);
+                          },
+                        ),
+                          Positioned(
+                            top: 10.0,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 6.0,
+                                horizontal: 12.0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.yellowAccent,
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0, 2),
+                                    blurRadius: 6.0,
+                                  )
+                                ]
+                              ),
+                              child: Text(
+                                distance!=null&&duration!=null?
+                                '$distance, $duration':'',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        
+                      ],
+                    ),
+                  ),
+                ),
             Container(
               child: TextField(
                 controller: regisdata.hos,

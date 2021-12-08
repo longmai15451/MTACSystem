@@ -5,6 +5,8 @@ class Vaccine{
   String? description;
   var ageUseFrom;
   var ageUseTo;
+  var diseaseName;
+  var symptom;
 
   Vaccine({
     this.idVac,
@@ -13,6 +15,8 @@ class Vaccine{
     this.description,
     this.ageUseFrom,
     this.ageUseTo,
+    this.diseaseName,
+    this.symptom,
   });
 
   Vaccine.fromJson(Map<String, dynamic> json){
@@ -22,6 +26,8 @@ class Vaccine{
     description = json['description'];
     ageUseFrom = json['age_use_from'];
     ageUseTo = json['age_use_to'];
+    diseaseName = json['disease_name'];
+    symptom = json['symptom'];
   }
 
   Map<String, dynamic> toJson(){
@@ -31,6 +37,8 @@ class Vaccine{
     data['description'] = this.description;
     data['age_use_from'] = this.ageUseFrom;
     data['age_use_to'] = this.ageUseTo;
+    data['disease_name'] = this.diseaseName;
+    data['symptom'] = this.symptom;
     return data;
   }
 }
