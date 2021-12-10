@@ -7,10 +7,10 @@ import '../Network/location_service.dart';
 
 
 class MapScreen extends StatefulWidget{
+   final int mapindex;
   final double height;
   final double width;
-  var direction;
-  MapScreen({Key? key,this.direction, required this.height, required this.width}) : super(key: key);
+  MapScreen({Key? key,required this.mapindex, required this.height, required this.width}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -34,17 +34,18 @@ class _MapScreen extends State<MapScreen>{
   }
 
   void _loadMap() async{
+    var direction = await LocationService().getDirection(widget.mapindex);
     _gotoPlace(
-      widget.direction['start_location']['lat'],
-      widget.direction['start_location']['lng'],
-      widget.direction['end_location']['lat'],
-      widget.direction['end_location']['lng'],
-      widget.direction['bounds_ne'],
-      widget.direction['bounds_sw'],
+      direction['start_location']['lat'],
+      direction['start_location']['lng'],
+      direction['end_location']['lat'],
+      direction['end_location']['lng'],
+      direction['bounds_ne'],
+      direction['bounds_sw'],
     );
-    _setPolyline(widget.direction['polyline_decoded']);
-     distance = widget.direction['distance'];
-      duration = widget.direction['duration'];
+    _setPolyline(direction['polyline_decoded']);
+     distance = direction['distance'];
+      duration = direction['duration'];
     setState((){
      
     });

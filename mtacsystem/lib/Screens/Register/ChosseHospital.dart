@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -38,7 +40,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     target: LatLng(16.069203, 108.193960),
     zoom: 13,
   );
-  List<bool> availableCheck = List.filled(5, false,growable: true);
+  List<bool> availableCheck = List.filled(6, false,growable: true);
   var limitdata;
   Set<Polyline> _polylines = Set<Polyline>();
   Set<Marker> _markers = Set<Marker>();
@@ -66,6 +68,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     super.initState();
     selectDisease = false;
      _loadMap();
+     
   }
 
   Future<void> _gotoPlace(
@@ -137,9 +140,10 @@ class _ChosseHospital extends State<ChosseHospital> {
   void _getVaccineAndHos() async{
     hosData = HospitalController().fetchData();
     diseaseData = DiseaseController().fetchData();
+    regisdata.registerDate = new TextEditingController(text: DateFormat("yyy-MM-dd").format(DateTime.now()));
+    print(regisdata.registerDate.text);
     setState((){
        check1 = check2 = false;
-        regisdata.registerDate = new TextEditingController(text: DateFormat("dd-MM-yyy").format(DateTime.now()));
     });
   }
 
@@ -176,6 +180,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     });
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
+      print(data['registerTimed'].toString());
       await notify.scheduledNotification(
         int.parse(data['registerDate'].toString().split("-")[1]),
         int.parse(data['registerDate'].toString().split("-")[2]),
@@ -254,6 +259,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                       TextButton(
                         onPressed: () async {
                             index = i;
+                            
                             await _dataProcessing(i, data, index);
                             Navigator.pop(context);
                           },
@@ -277,7 +283,8 @@ class _ChosseHospital extends State<ChosseHospital> {
   }
 
   Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
-     direction = await LocationService().getDirection(1);
+    int l = Random().nextInt(4);
+     direction = await LocationService().getDirection(l);
      regisdata.hos.text = '${data[index].hosName}';
        regisdata.idHos = data[i].idHos.toString();
        distance = direction['distance'];
@@ -287,6 +294,7 @@ class _ChosseHospital extends State<ChosseHospital> {
    }
 
    Future<void> _limitProcessing() async {
+     print( regisdata.registerDate.text);
      limitdata = await LimitController().getLimitData(
        regisdata.idHos.toString(),
        regisdata.registerDate.text,
@@ -610,6 +618,8 @@ class _ChosseHospital extends State<ChosseHospital> {
                       timeSelected(15,17,select,4,availableCheck[3]),
                       SizedBox(width: 10),
                       timeSelected(17,19,select,5,availableCheck[4]),
+                      SizedBox(width: 10),
+                      timeSelected(20,22,select,2,true),
                       SizedBox(width: 10),
                     ],
                   );

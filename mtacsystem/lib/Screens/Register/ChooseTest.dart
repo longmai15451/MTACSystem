@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mtacsystem/controller/limit_controller.dart';
@@ -125,9 +126,9 @@ class _ChooseTest extends State<ChooseTest>{
 
   void _getHos() async{
     hosData = HospitalController().fetchData();
+    regisdata.registerDate = new TextEditingController(text: DateFormat("yyy-MM-dd").format(DateTime.now()));
     setState((){
        check1 = check2 = false;
-       regisdata.registerDate = new TextEditingController(text: DateFormat("dd-MM-yyy").format(DateTime.now()));
     });
   }
 
@@ -158,6 +159,7 @@ class _ChooseTest extends State<ChooseTest>{
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
       String registerDate = data['registerDate'].toString().split(" ")[0];
+      print(data['registerTimed'].toString());
       await notify.scheduledNotification(
         int.parse(registerDate.split("-")[1]),
         int.parse(registerDate.split("-")[2]),
@@ -265,7 +267,8 @@ class _ChooseTest extends State<ChooseTest>{
   }
 
    Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
-     direction = await LocationService().getDirection(1);
+     int l = Random().nextInt(4);
+     direction = await LocationService().getDirection(l);
      regisdata.hos.text = '${data[index].hosName}';
        regisdata.idHos = data[i].idHos.toString();
        distance = direction['distance'];
@@ -423,6 +426,8 @@ class _ChooseTest extends State<ChooseTest>{
                       timeSelected(15,17,select,4,availableCheck[3]),
                       SizedBox(width: 10),
                       timeSelected(17,19,select,5,availableCheck[4]),
+                      SizedBox(width: 10),
+                      timeSelected(20,22,select,2,true),
                       SizedBox(width: 10),
                     ],
                   );
