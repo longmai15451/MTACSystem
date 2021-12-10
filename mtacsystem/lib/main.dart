@@ -3,7 +3,6 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
 import 'Screens/Home/homeContent.dart';
-import 'Screens/Notify/notifyContent.dart';
 import 'Screens/Calendar/calendarContent.dart';
 import 'Screens/Profile/profile.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
@@ -60,7 +59,6 @@ class HomeScreen extends State<MainScreen>{
   final List<Widget> _bodycontent = [
     HomeContent(accountdata: accountdata,),
     CalendarContent(idCard: accountdata.idCard.toString(),),
-    NotifyContent(),
     Profile(accountdata: accountdata,),
   ];
   late PreferredSizeWidget app;
@@ -76,7 +74,6 @@ class HomeScreen extends State<MainScreen>{
           items: const <Widget>[
             Icon(Icons.home),
             Icon(Icons.calendar_today),
-            Icon(Icons.notifications),
             Icon(Icons.person),
           ],
           onTap: (int index){

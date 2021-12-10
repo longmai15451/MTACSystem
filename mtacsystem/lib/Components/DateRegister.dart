@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 class DateRegister extends StatefulWidget {
   final Function getControllerText;
-
-  const DateRegister({Key? key, required this.getControllerText}) : super(key: key);
+  final Function dateUpdate;
+  const DateRegister({Key? key, required this.getControllerText, required this.dateUpdate}) : super(key: key);
   
   @override
   State<DateRegister> createState() => _DateRegister();
@@ -34,6 +34,7 @@ class _DateRegister extends State<DateRegister> {
         _date = _datePicker;
       });
       widget.getControllerText('${formattedDate.format(_date)}');
+      await widget.dateUpdate();
     }
   }
 

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mtacsystem/Screens/Home/vaccine_his.dart';
 import 'package:mtacsystem/Screens/Profile/editProf.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
@@ -37,6 +38,8 @@ class _HomeContentState extends State<HomeContent> {
       leading: IconButton(
         onPressed: () async {
           await Get.to(EditProfile(accountdata: widget.accountdata,));
+          setState(() {
+          });
         },
         icon: Icon(Icons.person),
         color: Colors.black,
@@ -416,7 +419,7 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
-                              
+                              Get.to(()=>VaccineHis(idCard: widget.accountdata.idCard.toString()));
                             },
                             child: Column(
                               children: <Widget>[

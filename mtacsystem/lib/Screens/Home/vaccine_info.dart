@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:mtacsystem/controller/vaccine_controller.dart';
 import 'package:mtacsystem/models/vaccine.dart';
 
@@ -12,6 +11,7 @@ class VaccineInfo extends StatefulWidget {
 
 class _VaccineInfoState extends State<VaccineInfo> {
   final _vaccineController = VaccineController();
+  bool isExpand = false;
   List<Vaccine> list=[];
   @override
   initState() {
@@ -41,6 +41,40 @@ class _VaccineInfoState extends State<VaccineInfo> {
     });
   }
 
+  alertDialog(Vaccine vaccine){
+    return Container(
+      height: 300,
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Xuất xứ: ${vaccine.country.toString()}"),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Thông tin: ${vaccine.description.toString()}"),
+            ),
+            ExpansionTile(
+              title: Text("Dùng điều trị: ${vaccine.diseaseName.toString()}"),
+              trailing: Icon(Icons.arrow_drop_down),
+              onExpansionChanged: (value){
+                setState((){
+                  isExpand = value;
+                });
+              },
+              children: [
+                  Text("Triệu chứng: ${vaccine.symptom.toString()}"),
+              ]
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Độ tuổi từ ${vaccine.ageUseFrom.toString()} đến ${vaccine.ageUseTo.toString()}"),
+            ),
+          ],
+        )
+    );
+  }
 
 
   @override
@@ -73,7 +107,15 @@ class _VaccineInfoState extends State<VaccineInfo> {
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
                           onTap: (){
-                            
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context){
+                                return AlertDialog(
+                                  title: Text(list[index].vacName.toString()),
+                                  content: alertDialog(list[index]),
+                                );
+                              }
+                            );
                           },
                           leading: Text(
                             list[index].idVac.toString(),

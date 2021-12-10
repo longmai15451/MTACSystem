@@ -9,6 +9,7 @@ import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
 import 'package:mtacsystem/controller/diseases_controller.dart';
 import 'package:mtacsystem/controller/hospital_controller.dart';
+import 'package:mtacsystem/controller/limit_controller.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/controller/vaccine_controller.dart';
 import 'package:mtacsystem/models/account.dart';
@@ -19,7 +20,6 @@ import 'package:mtacsystem/models/vaccine.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
-import '../../Components/mapScreen.dart';
 import '../../main.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 
@@ -38,6 +38,8 @@ class _ChosseHospital extends State<ChosseHospital> {
     target: LatLng(16.069203, 108.193960),
     zoom: 13,
   );
+  List<bool> availableCheck = List.filled(5, false,growable: true);
+  var limitdata;
   Set<Polyline> _polylines = Set<Polyline>();
   Set<Marker> _markers = Set<Marker>();
   Completer<GoogleMapController> _controller = Completer();
@@ -137,7 +139,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     diseaseData = DiseaseController().fetchData();
     setState((){
        check1 = check2 = false;
-       regisdata.registerDate.text = DateFormat("dd-MM-yyy").format(DateTime.now());
+        regisdata.registerDate = new TextEditingController(text: DateFormat("dd-MM-yyy").format(DateTime.now()));
     });
   }
 
@@ -170,6 +172,7 @@ class _ChosseHospital extends State<ChosseHospital> {
       "registerTime": regisdata.registerTime,
       "startTime": regisdata.startTime,
       "endTime": regisdata.endTime,
+      "estimateTime" : durationSeconds.toString(),
     });
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
@@ -191,19 +194,37 @@ class _ChosseHospital extends State<ChosseHospital> {
     }
   }
 
-  timeSelected(int start, int end, List<bool> select, int index){
+  timeSelected(int start, int end, List<bool> select, int index, bool availableCheck){
+    if(DateFormat("yyy-MM-dd").format(DateTime.now()) == regisdata.registerDate.text)
+    {
+      int hour = int.parse(DateFormat('H').format(DateTime.now()));
+      int minus = int.parse(DateFormat('m').format(DateTime.now()));
+      if(hour>=end-1 && minus >=50 || hour>end)
+      {
+        availableCheck = false;
+      }
+    }
     return TextButton(
       onPressed: () { 
-        setState((){
-          select[index] = true;
-          setSelect(index,select);
-          regisdata.startTime = '$start:00:00';
-          regisdata.endTime = '$end:00:00';
-        });
+          setState((){
+            if(availableCheck){
+              select[index] = true;
+              setSelect(index,select);
+              regisdata.startTime = '$start:00:00';
+              regisdata.endTime = '$end:00:00';  
+            }
+            else{
+              toast('Khung giờ hiện đang quá tải!', Colors.red);
+            }
+          });
         },
       child: Text('$start:00 - $end:00',style: TextStyle(fontSize: 14, color: Colors.black)),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(select[index]?Colors.blue.shade300:Colors.blue.shade100),
+        backgroundColor: MaterialStateProperty.all<Color>(
+          !availableCheck?Colors.grey.shade300:
+          select[index]?Colors.blue.shade300:
+          Colors.blue.shade100
+        ),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -233,14 +254,8 @@ class _ChosseHospital extends State<ChosseHospital> {
                       TextButton(
                         onPressed: () async {
                             index = i;
-                            direction = await LocationService().getDirection(i);
-                            regisdata.hos.text = '${data[index].hosName}';
-                              regisdata.idHos = data[i].idHos.toString();
-                              distance = direction['distance'];
-                              duration = direction['duration'];
-                              _getSeconds(direction);
-                             _loadMap();
-                               Get.back(result: direction);
+                            await _dataProcessing(i, data, index);
+                            Navigator.pop(context);
                           },
                         child: ListTile(
                           title: Text('${data[i].hosName}'),
@@ -261,6 +276,47 @@ class _ChosseHospital extends State<ChosseHospital> {
     );
   }
 
+  Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
+     direction = await LocationService().getDirection(1);
+     regisdata.hos.text = '${data[index].hosName}';
+       regisdata.idHos = data[i].idHos.toString();
+       distance = direction['distance'];
+       duration = direction['duration'];
+       await _limitProcessing();
+      _loadMap();
+   }
+
+   Future<void> _limitProcessing() async {
+     limitdata = await LimitController().getLimitData(
+       regisdata.idHos.toString(),
+       regisdata.registerDate.text,
+       "/CAP1_mobile/checkstatushospital_test.php"
+      );
+     _getSeconds(direction);
+     if(int.parse(limitdata['limit']) > 0)
+     {
+       _setAvailible(limitdata,availableCheck);
+     }
+     else{
+       availableCheck.replaceRange(0,5,[false,false,false,false,false]);
+     }
+     setState((){
+
+     });
+   }
+
+  
+  void _setAvailible(limitdata, List<bool> availableCheck) {
+    availableCheck.replaceRange(
+      0, 5, 
+    [
+      limitdata['7-9'],
+      limitdata['9-11'],
+      limitdata['13-15'],
+      limitdata['15-17'],
+      limitdata['17-19']
+    ]);
+  }
 
   Widget vaccineAlertDialogContainer(){
     return Container(
@@ -522,12 +578,12 @@ class _ChosseHospital extends State<ChosseHospital> {
               ),
             ),
             Container(
-              child: DateRegister(getControllerText: _getControllerText),
+              child: DateRegister(getControllerText: _getControllerText, dateUpdate: _limitProcessing),
             ),
             Container(
               child: TextField(
                 readOnly: true,
-                decoration: InputDecoration(
+                decoration: InputDecoration(  
                     border: InputBorder.none,
                     hintText: 'Chọn khung giờ có thể đến',
                     hintStyle: TextStyle(color: Colors.black),
@@ -545,15 +601,15 @@ class _ChosseHospital extends State<ChosseHospital> {
                   return Row(
                     children: [
                       SizedBox(width: 10),
-                      timeSelected(7,9,select,0),
+                      timeSelected(7,9,select,0,availableCheck[0]),
                       SizedBox(width: 10),
-                      timeSelected(9,11,select,1),
+                      timeSelected(9,11,select,1,availableCheck[1]),
                       SizedBox(width: 10),
-                      timeSelected(13,15,select,3),
+                      timeSelected(13,15,select,3,availableCheck[2]),
                       SizedBox(width: 10),
-                      timeSelected(15,17,select,4),
+                      timeSelected(15,17,select,4,availableCheck[3]),
                       SizedBox(width: 10),
-                      timeSelected(17,19,select,5),
+                      timeSelected(17,19,select,5,availableCheck[4]),
                       SizedBox(width: 10),
                     ],
                   );

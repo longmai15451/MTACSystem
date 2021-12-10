@@ -67,6 +67,7 @@ class _EditProfile extends State<EditProfile> {
     if(_datePicker != null && _datePicker != _date){
       setState(() {
         _date = _datePicker;
+        
       });
     }
   }
@@ -305,7 +306,7 @@ class _EditProfile extends State<EditProfile> {
                                             left: 20, right: 10),
                                         child: Container(
                                           child: TextField(
-                                            controller: temp.birthdate,
+                                            controller: temp.birthdate = new TextEditingController(text: formattedDate.format(_date)),
                                             onTap: () {
                                               setState(() {
                                                 _selectDate(context);

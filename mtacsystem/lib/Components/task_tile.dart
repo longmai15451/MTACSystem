@@ -70,7 +70,7 @@ class TaskTile extends StatelessWidget {
           RotatedBox(
             quarterTurns: 3,
             child: Text(
-              "TODO",
+              schedule!.type == null?"COMPLETED":"TODO",
               style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
