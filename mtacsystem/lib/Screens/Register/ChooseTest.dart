@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mtacsystem/Components/process_method.dart';
 import 'package:mtacsystem/controller/limit_controller.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:flutter/material.dart';
@@ -22,8 +22,10 @@ import '../../main.dart';
 
 class ChooseTest extends StatefulWidget {
   final AccountProfile accountdata;
+  final String userlocation;
   const ChooseTest({
     required this.accountdata,
+    required this.userlocation,
   });
   @override
   State<ChooseTest> createState() => _ChooseTest();
@@ -34,7 +36,7 @@ class _ChooseTest extends State<ChooseTest>{
     zoom: 13,
   );
   var limitdata;
-  List<bool> availableCheck = List.filled(5, false,growable: true);
+  List<bool> availableCheck = List.filled(6, false,growable: true);
   Set<Polyline> _polylines = Set<Polyline>();
   Set<Marker> _markers = Set<Marker>();
   Completer<GoogleMapController> _controller = Completer();
@@ -158,19 +160,17 @@ class _ChooseTest extends State<ChooseTest>{
     });
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
-      String registerDate = data['registerDate'].toString().split(" ")[0];
-      print(data['registerTimed'].toString());
       await notify.scheduledNotification(
-        int.parse(registerDate.split("-")[1]),
-        int.parse(registerDate.split("-")[2]),
-        int.parse(data['registerTimed'].toString().split(":")[0]),
-        int.parse(data['registerTimed'].toString().split(":")[1]),
+        12,//int.parse(data['registerDate'].toString().split("-")[1]),
+        21,//int.parse(data['registerDate'].toString().split("-")[2]),
+        18,//int.parse(data['expected'].toString().split(":")[0]),
+        12,//int.parse(data['expected'].toString().split(":")[1]),
         'Lịch hẹn xét nghiệm',
         'bạn có lịch hẹn xét nghiệm tại địa chỉ: ${data['address']}'       
       );
       toast('Đăng ký thành công', Colors.green);
       setState((){
-        Get.offAll(MainScreen());
+        Get.offAll(MainScreen(address: widget.userlocation,));
       });
     }
     else{
@@ -223,7 +223,7 @@ class _ChooseTest extends State<ChooseTest>{
       regisdata.registerDate.text = text;
     });
   }
-
+  
    Widget hospitalAlertDialogContainer(){
     return Container(
       height: 300,
@@ -267,8 +267,7 @@ class _ChooseTest extends State<ChooseTest>{
   }
 
    Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
-     int l = Random().nextInt(4);
-     direction = await LocationService().getDirection(l);
+     direction = await LocationService().getDirection(widget.userlocation,data[i].hosAddress.toString());
      regisdata.hos.text = '${data[index].hosName}';
        regisdata.idHos = data[i].idHos.toString();
        distance = direction['distance'];
@@ -284,13 +283,7 @@ class _ChooseTest extends State<ChooseTest>{
        "/CAP1_mobile/checkstatushospital_test.php"
       );
      _getSeconds(direction);
-     if(int.parse(limitdata['limit']) > 0)
-     {
-       _setAvailible(limitdata,availableCheck);
-     }
-     else{
-       availableCheck.replaceRange(0,5,[false,false,false,false,false]);
-     }
+      ProcessingMethod().setAvailible(limitdata,availableCheck);
      setState((){
 
      });
@@ -421,13 +414,13 @@ class _ChooseTest extends State<ChooseTest>{
                       SizedBox(width: 10),
                       timeSelected(9,11,select,1,availableCheck[1]),
                       SizedBox(width: 10),
-                      timeSelected(13,15,select,3,availableCheck[2]),
+                      timeSelected(13,15,select,2,availableCheck[2]),
                       SizedBox(width: 10),
-                      timeSelected(15,17,select,4,availableCheck[3]),
+                      timeSelected(15,17,select,3,availableCheck[3]),
                       SizedBox(width: 10),
-                      timeSelected(17,19,select,5,availableCheck[4]),
+                      timeSelected(17,19,select,4,availableCheck[4]),
                       SizedBox(width: 10),
-                      timeSelected(20,22,select,2,true),
+                      timeSelected(19,21,select,5,availableCheck[5]),
                       SizedBox(width: 10),
                     ],
                   );
@@ -528,17 +521,5 @@ class _ChooseTest extends State<ChooseTest>{
         )
       ),
     );
-  }
-
-  void _setAvailible(limitdata, List<bool> availableCheck) {
-    availableCheck.replaceRange(
-      0, 5, 
-    [
-      limitdata['7-9'],
-      limitdata['9-11'],
-      limitdata['13-15'],
-      limitdata['15-17'],
-      limitdata['17-19']
-    ]);
   }
 }

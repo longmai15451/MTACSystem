@@ -61,7 +61,9 @@ class ScheduleController extends GetxController{
     scheduleList.clear();
     scheduleList.addAll(scheduleVac);
     scheduleList.addAll(scheduleTest);
-    
+    scheduleList.sort((a, b) {
+      return a.registerTime.toString().compareTo(b.registerTime.toString());
+    });    
   }
 
 }

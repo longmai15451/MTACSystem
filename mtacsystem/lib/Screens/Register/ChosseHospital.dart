@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,23 +11,24 @@ import 'package:mtacsystem/controller/diseases_controller.dart';
 import 'package:mtacsystem/controller/hospital_controller.dart';
 import 'package:mtacsystem/controller/limit_controller.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
-import 'package:mtacsystem/controller/vaccine_controller.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:http/http.dart' as http;
 import 'package:mtacsystem/models/diseases.dart';
 import 'package:mtacsystem/models/hospital.dart';
-import 'package:mtacsystem/models/vaccine.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
 import '../../main.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
+import 'package:mtacsystem/Components/process_method.dart';
 
 
 class ChosseHospital extends StatefulWidget {
   final AccountProfile accountdata;
+  final String userlocation;
   const ChosseHospital({
     required this.accountdata,
+    required this.userlocation,
   });
   @override
   State<ChosseHospital> createState() => _ChosseHospital();
@@ -51,7 +50,6 @@ class _ChosseHospital extends State<ChosseHospital> {
   VacRegister regisdata = new VacRegister();
   late bool check1;
   late bool check2;
-  late Future<List<Vaccine>> vacData;
   late Future<List<Hospital>> hosData;
   late Future<List<Diseases>> diseaseData;
   late bool selectDisease;
@@ -166,12 +164,11 @@ class _ChosseHospital extends State<ChosseHospital> {
     }
 
   Future signup() async {
-    print(regisdata.endTime);
     var url=sver.serverip+"/CAP1_mobile/vaccination_register.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card": widget.accountdata.idCard.toString(),
       "id_hos" : regisdata.idHos.toString(),
-      "id_vac" : regisdata.idVac.toString(),
+      "id_dis" : regisdata.idDes.toString(),
       "registerDate": regisdata.registerDate.text,
       "registerTime": regisdata.registerTime,
       "startTime": regisdata.startTime,
@@ -180,18 +177,18 @@ class _ChosseHospital extends State<ChosseHospital> {
     });
     var data = json.decode(response.body);
     if(data != "Faild" && data != null){
-      print(data['registerTimed'].toString());
+      await notify.showNotification();
       await notify.scheduledNotification(
         int.parse(data['registerDate'].toString().split("-")[1]),
         int.parse(data['registerDate'].toString().split("-")[2]),
-        int.parse(data['registerTimed'].toString().split(":")[0]),
-        int.parse(data['registerTimed'].toString().split(":")[1]),
+        int.parse(data['expected'].toString().split(":")[0]),
+        int.parse(data['expected'].toString().split(":")[1]),
         'Lịch hẹn tiêm vaccine',
         'bạn có lịch hẹn tiêm vaccine tại địa chỉ: ${data['address']}'       
       );
       toast('Đăng ký thành công', Colors.green);
       setState((){
-        Get.offAll(MainScreen());
+        Get.offAll(MainScreen(address: widget.userlocation,));
       });
     }
     else{
@@ -214,9 +211,9 @@ class _ChosseHospital extends State<ChosseHospital> {
           setState((){
             if(availableCheck){
               select[index] = true;
-              setSelect(index,select);
-              regisdata.startTime = '$start:00:00';
-              regisdata.endTime = '$end:00:00';  
+              ProcessingMethod().setSelect(index,select);
+              regisdata.startTime = '$start:00';
+              regisdata.endTime = '$end:00';  
             }
             else{
               toast('Khung giờ hiện đang quá tải!', Colors.red);
@@ -283,8 +280,7 @@ class _ChosseHospital extends State<ChosseHospital> {
   }
 
   Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
-    int l = Random().nextInt(4);
-     direction = await LocationService().getDirection(l);
+     direction = await LocationService().getDirection(widget.userlocation,data[i].hosAddress.toString());
      regisdata.hos.text = '${data[index].hosName}';
        regisdata.idHos = data[i].idHos.toString();
        distance = direction['distance'];
@@ -301,81 +297,11 @@ class _ChosseHospital extends State<ChosseHospital> {
        "/CAP1_mobile/checkstatushospital_test.php"
       );
      _getSeconds(direction);
-     if(int.parse(limitdata['limit']) > 0)
-     {
-       _setAvailible(limitdata,availableCheck);
-     }
-     else{
-       availableCheck.replaceRange(0,5,[false,false,false,false,false]);
-     }
+      ProcessingMethod().setAvailible(limitdata,availableCheck);
      setState((){
 
      });
    }
-
-  
-  void _setAvailible(limitdata, List<bool> availableCheck) {
-    availableCheck.replaceRange(
-      0, 5, 
-    [
-      limitdata['7-9'],
-      limitdata['9-11'],
-      limitdata['13-15'],
-      limitdata['15-17'],
-      limitdata['17-19']
-    ]);
-  }
-
-  Widget vaccineAlertDialogContainer(){
-    return Container(
-      height: 300,
-      width: 300,
-      child: FutureBuilder <List<Vaccine>>(
-            future: vacData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Vaccine> data = snapshot.data!;
-                return 
-                ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index){
-                  return Column(
-                    children: [
-                      for(int i=0; i<data.length; ++i)
-                      TextButton(
-                        onPressed: () async {
-                            index = i;
-                            setState((){
-                              regisdata.vac.text = '${data[i].vacName}';
-                              regisdata.idVac= data[i].idVac.toString();
-                              Get.back();
-                            });
-                          },
-                        child: ListTile(
-                          title: Text('${data[i].vacName}'),
-                          subtitle: Column(
-                            children: [
-                              Text('Phù hợp với độ tuổi từ ${data[i].ageUseFrom} - ${data[i].ageUseTo}'),
-                              Text('Thông tin vaccine : ${data[i].description}')
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-    );
-  }
-
 
   Widget diseaseAlertDialogContainer(){
     return Container(
@@ -397,11 +323,11 @@ class _ChosseHospital extends State<ChosseHospital> {
                       TextButton(
                         onPressed: () async {
                             index = i;
-                            print(data[index].toJson());
-                            vacData = VaccineController().fetchData(data[i].idDiseases.toString());
                             selectDisease = true;
                             setState((){
                               regisdata.des.text = '${data[i].diseaseName}';
+                              regisdata.idDes = data[i].idDiseases;
+                              print(regisdata.idDes);
                               Get.back();
                             });
                           },
@@ -544,26 +470,6 @@ class _ChosseHospital extends State<ChosseHospital> {
                     icon: Icon(Icons.sticky_note_2)),
               ),
             ),
-            if(selectDisease == true)
-              Container(
-                child: TextField(
-                  controller: regisdata.vac,
-                  onTap:(){
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context){
-                        return AlertDialog(
-                          title: Text('Danh Sách Vaccine'),
-                          content: vaccineAlertDialogContainer(),
-                        );
-                      }
-                    );
-                  },
-                  decoration: InputDecoration(
-                      hintText: 'Chọn loại vaccine',
-                      icon: Icon(Icons.sticky_note_2)),
-                ),
-              ),
             Container(
               child: TextField(
                 controller: regisdata.hos,
@@ -613,13 +519,13 @@ class _ChosseHospital extends State<ChosseHospital> {
                       SizedBox(width: 10),
                       timeSelected(9,11,select,1,availableCheck[1]),
                       SizedBox(width: 10),
-                      timeSelected(13,15,select,3,availableCheck[2]),
+                      timeSelected(13,15,select,2,availableCheck[2]),
                       SizedBox(width: 10),
-                      timeSelected(15,17,select,4,availableCheck[3]),
+                      timeSelected(15,17,select,3,availableCheck[3]),
                       SizedBox(width: 10),
-                      timeSelected(17,19,select,5,availableCheck[4]),
+                      timeSelected(17,19,select,4,availableCheck[4]),
                       SizedBox(width: 10),
-                      timeSelected(20,22,select,2,true),
+                      timeSelected(19,21,select,5,availableCheck[5]),
                       SizedBox(width: 10),
                     ],
                   );
@@ -683,7 +589,7 @@ class _ChosseHospital extends State<ChosseHospital> {
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
                 onPressed: () {
-                  if(regisdata.idHos!=null && regisdata.idVac!=null)
+                  if(regisdata.idHos!=null && regisdata.idDes!=null)
                     setState(() {
                       signup();
                     });
@@ -719,13 +625,5 @@ class _ChosseHospital extends State<ChosseHospital> {
         )
       ),
     );
-  }
-}
-
-
-void setSelect(int index, List<bool> select) {
-  for(int i=0;i<select.length;++i){
-    if(i==index) continue;
-    select[i] = false;
   }
 }

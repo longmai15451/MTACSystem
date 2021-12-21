@@ -10,6 +10,8 @@ import 'package:mtacsystem/models/account.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 late AccountProfile accountdata;
+
+
 NotifyHelper notify = NotifyHelper();
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +46,8 @@ class MyApp extends StatelessWidget{
   }
 }
 class MainScreen extends StatefulWidget{
-  MainScreen({Key? key, 
+  final String address;
+  MainScreen({Key? key,  required this.address, 
   }) : super(key: key);
   @override
   State<StatefulWidget> createState(){
@@ -55,13 +58,12 @@ class MainScreen extends StatefulWidget{
 
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
-  //HomeScreen({required this.selectedIndex});
-  final List<Widget> _bodycontent = [
-    HomeContent(accountdata: accountdata,),
-    CalendarContent(idCard: accountdata.idCard.toString(),),
-    Profile(accountdata: accountdata,),
-  ];
-  late PreferredSizeWidget app;
+  late List<Widget> _bodycontent = [
+      HomeContent(accountdata: accountdata, adres: widget.address,),
+      CalendarContent(idCard: accountdata.idCard.toString(), adres: widget.address,),
+      Profile(accountdata: accountdata,),
+    ];
+
   @override
   Widget build(BuildContext context){
     return Scaffold( 

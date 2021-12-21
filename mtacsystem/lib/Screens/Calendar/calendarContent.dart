@@ -10,8 +10,8 @@ import 'detail_vaccin_regis.dart';
 
 class CalendarContent extends StatefulWidget{
   final String idCard;
-
-  const CalendarContent({Key? key, required this.idCard}) : super(key: key); 
+  final String adres;
+  const CalendarContent({Key? key, required this.idCard, required this.adres}) : super(key: key); 
   @override
   State<CalendarContent> createState() => _CalendarContentState();
 }
@@ -84,7 +84,7 @@ class _CalendarContentState extends State<CalendarContent> {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            Get.to(()=>Detail(schedule: schedule));
+                            Get.to(()=>Detail(schedule: schedule, adres: widget.adres));
                           },
                           child:TaskTile(schedule),
                         )

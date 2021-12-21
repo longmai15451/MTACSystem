@@ -11,8 +11,10 @@ import 'package:mtacsystem/models/account.dart';
 
 class SignUpTest extends StatefulWidget {
   final AccountProfile accountdata;
+  final String userlocation;
   const SignUpTest({
     required this.accountdata,
+    required this.userlocation,
   });
   @override
   State<SignUpTest> createState() => _SignUpTest();
@@ -104,7 +106,7 @@ class _SignUpTest extends State<SignUpTest>{
                                   Container(height: 5,),
                                   Text('Năm sinh: '+widget.accountdata.birthDate.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                                   Container(height: 5,),
-                                  Text('Giới Tính: '+(widget.accountdata.gender=='0'?'Nam':widget.accountdata.gender=='1'?'Nữ':'Khác'),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
+                                  Text('Giới Tính: '+(widget.accountdata.gender=='male'?'Nam':'Nữ'),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                                   Container(height: 5,),
                                   Text('SĐT: '+widget.accountdata.phone.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                                   Container(height: 5,),
@@ -116,7 +118,7 @@ class _SignUpTest extends State<SignUpTest>{
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 17.0),
-                              child: Text('Địa chỉ: '+widget.accountdata.address.toString()+', '+widget.accountdata.ward.toString()+', '+widget.accountdata.district.toString()+', '+widget.accountdata.city.toString()+', '+widget.accountdata.country.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
+                              child: Text('Địa chỉ: ' + widget.userlocation,style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                             ),
 
                           ],
@@ -636,7 +638,7 @@ class _SignUpTest extends State<SignUpTest>{
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                     onPressed: () {
-                        Get.to(ChooseTest( accountdata: widget.accountdata,));
+                        Get.to(ChooseTest( accountdata: widget.accountdata, userlocation: widget.userlocation,));
                       },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(70.0)),

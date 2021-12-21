@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
+import 'package:mtacsystem/Screens/Profile/test_result.dart';
+import 'package:mtacsystem/Screens/Profile/vaccine_result.dart';
 import 'editProf.dart';
 import 'package:mtacsystem/models/account.dart';
 
@@ -50,10 +52,10 @@ class _Profile extends State<Profile>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    height: 160,
-                    width: 160,
+                    height: 170,
+                    width: 170,
                     color: Colors.white,
-                    child: Container(color: Colors.red, width:150, height:150,child: Image.asset('assets/images/An-example-of-QR-code.png')),
+                    child: Container(color: Colors.red, width:160, height:160,child: Image.asset('assets/images/An-example-of-QR-code.png')),
                   ),
                 ],
               ),
@@ -132,7 +134,9 @@ class _Profile extends State<Profile>{
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            Get.to(()=>TestResultScreen(account: accountdata,));
+                          },
                           child: Container(
                             width: 200,
                             decoration: BoxDecoration(
@@ -157,7 +161,9 @@ class _Profile extends State<Profile>{
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            Get.to(()=>VaccineResult(account: accountdata,));
+                          },
                           child: Container(
                             width: 200, 
                             decoration: BoxDecoration(

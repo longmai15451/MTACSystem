@@ -13,7 +13,8 @@ import 'package:mtacsystem/main.dart';
 import 'forgotPassword.dart';
 import 'package:mtacsystem/Network/Profiledata.dart';
 import 'package:animations/animations.dart';
-
+import 'package:geocoding/geocoding.dart' as geo;
+import 'package:location/location.dart';
 
 class LoginScreen extends StatefulWidget{
 
@@ -27,7 +28,47 @@ class _LoginState extends State<LoginScreen> {
   bool _isObscure = true;
   TextEditingController phone = TextEditingController();
   TextEditingController pass = TextEditingController();
+   Location location = new Location();
+  late PreferredSizeWidget app;
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  late LocationData _locationData;
+ 
+  @override
+  initState(){
+    super.initState();
+    getPermission();
+  }
 
+
+  void getPermission() async{
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _locationData = await location.getLocation();
+    List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(_locationData.latitude!, _locationData.longitude!);
+      sver.address = addressName(placemarks[0].street).toString() + addressName(placemarks[0].subAdministrativeArea).toString() 
+                      + addressName(placemarks[0].administrativeArea).toString() + addressName(placemarks[0].country).toString();
+  }
+
+  String? addressName(String? variable){
+    if(variable=="Việt Nam")
+      return variable;
+    if(variable!=null)
+      return variable + ', ';
+    return null;
+  }
   Future login()async{
     var url=sver.serverip+"/CAP1_mobile/App_Login.php";
     var response = await http.post(Uri.parse(url),body: {
@@ -40,13 +81,20 @@ class _LoginState extends State<LoginScreen> {
     }else{
       toast("Đăng nhập thành công!", Colors.green,);
       accountdata = GetProfData.getdata(data);
-        Get.to(MainScreen());
-        setState((){
-          
-        });
+      getAddress();
+      if(sver.address==null)
+        toast("Đang tìm vị trí của bạn!", Colors.red,);
+      else
+      Get.to(MainScreen(address: sver.address!));
     }
   }
 
+  void getAddress() {
+    if(sver.address==null)
+      sver.address = accountdata.address.toString()+', '+accountdata.ward.toString()+', '
+          +accountdata.district.toString()+', '+accountdata.city.toString()+', '+accountdata.country.toString();
+    return;
+  }
    
   void toast(String msg, Color textcolor) {
     Fluttertoast.showToast(

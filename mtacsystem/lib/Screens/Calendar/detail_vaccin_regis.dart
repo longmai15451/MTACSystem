@@ -1,31 +1,33 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:mtacsystem/models/schedule.dart';
-import '../../Network/location_service.dart';
 import '../../Components/mapScreen.dart';
 import '../../Network/sign_up_info.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
+import 'package:mtacsystem/server/Server.dart' as sver;
+
+import '../../main.dart';
 
 class Detail extends StatefulWidget{
-  Schedule schedule;
-  String? origin;
-  String? destination;
+  final Schedule schedule;
+  final String adres;
   Detail({
-    Key? key, required this.schedule,
-    this.origin, this.destination,
+    Key? key, required this.schedule, required this.adres,
   }) : super(key: key);
   @override
   _Detail createState() => _Detail();
 }
 
 class _Detail extends State<Detail> {
-  static int index = 0;
   static var data;
   @override
   initState(){
-    super.initState();
-    index = Random().nextInt(4);
     _getData();
+    super.initState();
   }
   
   void _getData() async{
@@ -33,11 +35,41 @@ class _Detail extends State<Detail> {
       data = await SignUpInfo().getTestRegisterData(widget.schedule.regisID.toString());
     else
       data = await SignUpInfo().getVacRegisterData(widget.schedule.regisID.toString());
-
     setState(() {
     });
   }
 
+  void toast(String msg, Color textcolor) {
+      Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: textcolor,
+        fontSize: 16.0
+      );
+    }
+
+  Future cancelSchedule()async{
+    var url=sver.serverip;
+    if(widget.schedule.type == '0')
+      url+='/CAP1_mobile/test_cancel.php';
+    else
+      url+='/CAP1_mobile/vac_cancel.php';
+    var response = await http.post(Uri.parse(url),body: {
+      "regisID" : widget.schedule.regisID.toString(),
+    });
+    var data = json.decode(response.body);
+    if(data == 'Success'){
+      toast('Đã hủy lịch!',Colors.green);
+      Get.offAll(MainScreen(address: widget.adres,));
+    }
+    else
+    {
+      toast('Hệ thống đang gặp sự cố!',Colors.red);
+    }
+  }
 
   @override
   Widget build(BuildContext context){
@@ -46,7 +78,7 @@ class _Detail extends State<Detail> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SingleChildScrollView(child: MapScreen(height: 225, width: 345, mapindex:index)),
+          SingleChildScrollView(child: MapScreen(height: 225, width: 345, origin: widget.adres, destination: widget.schedule.address!,)),
           SingleChildScrollView(
               child: ListTile(
                 title: Column(
@@ -76,7 +108,7 @@ class _Detail extends State<Detail> {
                       if(widget.schedule.type == '1')
                         Row(
                           children: [
-                            Text('Vaccine: ${data!=null?data['vaccine']:""}'),
+                            Text('Tiêm phòng bệnh: ${data!=null?data['vaccine']:""}'),
                           ],
                         ),
                       Row(
@@ -101,9 +133,8 @@ class _Detail extends State<Detail> {
                             width: 120,
                             child: TextButton(
                               onPressed: () async{ 
-                                LocationService().getDirection(index);
-                                setState(() {
-                                }); },
+                                  await cancelSchedule();
+                               },
                               child: Text('Hủy',style: TextStyle(fontSize: 14, color: Colors.black)),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade100),
@@ -119,8 +150,11 @@ class _Detail extends State<Detail> {
                           SizedBox(
                             width: 120,
                             child: TextButton(
-                              onPressed: () { setState((){
-                                }); },
+                              onPressed: () {
+                                if(data!=null)
+                                  MapsLauncher.launchQuery(
+                                    '${data['hos_address']}');
+                              },
                               child: Text('Dẫn đường',style: TextStyle(fontSize: 14, color: Colors.black)),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade100),

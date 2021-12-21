@@ -3,13 +3,12 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'package:mtacsystem/server/Server.dart' as sver;
 
 class LocationService {
-  static final apiKey = "AIzaSyA66KwUrjxcFG5u0exynlJ45CrbrNe3hEc";
-  Future<Map<String, dynamic>> getDirection(int map) async {
+  static final apiKey = "AIzaSyBsZrS5LkAXAqzgVYMJQQMYOoWgYCHHZTU";
+  Future<Map<String, dynamic>> getDirection(String origin,String destination) async {
     final String url = 
-    sver.serverip+'/CAP1_mobile/mapapi$map.json';//'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$apiKey';
+    'https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$apiKey';
     var response = await http.get(Uri.parse(url));
     var json = jsonDecode(response.body);
     var result = {

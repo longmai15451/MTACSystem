@@ -20,6 +20,7 @@ class LimitController{
         "13-15": json['13-15']=="1"?true:false,
         "15-17": json['15-17']=="1"?true:false,
         "17-19": json['17-19']=="1"?true:false,
+        "19-21": json['19-21']=="1"?true:false,
         "limit": json['limit'],
     };
     return result;

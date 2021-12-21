@@ -5,28 +5,25 @@ import 'package:mtacsystem/Screens/Home/vaccine_his.dart';
 import 'package:mtacsystem/Screens/Profile/editProf.dart';
 import 'package:mtacsystem/Screens/Register/SignUpVaccin.dart';
 import 'package:mtacsystem/Screens/Register/SignUpTest.dart';
-import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'Chatbot/ChatMain.dart';
 import 'covidstats.dart';
 import 'vaccine_info.dart';
 
-
 class HomeContent extends StatefulWidget {
   final AccountProfile accountdata;
-  HomeContent({required this.accountdata});
+  final String adres;
+  HomeContent({required this.accountdata, required this.adres});
 
   @override
   State<HomeContent> createState() => _HomeContentState();
 }
 
 class _HomeContentState extends State<HomeContent> {
-  NotifyHelper notifyHelper = NotifyHelper();
-
-   @override
-  initState(){
-    super.initState();
-  }
+  
+  
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +68,6 @@ class _HomeContentState extends State<HomeContent> {
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  offset: Offset(0.0,1.0),
-                  blurRadius: 5.0,
-                ),
-              ],
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(50.0),
               )
@@ -122,7 +112,7 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                                 onPressed: () {
-                                  Get.to(SignUpVaccin(accountdata: widget.accountdata,));
+                                  Get.to(SignUpVaccin(accountdata: widget.accountdata,address: widget.adres));
                                 },
                                 child: Column(
                                   children: <Widget>[
@@ -240,7 +230,7 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
-                              Get.to(SignUpTest(accountdata: widget.accountdata,));
+                              Get.to(SignUpTest(accountdata: widget.accountdata, userlocation: widget.adres,));
                             },
                             child: Column(
                               children: <Widget>[

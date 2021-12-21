@@ -7,10 +7,11 @@ import '../Network/location_service.dart';
 
 
 class MapScreen extends StatefulWidget{
-   final int mapindex;
   final double height;
   final double width;
-  MapScreen({Key? key,required this.mapindex, required this.height, required this.width}) : super(key: key);
+  final String origin;
+  final String destination;
+  MapScreen({Key? key, required this.height, required this.width, required this.origin, required this.destination}) : super(key: key);
   @override
   _MapScreen createState() => _MapScreen();
 }
@@ -34,7 +35,7 @@ class _MapScreen extends State<MapScreen>{
   }
 
   void _loadMap() async{
-    var direction = await LocationService().getDirection(widget.mapindex);
+    var direction = await LocationService().getDirection(widget.origin,widget.destination);
     _gotoPlace(
       direction['start_location']['lat'],
       direction['start_location']['lng'],

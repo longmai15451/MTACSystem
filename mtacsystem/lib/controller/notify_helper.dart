@@ -21,6 +21,20 @@ class NotifyHelper{
     );
 	}
 
+  Future<void> showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, 'plain title', 'plain body', platformChannelSpecifics,
+        payload: 'item x');
+  }
+
 	Future<void> scheduledNotification(int month, int day, int hour, int minutes, String title, String note) async{
 		await flutterLocalNotificationsPlugin.zonedSchedule(
     0,

@@ -16,16 +16,13 @@ class TempUserProfile {
   late TextEditingController ward;
   late TextEditingController address;
   late TextEditingController country;
-  late List<TextEditingController> anamnesis = new List.filled(10, TextEditingController(text:'0') ,growable:false);
 }
 
 class VacRegister{
   late TextEditingController des = new TextEditingController();
-  late TextEditingController vac = new TextEditingController();
   late TextEditingController hos = new TextEditingController();
   late TextEditingController registerDate = new TextEditingController();
   late String? idDes;
-  late String? idVac;
   late String? idHos;
   late String registerTime;
   late String startTime;

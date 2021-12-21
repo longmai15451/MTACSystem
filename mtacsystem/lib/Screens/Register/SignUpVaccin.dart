@@ -11,8 +11,10 @@ import 'package:mtacsystem/controller/controllerData.dart';
 
 class SignUpVaccin extends StatefulWidget {
   final AccountProfile accountdata;
-  const SignUpVaccin({
+  final String address;
+  SignUpVaccin({
     required this.accountdata,
+    required this.address,
   });
   @override
   State<SignUpVaccin> createState() => _SignUpVaccinState(accountdata: accountdata);
@@ -144,7 +146,8 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 17.0),
-                              child: Text('Địa chỉ: '+accountdata.address.toString()+', '+accountdata.ward.toString()+', '+accountdata.district.toString()+', '+accountdata.city.toString()+', '+accountdata.country.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
+                              child: Text(
+                                'Địa chỉ: '+widget.address.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                             ),
 
                           ],
@@ -580,7 +583,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
                       onPressed: () {
-                        Get.to(ChosseHospital(accountdata: accountdata));
+                        Get.to(ChosseHospital(accountdata: accountdata, userlocation: widget.address,));
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(70.0)),
@@ -614,4 +617,6 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
       ),
     );
   }
+
+  
 }
