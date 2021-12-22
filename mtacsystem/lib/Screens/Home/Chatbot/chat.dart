@@ -30,7 +30,7 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final List<ChatMessage> _messages = <ChatMessage>[];
-  final TextEditingController _textController = TextEditingController();
+  final    _textController = TextEditingController();
 
   bool _isRecording = false;
 
@@ -73,7 +73,7 @@ class _ChatState extends State<Chat> {
     // TODO Get a Service account
     // Get a Service account
     final serviceAccount = ServiceAccount.fromString(
-        '${(await rootBundle.loadString('assets/mtac-dialogflow-qcm9-7ca4f8c9a08f.json'))}');
+        '${(await rootBundle.loadString('assets/chatbot-mtac-svhe-54960bb2e7c9.json'))}');
     // Create a DialogflowGrpc Instance
     dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
 
@@ -105,9 +105,8 @@ class _ChatState extends State<Chat> {
       ChatMessage botMessage = ChatMessage(
         text: fulfillmentText,
         name: "Bot",
-        type: false,
+        type: false
       );
-
       setState(() {
         _messages.insert(0, botMessage);
       });
@@ -172,7 +171,6 @@ class _ChatState extends State<Chat> {
             name: "Bot",
             type: false,
           );
-
           _messages.insert(0, message);
           _textController.clear();
           _messages.insert(0, botMessage);
