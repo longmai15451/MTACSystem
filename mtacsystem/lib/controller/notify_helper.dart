@@ -1,4 +1,6 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
 import 'package:mtacsystem/models/schedule.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -18,6 +20,7 @@ class NotifyHelper{
 		);
 		await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
+      onSelectNotification: selectNotification
     );
 	}
 
@@ -35,9 +38,21 @@ class NotifyHelper{
         payload: 'item x');
   }
 
-	Future<void> scheduledNotification(int month, int day, int hour, int minutes, String title, String note) async{
+	Future<void> scheduledNotification(
+    int id,
+    int month, 
+    int day, 
+    int hour, 
+    int minutes, 
+    String title, 
+    String note,
+    String regisID,
+    String adres,
+    String des,
+    String type,
+  ) async{
 		await flutterLocalNotificationsPlugin.zonedSchedule(
-    0,
+    id,
     title,
     note,
      _convertTime(month, day, hour, minutes),
@@ -50,7 +65,9 @@ class NotifyHelper{
             )),
     androidAllowWhileIdle: true,
     uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime);
+        UILocalNotificationDateInterpretation.absoluteTime,
+        payload: "$regisID|"+"$adres|"+"$type|"+"$des|"
+    );
 	}
 
 	tz.TZDateTime _convertTime(int month, int day, int hour, int minutes){
@@ -61,6 +78,16 @@ class NotifyHelper{
 		}
 		return scheduleDate;
 	}
+
+  Future selectNotification(String? payload)async{
+    Get.to(()=>Detail(
+      adres: payload.toString().split('|')[1], 
+      des: payload.toString().split('|')[3], 
+      id: payload.toString().split('|')[0], 
+      locationc: true,
+      type: payload.toString().split('|')[2],
+    ));
+  }
 
 	Future<void> _configureLocalTimeZone()async{
 		tz.initializeTimeZones();

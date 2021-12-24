@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget{
 }
 class MainScreen extends StatefulWidget{
   final String address;
-  MainScreen({Key? key,  required this.address, 
+  final bool locationc;
+  MainScreen({Key? key,  required this.address, required this.locationc, 
   }) : super(key: key);
   @override
   State<StatefulWidget> createState(){
@@ -59,9 +60,9 @@ class MainScreen extends StatefulWidget{
 class HomeScreen extends State<MainScreen>{
   int selectedIndex = 0;
   late List<Widget> _bodycontent = [
-      HomeContent(accountdata: accountdata, adres: widget.address,),
-      CalendarContent(idCard: accountdata.idCard.toString(), adres: widget.address,),
-      Profile(accountdata: accountdata,),
+      HomeContent(accountdata: accountdata, adres: widget.address,locationc: widget.locationc),
+      CalendarContent(idCard: accountdata.idCard.toString(), adres: widget.address,locationc: widget.locationc),
+      Profile(accountdata: accountdata,locationc: widget.locationc),
     ];
 
   @override

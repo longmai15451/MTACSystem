@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
 import 'package:mtacsystem/Components/background.dart';
+import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
 import 'package:mtacsystem/controller/diseases_controller.dart';
 import 'package:mtacsystem/controller/hospital_controller.dart';
@@ -18,17 +19,18 @@ import 'package:mtacsystem/models/hospital.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
-import '../../main.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:mtacsystem/Components/process_method.dart';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class ChosseHospital extends StatefulWidget {
   final AccountProfile accountdata;
   final String userlocation;
+  final bool locationc;
   const ChosseHospital({
     required this.accountdata,
     required this.userlocation,
+    required this.locationc,
   });
   @override
   State<ChosseHospital> createState() => _ChosseHospital();
@@ -57,8 +59,9 @@ class _ChosseHospital extends State<ChosseHospital> {
   var notify;
   late List<bool> select = new List.filled(6, false ,growable:false);
   int durationSeconds = 2100;
- 
-  
+  var data;
+  bool isLoading = false;
+
   @override
   initState() {
     _getVaccineAndHos();
@@ -163,7 +166,11 @@ class _ChosseHospital extends State<ChosseHospital> {
       );
     }
 
+  
+
+
   Future signup() async {
+    int estimate = direction['duration_seconds'] + 300;
     var url=sver.serverip+"/CAP1_mobile/vaccination_register.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card": widget.accountdata.idCard.toString(),
@@ -173,26 +180,42 @@ class _ChosseHospital extends State<ChosseHospital> {
       "registerTime": regisdata.registerTime,
       "startTime": regisdata.startTime,
       "endTime": regisdata.endTime,
-      "estimateTime" : durationSeconds.toString(),
+      "estimateTime" : estimate.toString(),
     });
-    var data = json.decode(response.body);
+    data = json.decode(response.body);
     if(data != "Faild" && data != null){
-      await notify.showNotification();
       await notify.scheduledNotification(
+        0,
         int.parse(data['registerDate'].toString().split("-")[1]),
         int.parse(data['registerDate'].toString().split("-")[2]),
         int.parse(data['expected'].toString().split(":")[0]),
         int.parse(data['expected'].toString().split(":")[1]),
         'Lịch hẹn tiêm vaccine',
-        'bạn có lịch hẹn tiêm vaccine tại địa chỉ: ${data['address']}'       
+        'bạn có lịch hẹn tiêm vaccine tại địa chỉ: ${data['address']}',
+        data['id'].toString(),
+        widget.userlocation,
+        data['address'].toString(), 
+        '1',     
       );
-      toast('Đăng ký thành công', Colors.green);
-      setState((){
-        Get.offAll(MainScreen(address: widget.userlocation,));
-      });
     }
     else{
       toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
+    }
+  }
+
+  Future cancelSchedule(String id)async{
+    var url=sver.serverip + '/CAP1_mobile/vac_cancel.php';
+    var response = await http.post(Uri.parse(url),body: {
+      "regisID" : id,
+    });
+    var data = json.decode(response.body);
+    if(data == 'Success') {
+      await notify.flutterLocalNotificationsPlugin.cancel(0);
+      return;
+    }
+    else
+    {
+      toast('Hệ thống đang gặp sự cố!',Colors.red);
     }
   }
 
@@ -201,7 +224,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     {
       int hour = int.parse(DateFormat('H').format(DateTime.now()));
       int minus = int.parse(DateFormat('m').format(DateTime.now()));
-      if(hour>=end-1 && minus >=50 || hour>end)
+      if(hour==end-1 && minus >=50 || hour>=end)
       {
         availableCheck = false;
       }
@@ -236,48 +259,6 @@ class _ChosseHospital extends State<ChosseHospital> {
     );
   }
 
-  Widget hospitalAlertDialogContainer(){
-    return Container(
-      height: 300,
-      width: 300,
-      child: FutureBuilder <List<Hospital>>(
-            future: hosData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Hospital> data = snapshot.data!;
-                return 
-                ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index){
-                  return Column(
-                    children: [
-                      for(int i=0; i<data.length; ++i)
-                      TextButton(
-                        onPressed: () async {
-                            index = i;
-                            
-                            await _dataProcessing(i, data, index);
-                            Navigator.pop(context);
-                          },
-                        child: ListTile(
-                          title: Text('${data[i].hosName}'),
-                          subtitle: Text('${data[i].hosAddress}'),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-    );
-  }
 
   Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
      direction = await LocationService().getDirection(widget.userlocation,data[i].hosAddress.toString());
@@ -296,58 +277,11 @@ class _ChosseHospital extends State<ChosseHospital> {
        regisdata.registerDate.text,
        "/CAP1_mobile/checkstatushospital_test.php"
       );
-     _getSeconds(direction);
       ProcessingMethod().setAvailible(limitdata,availableCheck);
      setState((){
 
      });
    }
-
-  Widget diseaseAlertDialogContainer(){
-    return Container(
-      height: 300,
-      width: 300,
-      child: FutureBuilder <List<Diseases>>(
-            future: diseaseData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Diseases> data = snapshot.data!;
-                return 
-                ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index){
-                  return Column(
-                    children: [
-                      for(int i=0; i<data.length; ++i)
-                      TextButton(
-                        onPressed: () async {
-                            index = i;
-                            selectDisease = true;
-                            setState((){
-                              regisdata.des.text = '${data[i].diseaseName}';
-                              regisdata.idDes = data[i].idDiseases;
-                              print(regisdata.idDes);
-                              Get.back();
-                            });
-                          },
-                        child: ListTile(
-                          title: Text('${data[i].diseaseName}'),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-    );
-  }
 
 
   void _getSeconds(Map<String, dynamic> direction) {
@@ -362,12 +296,11 @@ class _ChosseHospital extends State<ChosseHospital> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: SizedBox(child: Row(
           children: [
-            Container(child: Text("Đặt lịch tiêm")),
+            Container(child: Text("ĐẶT LỊCH TIÊM")),
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(2.0),
@@ -453,17 +386,62 @@ class _ChosseHospital extends State<ChosseHospital> {
                 ),
             Container(
               child: TextField(
+                readOnly: true,
                 controller: regisdata.des,
                 onTap:(){
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context){
-                      return AlertDialog(
-                        title: Text('Danh Sách bệnh'),
-                        content: diseaseAlertDialogContainer(),
-                      );
-                    }
-                  );
+                  AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.INFO,
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      headerAnimationLoop: false,
+                      animType: AnimType.BOTTOMSLIDE,
+                      btnOkColor: Colors.blue.shade600,
+                      body: Column(
+                        children: [
+                          Text('LOẠI BỆNH'),
+                          FutureBuilder <List<Diseases>>(
+                          future: diseaseData,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              List<Diseases> data = snapshot.data!;
+                              return 
+                              ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 1,
+                              itemBuilder: (BuildContext context, int index){
+                                  return Column(
+                                    children: [
+                                      for(int i=0; i<data.length; ++i)
+                                      TextButton(
+                                        onPressed: () async {
+                                            index = i;
+                                            selectDisease = true;
+                                            setState((){
+                                              regisdata.des.text = '${data[i].diseaseName}';
+                                              regisdata.idDes = data[i].idDiseases;
+                                              print(regisdata.idDes);
+                                              Get.back();
+                                            });
+                                          },
+                                        child: ListTile(
+                                          title: Text('${data[i].diseaseName}'),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              // By default show a loading spinner.
+                              return CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                      buttonsTextStyle: TextStyle(fontSize: 13),
+                    )..show();
                 },
                 decoration: InputDecoration(
                     hintText: 'Chọn loại bệnh tiêm',
@@ -472,17 +450,58 @@ class _ChosseHospital extends State<ChosseHospital> {
             ),
             Container(
               child: TextField(
+                 readOnly: true,
                 controller: regisdata.hos,
                 onTap:(){
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context){
-                      return AlertDialog(
-                        title: Text('Danh Sách Bệnh Viện'),
-                        content: hospitalAlertDialogContainer(),
-                      );
-                    }
-                  );
+                  AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.INFO,
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      headerAnimationLoop: false,
+                      animType: AnimType.BOTTOMSLIDE,
+                      btnOkColor: Colors.blue.shade600,
+                      body: Column(
+                        children: [
+                          Text('BỆNH VIỆN'),
+                          FutureBuilder <List<Hospital>>(
+                            future: hosData,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                List<Hospital> data = snapshot.data!;
+                                return 
+                                ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: 1,
+                                itemBuilder: (BuildContext context, int index){
+                                  return Column(
+                                      children: [
+                                        for(int i=0; i<data.length; ++i)
+                                        TextButton(
+                                          onPressed: () async {
+                                              index = i;
+                                              await _dataProcessing(i, data, index);
+                                              Navigator.pop(context);
+                                            },
+                                          child: ListTile(
+                                            title: Text('${data[i].hosName}'),
+                                            subtitle: Text('${data[i].hosAddress}'),
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                }
+                              );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              // By default show a loading spinner.
+                              return CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                      buttonsTextStyle: TextStyle(fontSize: 13),
+                    )..show();
                   setState((){
 
                   });
@@ -587,43 +606,56 @@ class _ChosseHospital extends State<ChosseHospital> {
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: RaisedButton(
-                onPressed: () {
-                  if(regisdata.idHos!=null && regisdata.idDes!=null)
-                    setState(() {
-                      signup();
-                    });
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(70.0)),
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50.0,
-                  width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(70.0),
-                    gradient: new LinearGradient(
-                      colors: [Colors.blue.shade600, Colors.blue.shade300],
-                      begin: FractionalOffset.bottomLeft,
-                      end: FractionalOffset.topRight
-                    )
-                  ),
-                  padding: const EdgeInsets.all(0),
-                  child: Text(
-                    "Đặt lịch tiêm",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
-                )
-              ),
+              child: AnimatedButton(
+                  text: "XÁC NHẬN",
+                  pressEvent: ()async {
+                    _getSeconds(direction);
+                    if(isLoading) return;
+                    setState(()=> isLoading = true);
+                    await signup();
+                    setState(()=> isLoading = false);
+                    if(data != "Faild" && data != null)
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.QUESTION,
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      headerAnimationLoop: false,
+                      animType: AnimType.BOTTOMSLIDE,
+                      body: Column(
+                        children: [
+                          Text('TIẾN HÀNH ĐẶT LỊCH',),
+                          SizedBox(height:10),
+                          Text(
+                            'Giờ hẹn dự kiến: ${data['registerTimed'].toString().split(':')[0]}:${data['registerTimed'].toString().split(':')[1]}'
+                          ),
+                          Text('Thông báo trước giờ hẹn ${data['minutes'].toString().split(':')[1]} phút.'),
+                        ],
+                      ),
+                      btnCancelText: 'HỦY',
+                      btnOkText: 'ĐẶT',
+                      btnOkColor: Colors.blue.shade600,
+                      btnCancelOnPress: () {},
+                      btnOkOnPress: () {
+                        setState((){
+                          toast('Đăng ký thành công', Colors.green);
+                          Get.to(Detail(adres: widget.userlocation, des: data['address'], id: data['id'], type: '1',res: true,locationc: widget.locationc));
+                        });
+                      },
+                       onDissmissCallback: (type) {
+                          if(type == DismissType.OTHER||type == DismissType.BTN_CANCEL)
+                            cancelSchedule(data['id']);
+                        },
+                      buttonsTextStyle: TextStyle(fontSize: 13),
+                    )..show();
+                  },
+              )
             ),
           ]
         )
       ),
     );
   }
+  
+  
 }
+

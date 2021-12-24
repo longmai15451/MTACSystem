@@ -13,10 +13,15 @@ class ResultController{
         'idCard': idCard,
       });
     if (response.statusCode == 200) {
+      try{
       List jsonResponse = json.decode(response.body);
         return jsonResponse.map((data) => new Diseases.fromJson(data)).toList();
+       }
+      catch(e){
+        throw 'Không tìm thấy kết quả đăng ký của bạn!';
+      }
     } else {
-      throw Exception('Unexpected error occured!');
+      throw Exception('Không tìm thấy kết quả đăng ký của bạn!');
     }
   }
 

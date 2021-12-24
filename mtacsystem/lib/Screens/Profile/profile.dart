@@ -8,8 +8,9 @@ import 'package:mtacsystem/models/account.dart';
 
 class Profile extends StatefulWidget{
   final AccountProfile accountdata;
+  final bool locationc;
   const Profile({
-    required this.accountdata,
+    required this.accountdata, required this.locationc,
   });
   @override
   _Profile createState() => new _Profile(accountdata: accountdata);
@@ -110,7 +111,7 @@ class _Profile extends State<Profile>{
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
                           onTap: () async {
-                            await Get.to(EditProfile(accountdata: accountdata,));
+                            await Get.to(EditProfile(accountdata: accountdata,locationc: widget.locationc));
                             setState(() {
                             });
                           },

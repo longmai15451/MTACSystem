@@ -33,7 +33,9 @@ class _LoginState extends State<LoginScreen> {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   late LocationData _locationData;
- 
+  bool isLoading = false;
+  bool locationc = true;
+
   @override
   initState(){
     super.initState();
@@ -60,6 +62,7 @@ class _LoginState extends State<LoginScreen> {
     List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(_locationData.latitude!, _locationData.longitude!);
       sver.address = addressName(placemarks[0].street).toString() + addressName(placemarks[0].subAdministrativeArea).toString() 
                       + addressName(placemarks[0].administrativeArea).toString() + addressName(placemarks[0].country).toString();
+      sver.city = placemarks[0].administrativeArea.toString();
   }
 
   String? addressName(String? variable){
@@ -85,11 +88,15 @@ class _LoginState extends State<LoginScreen> {
       if(sver.address==null)
         toast("Đang tìm vị trí của bạn!", Colors.red,);
       else
-      Get.to(MainScreen(address: sver.address!));
+        Get.to(MainScreen(address: sver.address!,locationc: locationc));
     }
   }
 
   void getAddress() {
+    if(sver.city == null){
+      sver.city = accountdata.city.toString();
+      locationc = false;
+    }
     if(sver.address==null)
       sver.address = accountdata.address.toString()+', '+accountdata.ward.toString()+', '
           +accountdata.district.toString()+', '+accountdata.city.toString()+', '+accountdata.country.toString();
@@ -101,7 +108,7 @@ class _LoginState extends State<LoginScreen> {
       msg: msg,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 1,
+      timeInSecForIosWeb: 0,
       backgroundColor: Colors.grey[50],
       textColor: textcolor,
       fontSize: 16.0
@@ -224,8 +231,11 @@ class _LoginState extends State<LoginScreen> {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: RaisedButton(
-                onPressed: () {
-                  login();
+                onPressed: () async{
+                  if(isLoading) return;
+                  setState(()=> isLoading = true);
+                  await login();
+                  setState(()=> isLoading = false);
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(70.0)),
@@ -245,7 +255,9 @@ class _LoginState extends State<LoginScreen> {
                     )
                   ),
                   padding: const EdgeInsets.all(0),
-                  child: Text(
+                  child: isLoading?
+                    CircularProgressIndicator(color: Colors.white)
+                    :Text(
                     "Đăng Nhập",
                     textAlign: TextAlign.center,
                     style: TextStyle(

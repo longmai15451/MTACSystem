@@ -12,8 +12,8 @@ import 'package:mtacsystem/server/Server.dart' as sver;
 
 class EditProfile extends StatefulWidget {
   final AccountProfile accountdata;
-
-  const EditProfile({Key? key, required this.accountdata}) : super(key: key);
+  final bool locationc;
+  const EditProfile({Key? key, required this.accountdata,required this.locationc}) : super(key: key);
   @override
   _EditProfile createState() => _EditProfile();
 }
@@ -23,12 +23,16 @@ class _EditProfile extends State<EditProfile> {
   TempUserProfile temp = new TempUserProfile(); 
   int count = 0;
   late String gd = 'Nam';
+  bool checkCity = false;
+  
   late DateTime _date= DateTime.parse(widget.accountdata.birthDate.toString());
 
   @override
   initState(){
     super.initState();
     _settempData();
+    if(!widget.locationc&&sver.city == widget.accountdata.city)
+      checkCity = true;
   }
 
   void _settempData(){
@@ -94,6 +98,11 @@ class _EditProfile extends State<EditProfile> {
       widget.accountdata.ward = temp.ward.text;
       widget.accountdata.address = temp.address.text;
       widget.accountdata.country = temp.country.text;
+      if(checkCity){
+        sver.city = widget.accountdata.city;
+        sver.address = widget.accountdata.address.toString()+', '+widget.accountdata.ward.toString()+', '
+          +widget.accountdata.district.toString()+', '+widget.accountdata.city.toString()+', '+widget.accountdata.country.toString();
+      }
       toast('Cập nhật thành công!', Colors.green);
       Get.back(result: widget.accountdata);
   }
@@ -427,10 +436,7 @@ class _EditProfile extends State<EditProfile> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         new Text('Dân tộc '),
-                                        new Text(
-                                      "*",
-                                      style: TextStyle(color: Colors.red),
-                                    )
+                                        
                                       ],
                                     ),
                                   ),
@@ -463,10 +469,7 @@ class _EditProfile extends State<EditProfile> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         new Text('Nghề nghiệp '),
-                                        new Text(
-                                      "*",
-                                      style: TextStyle(color: Colors.red),
-                                    )
+                                        
                                       ],
                                     ),
                                   ),

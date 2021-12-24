@@ -12,9 +12,10 @@ import 'package:mtacsystem/models/account.dart';
 class SignUpTest extends StatefulWidget {
   final AccountProfile accountdata;
   final String userlocation;
+  final bool locationc;
   const SignUpTest({
     required this.accountdata,
-    required this.userlocation,
+    required this.userlocation, required this.locationc,
   });
   @override
   State<SignUpTest> createState() => _SignUpTest();
@@ -25,6 +26,7 @@ class _SignUpTest extends State<SignUpTest>{
   late bool _readonly = true;
   bool _expanded = false;
   final format = DateFormat("dd-MM-yyy");
+  bool isLoading = false;
   @override
   initState(){
     temp.birthdate.text = widget.accountdata.birthDate.toString();
@@ -52,7 +54,35 @@ class _SignUpTest extends State<SignUpTest>{
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text("Đăng ký xét nghiệm"),
+        title: SizedBox(child: Row(
+          children: [
+            Container(child: Text("ĐĂNG KÝ XÉT NGHIỆM")),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  border: Border.all(color:Colors.white,width:1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                ),
+                child: Center(child: Text('1',style: TextStyle(fontSize: 13))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  border: Border.all(color:Colors.white,width:1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                ),
+              ),
+            ),
+          ],
+        )),
         backgroundColor: Colors.blue.shade300,
       ),
       body: Background(
@@ -66,7 +96,7 @@ class _SignUpTest extends State<SignUpTest>{
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                   child: Text(
-                    "Thông tin đăng ký tiêm",
+                    "Thông tin đăng ký xét nghiệm",
                     style: TextStyle(
                         color: Colors.blue.shade400,
                         fontSize: 20,
@@ -637,8 +667,11 @@ class _SignUpTest extends State<SignUpTest>{
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
-                    onPressed: () {
-                        Get.to(ChooseTest( accountdata: widget.accountdata, userlocation: widget.userlocation,));
+                    onPressed: () async{
+                        if(isLoading) return;
+                        setState(()=> isLoading = true);
+                        await Get.to(ChooseTest( accountdata: widget.accountdata, userlocation: widget.userlocation,locationc: widget.locationc));
+                        setState(()=> isLoading = false);
                       },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(70.0)),
@@ -657,7 +690,9 @@ class _SignUpTest extends State<SignUpTest>{
                         )
                       ),
                       padding: const EdgeInsets.all(0),
-                      child: Text(
+                      child: isLoading?
+                    CircularProgressIndicator(color: Colors.white)
+                    :Text(
                         "Tiếp tục",
                         textAlign: TextAlign.center,
                         style: TextStyle(

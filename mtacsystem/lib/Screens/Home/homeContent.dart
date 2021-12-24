@@ -1,4 +1,7 @@
 
+import 'dart:convert';
+import 'package:mtacsystem/server/Server.dart' as sver;
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Screens/Home/vaccine_his.dart';
@@ -9,11 +12,14 @@ import 'package:mtacsystem/models/account.dart';
 import 'Chatbot/ChatMain.dart';
 import 'covidstats.dart';
 import 'vaccine_info.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
 
 class HomeContent extends StatefulWidget {
   final AccountProfile accountdata;
   final String adres;
-  HomeContent({required this.accountdata, required this.adres});
+  final bool locationc;
+  HomeContent({required this.accountdata, required this.adres, required this.locationc});
 
   @override
   State<HomeContent> createState() => _HomeContentState();
@@ -21,9 +27,80 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   
+  var checking;
   
-  
-  
+  @override
+  initState(){
+    getCheck();
+    super.initState();
+  }
+
+  void getCheck()async{
+    checking = await fetchVaccineData(widget.accountdata.idCard!);
+  }
+
+  Future fetchVaccineData(String idCard) async {
+    String url = sver.serverip+'/CAP1_mobile/checkData.php';
+    print(url);
+    var response = await http.post(Uri.parse(url), body: {
+      "idCard": idCard,
+    });
+    var json = jsonDecode(response.body);
+    print(json);
+    var result = {
+        "vac": json['VacCheck'],
+        "test": json['TestCheck'],
+    };
+    return result;
+  }
+
+  checkData(){
+      return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.WARNING,
+      borderSide: BorderSide(color: Colors.red, width: 2),
+          headerAnimationLoop: true,
+          animType: AnimType.BOTTOMSLIDE,
+          body: Column(
+            children: [
+              Text('CẦN CẤP THÔNG TIN ĐỂ SỬ DỤNG!',),
+            ],
+          ),
+          btnOkColor: Colors.blue.shade600,
+          btnCancelIcon: Icons.cancel,
+          btnOkIcon: Icons.check_circle_outline,
+          btnCancelText: '',
+          btnOkText: '',
+          btnCancelOnPress: () {},
+      btnOkOnPress: () {
+        setState(() async {
+          await Get.to(()=>EditProfile(accountdata: widget.accountdata,locationc: widget.locationc));
+        });
+      },
+      buttonsTextStyle: TextStyle(fontSize: 13),
+    )..show();
+  }
+
+  checkRegis(){
+      return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.WARNING,
+      borderSide: BorderSide(color: Colors.red, width: 2),
+          headerAnimationLoop: true,
+          animType: AnimType.BOTTOMSLIDE,
+          body: Column(
+            children: [
+              Text('BẠN CÒN LỊCH HẸN CHƯA ĐƯỢC XỬ LÝ!',),
+            ],
+          ),
+          btnOkColor: Colors.blue.shade600,
+          btnCancelIcon: Icons.cancel,
+          btnCancelText: '',
+          btnCancelOnPress: () {},
+     
+      buttonsTextStyle: TextStyle(fontSize: 13),
+    )..show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +111,7 @@ class _HomeContentState extends State<HomeContent> {
       elevation: 0.0,
       leading: IconButton(
         onPressed: () async {
-          await Get.to(EditProfile(accountdata: widget.accountdata,));
+          await Get.to(EditProfile(accountdata: widget.accountdata,locationc: widget.locationc));
           setState(() {
           });
         },
@@ -112,7 +189,12 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                                 onPressed: () {
-                                  Get.to(SignUpVaccin(accountdata: widget.accountdata,address: widget.adres));
+                                  if(widget.accountdata.address==''||widget.accountdata.healthCard==''||widget.accountdata.city=='')
+                                    return checkData();
+                                  print(checking['vac']);
+                                  if(checking['vac']!= '0')
+                                    return checkRegis();
+                                  Get.to(SignUpVaccin(accountdata: widget.accountdata,address: widget.adres,locationc: widget.locationc));
                                 },
                                 child: Column(
                                   children: <Widget>[
@@ -230,7 +312,11 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
-                              Get.to(SignUpTest(accountdata: widget.accountdata, userlocation: widget.adres,));
+                              if(widget.accountdata.address==''||widget.accountdata.healthCard==''||widget.accountdata.city=='')
+                                    return checkData();
+                              if(checking['test']!= '0')
+                                  return checkRegis();
+                              Get.to(SignUpTest(accountdata: widget.accountdata, userlocation: widget.adres,locationc: widget.locationc));
                             },
                             child: Column(
                               children: <Widget>[
@@ -352,7 +438,8 @@ class _HomeContentState extends State<HomeContent> {
                                   
                                 ),
                             onPressed: () {
-                              Get.to(Dialogflow());
+                              if(widget.accountdata.address==''||widget.accountdata.healthCard==''||widget.accountdata.city=='')
+                                    return checkData();
                             },
                             child: Column(
                               children: <Widget>[

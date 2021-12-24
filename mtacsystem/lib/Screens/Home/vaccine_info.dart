@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:mtacsystem/controller/vaccine_controller.dart';
 import 'package:mtacsystem/models/vaccine.dart';
@@ -41,42 +42,6 @@ class _VaccineInfoState extends State<VaccineInfo> {
     });
   }
 
-  alertDialog(Vaccine vaccine){
-    return Container(
-      height: 300,
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Xuất xứ: ${vaccine.country.toString()}"),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Thông tin: ${vaccine.description.toString()}"),
-            ),
-            ExpansionTile(
-              title: Text("Dùng điều trị: ${vaccine.diseaseName.toString()}"),
-              trailing: Icon(Icons.arrow_drop_down),
-              onExpansionChanged: (value){
-                setState((){
-                  isExpand = value;
-                });
-              },
-              children: [
-                  Text("Triệu chứng: ${vaccine.symptom.toString()}"),
-              ]
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Độ tuổi từ ${vaccine.ageUseFrom.toString()} đến ${vaccine.ageUseTo.toString()}"),
-            ),
-          ],
-        )
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,20 +67,51 @@ class _VaccineInfoState extends State<VaccineInfo> {
                       itemCount: list.length,
                       itemBuilder: (context, index) => Card(
                         key: ValueKey(list[index].idVac),
-                        color: Colors.amberAccent,
+                        color: Colors.green.shade200,
                         elevation: 4,
                         margin: const EdgeInsets.symmetric(vertical: 10),
                         child: ListTile(
                           onTap: (){
-                            showDialog(
+                            AwesomeDialog(
                               context: context,
-                              builder: (BuildContext context){
-                                return AlertDialog(
-                                  title: Text(list[index].vacName.toString()),
-                                  content: alertDialog(list[index]),
-                                );
-                              }
-                            );
+                              dialogType: DialogType.INFO,
+                              borderSide: BorderSide(color: Colors.blue, width: 2),
+                              headerAnimationLoop: false,
+                              animType: AnimType.BOTTOMSLIDE,
+                              btnOkColor: Colors.blue.shade600,
+                              body: 
+                              Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Xuất xứ: ${list[index].country.toString()}"),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Thông tin: ${list[index].description.toString()}"),
+                                ),
+                                ExpansionTile(
+                                  title: Text("Dùng điều trị: ${list[index].diseaseName.toString()}"),
+                                  trailing: Icon(Icons.arrow_drop_down),
+                                  onExpansionChanged: (value){
+                                    setState((){
+                                      isExpand = value;
+                                    });
+                                  },
+                                  children: [
+                                      Text("Triệu chứng: ${list[index].symptom.toString()}"),
+                                  ]
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text("Độ tuổi từ ${list[index].ageUseFrom.toString()} đến ${list[index].ageUseTo.toString()}"),
+                                ),
+                                SizedBox(height:10)
+                              ],
+                            ),
+                            buttonsTextStyle: TextStyle(fontSize: 13),
+                          )..show();
                           },
                           leading: Text(
                             list[index].idVac.toString(),

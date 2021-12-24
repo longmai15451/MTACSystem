@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mtacsystem/Components/process_method.dart';
+import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
 import 'package:mtacsystem/controller/limit_controller.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:flutter/material.dart';
@@ -23,9 +25,10 @@ import '../../main.dart';
 class ChooseTest extends StatefulWidget {
   final AccountProfile accountdata;
   final String userlocation;
+  final bool locationc;
   const ChooseTest({
     required this.accountdata,
-    required this.userlocation,
+    required this.userlocation, required this.locationc,
   });
   @override
   State<ChooseTest> createState() => _ChooseTest();
@@ -51,6 +54,8 @@ class _ChooseTest extends State<ChooseTest>{
   var direction;
   late List<bool> select = new List.filled(6, false ,growable:false);
   int durationSeconds = 2100;
+  var data;
+  bool isLoading = false;
 
   @override
   initState() {
@@ -146,8 +151,24 @@ class _ChooseTest extends State<ChooseTest>{
       );
     }
 
+  Future cancelSchedule(String id)async{
+    var url=sver.serverip + '/CAP1_mobile/test_cancel.php';
+    var response = await http.post(Uri.parse(url),body: {
+      "regisID" : id,
+    });
+    var data = json.decode(response.body);
+    if(data == 'Success') {
+      await notify.flutterLocalNotificationsPlugin.cancel(1);
+      return;
+    }
+    else
+    {
+      toast('Hệ thống đang gặp sự cố!',Colors.red);
+    }
+  }
+
   Future signup() async {
-    print(regisdata.endTime);
+    int estimate = direction['duration_seconds'] + 300;
     var url=sver.serverip+"/CAP1_mobile/test_register.php";
     var response = await http.post(Uri.parse(url),body: {
       "id_card": widget.accountdata.idCard.toString(),
@@ -156,22 +177,23 @@ class _ChooseTest extends State<ChooseTest>{
       "registerTime": regisdata.registerTime,
       "startTime": regisdata.startTime,
       "endTime": regisdata.endTime,
-      "estimateTime" : durationSeconds.toString(),
+      "estimateTime" : estimate.toString(),
     });
-    var data = json.decode(response.body);
+    data = json.decode(response.body);
     if(data != "Faild" && data != null){
       await notify.scheduledNotification(
-        12,//int.parse(data['registerDate'].toString().split("-")[1]),
-        21,//int.parse(data['registerDate'].toString().split("-")[2]),
-        18,//int.parse(data['expected'].toString().split(":")[0]),
-        12,//int.parse(data['expected'].toString().split(":")[1]),
+        1,
+        int.parse(data['registerDate'].toString().split("-")[1]),
+        int.parse(data['registerDate'].toString().split("-")[2]),
+        int.parse(data['expected'].toString().split(":")[0]),
+        int.parse(data['expected'].toString().split(":")[1]),
         'Lịch hẹn xét nghiệm',
-        'bạn có lịch hẹn xét nghiệm tại địa chỉ: ${data['address']}'       
+        'bạn có lịch hẹn xét nghiệm tại địa chỉ: ${data['address']}',
+        data['id'].toString(),
+        widget.userlocation,
+        data['address'].toString(), 
+        '0',        
       );
-      toast('Đăng ký thành công', Colors.green);
-      setState((){
-        Get.offAll(MainScreen(address: widget.userlocation,));
-      });
     }
     else{
       toast('Đã có lỗi xảy ra. Vui lòng thử lại', Colors.red);
@@ -183,7 +205,7 @@ class _ChooseTest extends State<ChooseTest>{
     {
       int hour = int.parse(DateFormat('H').format(DateTime.now()));
       int minus = int.parse(DateFormat('m').format(DateTime.now()));
-      if(hour>=end-1 && minus >=50 || hour>end)
+      if(hour==end-1 && minus >=50 || hour>=end)
       {
         availableCheck = false;
       }
@@ -224,47 +246,6 @@ class _ChooseTest extends State<ChooseTest>{
     });
   }
   
-   Widget hospitalAlertDialogContainer(){
-    return Container(
-      height: 300,
-      width: 300,
-      child: FutureBuilder <List<Hospital>>(
-            future: hosData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<Hospital> data = snapshot.data!;
-                return 
-                ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (BuildContext context, int index){
-                  return Column(
-                    children: [
-                      for(int i=0; i<data.length; ++i)
-                      TextButton(
-                        onPressed: () async {
-                            index = i;
-                            await _dataProcessing(i, data, index);
-                            Navigator.pop(context);
-                          },
-                        child: ListTile(
-                          title: Text('${data[i].hosName}'),
-                          subtitle: Text('${data[i].hosAddress}'),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-    );
-  }
 
    Future<void> _dataProcessing(int i, List<Hospital> data, int index) async {
      direction = await LocationService().getDirection(widget.userlocation,data[i].hosAddress.toString());
@@ -282,7 +263,6 @@ class _ChooseTest extends State<ChooseTest>{
        regisdata.registerDate.text,
        "/CAP1_mobile/checkstatushospital_test.php"
       );
-     _getSeconds(direction);
       ProcessingMethod().setAvailible(limitdata,availableCheck);
      setState((){
 
@@ -308,10 +288,39 @@ class _ChooseTest extends State<ChooseTest>{
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+  
     return Scaffold(
       appBar: AppBar(
-        title: Text("Đặt xét nghiệm"),
+        title: SizedBox(child: Row(
+          children: [
+            Container(child: Text("ĐẶT LỊCH XÉT NGHIỆM")),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  border: Border.all(color:Colors.white,width:1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                ),
+                child: Center(child: Text('1',style: TextStyle(fontSize: 13))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  border: Border.all(color:Colors.white,width:1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                ),
+                child: Center(child: Text('2',style: TextStyle(fontSize: 13))),
+              ),
+            ),
+          ],
+        )),
         backgroundColor: Colors.blue.shade300,
       ),
       body: Background(
@@ -371,16 +380,60 @@ class _ChooseTest extends State<ChooseTest>{
             Container(
               child: TextField(
                 controller: regisdata.hos,
+                readOnly: true,
                 onTap:(){
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context){
-                      return AlertDialog(
-                        title: Text('Danh Sách Bệnh Viện'),
-                        content: hospitalAlertDialogContainer(),
-                      );
-                    }
-                  );
+                  AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.INFO,
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      headerAnimationLoop: false,
+                      animType: AnimType.BOTTOMSLIDE,
+                      btnOkColor: Colors.blue.shade600,
+                      body: Column(
+                        children: [
+                          Text('BỆNH VIỆN'),
+                          FutureBuilder <List<Hospital>>(
+                            future: hosData,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                List<Hospital> data = snapshot.data!;
+                                return 
+                                ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: 1,
+                                itemBuilder: (BuildContext context, int index){
+                                  return Column(
+                                    children: [
+                                      for(int i=0; i<data.length; ++i)
+                                      TextButton(
+                                        onPressed: () async {
+                                            index = i;
+                                            await _dataProcessing(i, data, index);
+                                            Navigator.pop(context);
+                                          },
+                                        child: ListTile(
+                                          title: Text('${data[i].hosName}'),
+                                          subtitle: Text('${data[i].hosAddress}'),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }
+                              );
+                              } else if (snapshot.hasError) {
+                                return Text("${snapshot.error}");
+                              }
+                              // By default show a loading spinner.
+                              return CircularProgressIndicator();
+                            },
+                          ),
+                        ],
+                      ),
+                      buttonsTextStyle: TextStyle(fontSize: 13),
+                    )..show();
+                  setState((){
+
+                  });
                 },
                 decoration: InputDecoration(
                     hintText: 'Chọn nơi xét nghiệm', icon: Icon(Icons.local_hospital_sharp)),
@@ -482,39 +535,49 @@ class _ChooseTest extends State<ChooseTest>{
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: RaisedButton(
-                onPressed: () {
-                  if(regisdata.idHos!=null)
-                    setState(() {
-                      signup();
-                    });
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(70.0)),
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50.0,
-                  width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(70.0),
-                    gradient: new LinearGradient(
-                      colors: [Colors.blue.shade600, Colors.blue.shade300],
-                      begin: FractionalOffset.bottomLeft,
-                      end: FractionalOffset.topRight
-                    )
-                  ),
-                  padding: const EdgeInsets.all(0),
-                  child: Text(
-                    "Đăng ký",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
-                )
-              ),
+              child: AnimatedButton(
+                  text: "XÁC NHẬN",
+                  pressEvent: ()async {
+                    _getSeconds(direction);
+                    if(isLoading) return;
+                    setState(()=> isLoading = true);
+                    await signup();
+                    setState(()=> isLoading = false);
+                    if(data != "Faild" && data != null)
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.QUESTION,
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                      headerAnimationLoop: false,
+                      animType: AnimType.BOTTOMSLIDE,
+                      body: Column(
+                        children: [
+                          Text('TIẾN HÀNH ĐẶT LỊCH',),
+                          SizedBox(height:10),
+                          Text(
+                            'Giờ hẹn dự kiến: ${data['registerTimed'].toString().split(':')[0]}:${data['registerTimed'].toString().split(':')[1]}'
+                          ),
+                          Text('Thông báo trước giờ hẹn ${data['minutes'].toString().split(':')[1]} phút.'),
+                        ],
+                      ),
+                      btnCancelText: 'HỦY',
+                      btnOkText: 'ĐẶT',
+                      btnOkColor: Colors.blue.shade600,
+                      btnCancelOnPress: () {},
+                      btnOkOnPress: () {
+                        setState((){
+                          toast('Đăng ký thành công', Colors.green);
+                          Get.to(Detail(adres: widget.userlocation, des: data['address'], id: data['id'], type: '0',res: true,locationc: widget.locationc));
+                        });
+                      },
+                       onDissmissCallback: (type) {
+                          if(type == DismissType.OTHER||type == DismissType.BTN_CANCEL)
+                            cancelSchedule(data['id']);
+                        },
+                      buttonsTextStyle: TextStyle(fontSize: 13),
+                    )..show();
+                  },
+              )
             ),
 
           ]

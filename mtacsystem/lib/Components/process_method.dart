@@ -1,3 +1,4 @@
+import 'package:mtacsystem/models/account.dart';
 
 class ProcessingMethod {
   

@@ -12,9 +12,10 @@ import 'package:mtacsystem/controller/controllerData.dart';
 class SignUpVaccin extends StatefulWidget {
   final AccountProfile accountdata;
   final String address;
+  final bool locationc;
   SignUpVaccin({
     required this.accountdata,
-    required this.address,
+    required this.address, required this.locationc,
   });
   @override
   State<SignUpVaccin> createState() => _SignUpVaccinState(accountdata: accountdata);
@@ -25,6 +26,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
   late bool _readonly = true;
   late AccountProfile accountdata;
   bool _expanded = false;
+  bool isLoading = false;
   final format = DateFormat("dd-MM-yyy");
   _SignUpVaccinState({required this.accountdata});
   @override
@@ -54,7 +56,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
       appBar: AppBar(
         title: SizedBox(child: Row(
           children: [
-            Container(child: Text("Đăng ký tiêm chủng")),
+            Container(child: Text("ĐĂNG KÝ TIÊM CHỦNG")),
             Spacer(),
             Padding(
               padding: const EdgeInsets.all(2.0),
@@ -134,7 +136,7 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                                   Container(height: 5,),
                                   Text('Năm sinh: '+accountdata.birthDate.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                                   Container(height: 5,),
-                                  Text('Giới Tính: '+(accountdata.gender=='0'?'Nam':accountdata.gender=='1'?'Nữ':'Khác'),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
+                                  Text('Giới Tính: '+(accountdata.gender=='male'?'Nam':'Nữ'),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                                   Container(height: 5,),
                                   Text('SĐT: '+accountdata.phone.toString(),style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600,)),
                                   Container(height: 5,),
@@ -582,8 +584,11 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                   alignment: Alignment.center,
                   margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                   child: RaisedButton(
-                      onPressed: () {
-                        Get.to(ChosseHospital(accountdata: accountdata, userlocation: widget.address,));
+                      onPressed: () async{
+                        if(isLoading) return;
+                        setState(()=> isLoading = true);
+                        await Get.to(ChosseHospital(accountdata: accountdata, userlocation: widget.address,locationc: widget.locationc));
+                        setState(()=> isLoading = false);
                       },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(70.0)),
@@ -603,7 +608,9 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
                                 begin: FractionalOffset.bottomLeft,
                                 end: FractionalOffset.topRight)),
                         padding: const EdgeInsets.all(0),
-                        child: Text("Tiếp tục",
+                        child: isLoading?
+                    CircularProgressIndicator(color: Colors.white)
+                    :Text("Tiếp tục",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
