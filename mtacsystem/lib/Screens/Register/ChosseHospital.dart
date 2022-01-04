@@ -498,6 +498,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                               return CircularProgressIndicator();
                             },
                           ),
+                          SizedBox(height: 10),
                         ],
                       ),
                       buttonsTextStyle: TextStyle(fontSize: 13),

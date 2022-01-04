@@ -20,7 +20,6 @@ import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:mtacsystem/models/hospital.dart';
 import 'package:http/http.dart' as http;
-import '../../main.dart';
 
 class ChooseTest extends StatefulWidget {
   final AccountProfile accountdata;
@@ -427,6 +426,7 @@ class _ChooseTest extends State<ChooseTest>{
                               return CircularProgressIndicator();
                             },
                           ),
+                          SizedBox(height: 10),
                         ],
                       ),
                       buttonsTextStyle: TextStyle(fontSize: 13),

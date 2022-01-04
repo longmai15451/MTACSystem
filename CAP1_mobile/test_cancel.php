@@ -6,16 +6,17 @@ if(!$db){
     echo "Connection Faild";
 }
 
-$Phone = $_POST['phone'];
-$Pass = $_POST['password'];
+$regisID = $_POST['regisID'];
 
-$sql = "Update patients set password = '".$Pass."' WHERE phone = '".$Phone."'";
+$sql = "Call test_schedule_cancel('".$regisID."')";
 $result = mysqli_query($db,$sql);
 
 if($result){
     echo json_encode("Success");
 }
-else{
+else
+{
+
     echo json_encode("Error");
 }
 

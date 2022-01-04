@@ -11,6 +11,11 @@ class HospitalController{
       await http.post(Uri.parse(url),body: {
         "city": sver.city.toString(),
       });
+    var check = json.decode(response.body);
+    if(check=='Error')
+    {
+      throw 'Khu vực chưa được đăng ký!';
+    }
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
         return jsonResponse.map((data) => new Hospital.fromJson(data)).toList();

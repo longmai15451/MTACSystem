@@ -6,9 +6,8 @@ if(!$db){
 }
 
 $idCard = $_POST['id_card'];
-$registerDate = $_POST['registerDate'];
 
-$sql = "CALL test_regis_schedule('".$idCard."','".$registerDate."')";
+$sql = "CALL vaccineHistory('".$idCard."')";
 $result = mysqli_query($db,$sql);
 $count = mysqli_num_rows($result);
 

@@ -73,66 +73,107 @@ class _HisDetail extends State<HisDetail> {
             ),
           )
           ),
-          SingleChildScrollView(
-              child: ListTile(
-                title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Row(
-                        children: [
-                          Text('Họ Tên: ${data!=null?data['full_name']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Số Điện Thoại:  ${data!=null?data['phone']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('CCCD: ${data!=null?data['id_card']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Cơ sở y tế:  ${data!=null?data['hos_name']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Tiêm phòng bệnh: ${data!=null?data['vaccine']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Loại vaccine: ${data!=null?data['vaccine']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Ngày Hẹn: ${data!=null?data['register_date']:""}'),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text('Giờ Hẹn: ${data!=null?data['register_time']:""}'),
-                        ],
-                      ),
-                      ListTile(
-                          title: Text('Địa Chỉ Bệnh Viện:'),
-                          subtitle: Text('${data!=null?data['hos_address']:""}'),
-                      ),
-                      Row(
-                        children:[
-                          Text('Đã Tiêm: ${data!=null?datedCal(data['register_date'],data['register_time']):""}',),
-                        ]
-                      )
-                    ]
-                  
+          Expanded(
+            child: SingleChildScrollView(
+                child: ListTile(
+                  title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Row(
+                            children: [
+                              Text('Họ Tên: '),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('${data!=null?data['full_name']:""}'),
+                              ),
+                            ],
+                          ),
+                          
+                          Row(
+                            children: [
+                              Text('Số Điện Thoại:  '),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('${data!=null?data['phone']:""}'),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('CCCD: '),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('${data!=null?data['id_card']:""}'),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('Cơ sở y tế:  '),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('${data!=null?data['hos_name']:""}'),
+                              ),
+                            ],
+                          ),
+                          Row(
+                              children: [
+                                Text('Tiêm phòng bệnh: '),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('${data!=null?data['disease']:""}'),
+                                ),
+                              ],
+                            ),
+                        Row(
+                              children: [
+                                Text('Loại vaccine: '),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text('${data!=null?data['vaccine']:""}'),
+                                ),
+                              ],
+                            ),
+                        Row(
+                            children: [
+                              Text('Ngày Hẹn: '),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('${data!=null?data['register_date']:""}'),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text('Giờ Hẹn: '),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('${data!=null?"${data['register_time'].toString().split(':')[0]}:${data['register_time'].toString().split(':')[1]}":""}'),
+                              ),
+                            ],
+                          ),
+                          ListTile(
+                              dense: false,
+                              title: Text('Địa Chỉ Bệnh Viện:'),
+                              subtitle: Text('${data!=null?data['hos_address']:""}'),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
+                              Text('Đã Tiêm: ${data!=null?datedCal(data['register_date'],data['register_time']):""}',),
+                            ]
+                          ),
+                        ),
+                        SizedBox(height:10)
+                      ]
+                    
+                  ),
                 ),
               ),
-            ),
+          ),
         ],
       ),
     );

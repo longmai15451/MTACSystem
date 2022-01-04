@@ -1,18 +1,17 @@
 <?php
-$db = mysqli_connect('localhost','id17989172_root','Root-123456789','id17989172_mtacsystem');
+require_once('connection.php');
 mysqli_set_charset($db, 'UTF8');
 
 if(!$db){
     echo "Connection Faild";
 }
 
-$id_hos = "11";//$_POST('id_hos');
+$ID = $_POST['idCard'];
 
-$sql = "CALL checkAvailibleTestRegis('".$id_hos."');";
+$sql = "call checkData('".$ID."')";
 $result = mysqli_query($db,$sql);
-$count = mysqli_num_rows($result);
 
-if($count == 1){
+if($result){
     $json = mysqli_fetch_assoc($result);
     echo json_encode($json,JSON_UNESCAPED_UNICODE);
 }

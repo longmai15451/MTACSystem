@@ -1,11 +1,13 @@
 <?php
-$db = mysqli_connect('localhost','id17989172_root','Root-123456789','id17989172_mtacsystem');
+require_once('connection.php');
 mysqli_set_charset($db, 'UTF8');
 if(!$db){
     echo "Connection Faild";
 }
 
-$sql = "CALL hospital_data()";
+$city = $_POST['city'];
+
+$sql = "CALL hospital_data('".$city."')";
 $result = mysqli_query($db,$sql);
 $count = mysqli_num_rows($result);
 

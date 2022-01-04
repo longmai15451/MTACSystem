@@ -26,7 +26,10 @@ class _ChangePassword extends State<ChangePassword>{
   TextEditingController checkPassword = TextEditingController();
 
   Future changePass()async{
-    if(checkPassword.text!=password.text){
+    if(password.text.length<8){
+      toast("Mật khẩu phải trên 8 ký tự!",Colors.red);
+    }
+    else if(checkPassword.text!=password.text){
       toast("Mật khẩu xác nhận không trùng khớp!",Colors.red);
     }
     else{
@@ -71,7 +74,7 @@ class _ChangePassword extends State<ChangePassword>{
           elevation: 0.0,
           toolbarHeight: 80.0,
         ),
-        body: Column(
+        body: ListView(
           children: [
             Image.asset(
               'assets/images/Splash.png',
@@ -79,7 +82,7 @@ class _ChangePassword extends State<ChangePassword>{
               height: 140.0,
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 50.0, bottom: 30.0),
+              padding: const EdgeInsets.only(top: 50.0, bottom: 30.0,left: 40),
               child: Container(
                 child: Text(
                   'Vui lòng nhập mật khẩu mới!',
@@ -95,6 +98,7 @@ class _ChangePassword extends State<ChangePassword>{
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                obscureText: true,
                 controller: password,
                 decoration: InputDecoration(
                   hintText: "Mật khẩu mới",
@@ -107,6 +111,7 @@ class _ChangePassword extends State<ChangePassword>{
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40),
               child: TextField(
+                obscureText: true,
                 controller: checkPassword,
                 decoration: InputDecoration(
                   hintText: "Xác nhận mật khẩu",

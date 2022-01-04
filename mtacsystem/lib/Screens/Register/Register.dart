@@ -23,7 +23,40 @@ class _RegisterState extends State<RegisterScreen> {
   TextEditingController passcheck = TextEditingController();
 
   Future register()async{
-    if(pass.text!=passcheck.text){
+    if(cccd.text.length!=9){
+      Fluttertoast.showToast(
+        msg: "Số căn cước không hợp lệ!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.red,
+        fontSize: 16.0
+      );
+    }
+    else if(phone.text.length<10||phone.text.length>11){
+      Fluttertoast.showToast(
+        msg: "Số điện thoại không hợp lệ!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.red,
+        fontSize: 16.0
+      );
+    }
+    else if(pass.text.length<8){
+      Fluttertoast.showToast(
+        msg: "Mật khẩu phải trên 8 ký tự!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.grey[50],
+        textColor: Colors.red,
+        fontSize: 16.0
+      );
+    }
+    else if(pass.text!=passcheck.text){
       Fluttertoast.showToast(
         msg: "Mật khẩu xác nhận không trùng khớp!",
         toastLength: Toast.LENGTH_LONG,

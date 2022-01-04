@@ -5,10 +5,11 @@ if(!$db){
     echo "Connection Faild";
 }
 
-$idCard = $_POST['id_card'];
-$registerDate = $_POST['registerDate'];
 
-$sql = "CALL test_regis_schedule('".$idCard."','".$registerDate."')";
+$idCard = $_POST['idCard'];
+$idDis = $_POST['idDis'];
+
+$sql = "CALL VacResultQuery('".$idCard."','".$idDis."')";
 $result = mysqli_query($db,$sql);
 $count = mysqli_num_rows($result);
 
@@ -18,7 +19,7 @@ if($count > 0){
     $rows1[] = $rs;}
     echo json_encode($rows1,JSON_UNESCAPED_UNICODE);
 }
-else if($count == 0){
+else{
     echo json_encode("Error");
 }
 

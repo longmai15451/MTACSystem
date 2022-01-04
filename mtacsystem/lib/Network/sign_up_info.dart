@@ -16,6 +16,7 @@ class SignUpInfo{
         "phone": json['phone'],
         "id_card": json['id_card'],
         "hos_name": json['hos_name'],
+        "disease": json['disease_name'],
         "vaccine": json['vaccine_name'],
         "register_date": json['registerDate'],
         "register_time": json['registerTime'],

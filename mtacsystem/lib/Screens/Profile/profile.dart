@@ -1,6 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Screens/Login/Login.dart';
+import 'package:mtacsystem/Screens/Login/changePassword.dart';
 import 'package:mtacsystem/Screens/Profile/test_result.dart';
 import 'package:mtacsystem/Screens/Profile/vaccine_result.dart';
 import 'editProf.dart';
@@ -189,7 +191,29 @@ class _Profile extends State<Profile>{
                       Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.NO_HEADER,
+                            borderSide: BorderSide(color: Colors.blue, width: 2),
+                            headerAnimationLoop: false,
+                            animType: AnimType.BOTTOMSLIDE,
+                            body: Column(
+                              children: [
+                                ListTile(
+                                  title: TextButton(
+                                    onPressed: () {
+                                        Get.to(ChangePassword(phone: accountdata.phone.toString(),));
+                                      },
+                                    child: ListTile(
+                                          title: Text('ĐỔI MẬT KHẨU'),
+                                        ),
+                                  )
+                                )
+                              ]
+                            ),
+                          )..show();
+                          },
                           child: Container(
                             width: 200,
                             decoration: BoxDecoration(

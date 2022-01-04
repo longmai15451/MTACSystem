@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'package:mtacsystem/server/Server.dart' as sver;
-
 import '../../main.dart';
 
 class Detail extends StatefulWidget{
@@ -143,7 +142,7 @@ class _Detail extends State<Detail> {
                               Text('Tiêm phòng bệnh: '),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('${data!=null?data['vaccine']:""}'),
+                                child: Text('${data!=null?data['disease']:""}'),
                               ),
                             ],
                           ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Components/his_detail.dart';
 import 'package:mtacsystem/Components/task_tile.dart';
@@ -37,14 +36,14 @@ class _VaccineHisState extends State<VaccineHis> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80.0,
-        backgroundColor: Colors.blue.shade100,
+        backgroundColor: Colors.blue.shade200,
         
         centerTitle: true,
         title: Text(
           'LỊCH SỬ TIÊM',
           style: TextStyle(
             fontWeight: FontWeight.w300,
-            color: Color(0xFF002FFF),
+            color: Color(0xFFEEEEEE),
             fontFamily: "Roboto",
             fontSize: 30,
             ),
@@ -62,7 +61,7 @@ class _VaccineHisState extends State<VaccineHis> {
 
   Future<Map<String, dynamic>> search(String address)async{
     String url = 
-    "https://maps.googleapis.com/maps/api/place/textsearch/json?query=${address}&key=AIzaSyBsZrS5LkAXAqzgVYMJQQMYOoWgYCHHZTU";
+    "https://maps.googleapis.com/maps/api/place/textsearch/json?query=$address&key=AIzaSyBsZrS5LkAXAqzgVYMJQQMYOoWgYCHHZTU";
     var response = await http.get(Uri.parse(url));
     var json = jsonDecode(response.body);
     var result = {

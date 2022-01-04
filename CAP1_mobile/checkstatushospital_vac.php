@@ -1,25 +1,25 @@
 <?php
 require_once('connection.php');
 mysqli_set_charset($db, 'UTF8');
+
 if(!$db){
     echo "Connection Faild";
 }
 
-$regisID = $_POST['regisId'];
+$idHos = $_POST['id_hos'];
+$regisDate = $_POST['registerDate'];
 
-
-$sql = "CALL vacResgisInfo ('".$regisID."')";
+$sql = "Call checkAvailibleVacRegis('".$idHos."','".$regisDate."')";
 $result = mysqli_query($db,$sql);
 $count = mysqli_num_rows($result);
-
 if($count == 1){
     $json = mysqli_fetch_assoc($result);
     echo json_encode($json,JSON_UNESCAPED_UNICODE);
 }
-else{
+else
+{
+
     echo json_encode("Error");
 }
 
 ?>
-
-

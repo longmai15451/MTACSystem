@@ -72,7 +72,6 @@ class _CalendarContentState extends State<CalendarContent> {
       child: Obx((){
         return ListView.builder(
           itemCount: _scheduleController.scheduleList.length,
-
           itemBuilder: (_, index){
             Schedule schedule = _scheduleController.scheduleList[index];
             print(schedule.regisID);

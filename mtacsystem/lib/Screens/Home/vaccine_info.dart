@@ -45,7 +45,7 @@ class _VaccineInfoState extends State<VaccineInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Thông Tin Vaccine'),centerTitle: true,),
+      appBar: AppBar(title: Text('THÔNG TIN VACCINE'),centerTitle: true,),
       body:Padding(
         padding: const EdgeInsets.all(10),
         child: Column(

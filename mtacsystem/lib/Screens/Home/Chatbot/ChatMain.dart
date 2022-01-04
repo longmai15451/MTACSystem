@@ -11,7 +11,7 @@ class _Dialogflow extends State<Dialogflow> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tư vấn'),
+        title: Text('TƯ VẤN'),
         backgroundColor: Colors.blue,
       ),
       body: Center(

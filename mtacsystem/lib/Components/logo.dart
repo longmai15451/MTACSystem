@@ -13,6 +13,7 @@ class Logo {
       elevation: 0.0,
       centerTitle: true,
       toolbarHeight: 80.0,
+      automaticallyImplyLeading: false,
     );
   }
 } 

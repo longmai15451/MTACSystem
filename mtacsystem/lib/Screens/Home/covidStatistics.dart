@@ -8,7 +8,7 @@ class CovidStatistics extends StatelessWidget{
   CovidStatistics({required this.summary});
   @override
   Widget build(BuildContext context){
-    return Stack( //Covid Tracked đăng ký ấy khi thành công n phải nhảy qua bên đăng nhập chứ chưa lm
+    return Stack( 
       children: <Widget>[
          Container(
           margin: EdgeInsets.only(left: 5, right: 5),
@@ -53,204 +53,118 @@ class CovidStatistics extends StatelessWidget{
                 )
               ),
                ),
-              Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-              Container(
-              margin: EdgeInsets.only(
-                  top: 5,
-                  left: 3,
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                _statComponent(
+                5, 3, 0,
+                [Colors.red.shade50, Colors.red.shade300],
+                Colors.red.shade300.withOpacity(0.3),
+                'assets/images/infected.png', Colors.red.shade900,
+                summary.cases.toString(), Colors.red.shade900,
+                'Số ca nhiễm', Colors.red.shade900,
                 ),
-              height: 150.0,
-              width: 105.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                gradient: LinearGradient(
-                    colors: [Colors.red.shade50, Colors.red.shade300],
-                    begin: FractionalOffset.bottomLeft,
-                    end: FractionalOffset.topRight
+                _statComponent(
+                5, 0, 0,
+                [Colors.green.shade50, Colors.green.shade300],
+                Colors.green.shade200.withOpacity(0.3),
+                'assets/images/recovered.png', Colors.green.shade900,
+                summary.recovered.toString(), Colors.green.shade900,
+                'Số ca phục hồi', Colors.green.shade900,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.red.shade300.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 3,
-                    offset: Offset(0, 2))
+                _statComponent(
+                5, 0, 3,
+                [Colors.grey.shade300, Colors.grey.shade600],
+                Colors.grey.shade300.withOpacity(0.3),
+                'assets/images/grave.png', Colors.black87,
+                summary.deaths.toString(), Colors.black87,
+                'Số ca tử vong', Colors.black87,
+                ),
                 ],
               ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: ImageIcon(
-                    AssetImage('assets/images/infected.png'),
-                        size: 50.0,
-                        color: Colors.red[900],
-                  ),
-                  ),
-                  
-                  Container(
-                    // margin: EdgeInsets.all(5.0),
-                    margin: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      summary.cases.toString(),
-                      style: TextStyle(
-                        color: Colors.red[900],
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10.0),
-                    height: 30,
-                    width: 150,
-                    child: Text(
-                      'Số ca nhiễm',
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.red[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  )
-                ],
-              ),
-        ),
-        Container(
-              margin: EdgeInsets.only(
-                  top: 5,
-                ),
-              height: 150.0,
-              width: 105.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    colors: [Colors.green.shade50, Colors.green.shade300],
-                    begin: FractionalOffset.bottomLeft,
-                    end: FractionalOffset.topRight
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.green.shade200.withOpacity(0.3),
-                      spreadRadius: 3,
-                      blurRadius: 3,
-                      offset: Offset(0, 2))
-                  ],
-                ),
-                child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: ImageIcon(
-                    AssetImage('assets/images/recovered.png'),
-                        size: 50.0,
-                        color: Colors.green[900],
-                  ),
-                  ),
-                  
-                  Container(
-                    // margin: EdgeInsets.all(5.0),
-                    margin: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      summary.recovered.toString(),
-                      style: TextStyle(
-                        color: Colors.green[900],
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10.0),
-                    height: 30,
-                    width: 150,
-                    child: Text(
-                      'Số ca phục hồi',
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.green[900],
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  )
-                ],
-              ),
-              ),
-        Container(
-                margin: EdgeInsets.only(
-                  top: 5,
-                  right: 3,
-                ),
-                height: 150.0,
-                width: 105.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  gradient: LinearGradient(
-                    colors: [Colors.grey.shade300, Colors.grey.shade600],
-                    begin: FractionalOffset.bottomLeft,
-                    end: FractionalOffset.topRight
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300.withOpacity(0.3),
-                      spreadRadius: 3,
-                      blurRadius: 3,
-                      offset: Offset(0, 2))
-                  ],
-                ),
-                child: Column(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: ImageIcon(
-                    AssetImage('assets/images/grave.png'),
-                        size: 50.0,
-                        color: Colors.black87,
-                  ),
-                  ),
-                  
-                  Container(
-                    // margin: EdgeInsets.all(5.0),
-                    margin: EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      summary.deaths.toString(),
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10.0),
-                    height: 30,
-                    width: 150,
-                    child: Text(
-                      'Số ca tử vong',
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  )
-                ],
-              ),
-              ),
-        ],
-        ),
             ],
           ),
         ),
-        
       ],
+    );
+  }
+  _statComponent(
+    double top, 
+    double left, 
+    double right,
+    List<Color> gradientColor,
+    Color boxShadowColor,
+    String image, 
+    Color imageColor,
+    String data,
+    Color dataColor, 
+    String title, 
+    Color titleColor
+    )
+    {
+    return Container(
+      margin: EdgeInsets.only(
+        top: top,
+        left: left,
+        right: right,
+      ),
+      height: 150.0,
+      width: 105.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        gradient: LinearGradient(
+          colors: gradientColor,
+          begin: FractionalOffset.bottomLeft,
+          end: FractionalOffset.topRight
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: boxShadowColor,
+            spreadRadius: 3,
+            blurRadius: 3,
+            offset: Offset(0, 2))
+        ],
+      ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 5),
+            child: ImageIcon(
+            AssetImage(image),
+                size: 50.0,
+                color: imageColor,
+          ),
+          ),
+          
+          Container(
+            // margin: EdgeInsets.all(5.0),
+            margin: EdgeInsets.only(top: 10.0),
+            child: Text(
+              data,
+              style: TextStyle(
+                color: dataColor,
+                fontSize: 25,
+                fontWeight: FontWeight.w500
+              ),
+            )
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 10.0),
+            height: 30,
+            width: 150,
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              style: TextStyle(
+                color: titleColor,
+                fontSize: 15,
+                fontWeight: FontWeight.w500
+              ),
+            )
+          )
+        ],
+      ),
     );
   }
 }
