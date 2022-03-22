@@ -37,8 +37,10 @@ class _VaccineResult extends State<VaccineResult>{
 	@override
 	Widget build(BuildContext context) => Scaffold(
 		appBar: AppBar(
-			title: Text('KẾT QUẢ TIÊM'),
-      centerTitle: true,
+			backgroundColor: Colors.teal,
+        elevation: 0,
+        centerTitle: true,
+        title: Expanded(child: Text('KẾT QUẢ TIÊM')),
 		),
 		body: SingleChildScrollView(
 				padding: EdgeInsets.all(18),
@@ -52,43 +54,50 @@ class _VaccineResult extends State<VaccineResult>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Họ Tên:'),
-                      Text('${widget.account.fullName}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Ngày sinh:'),
-                      Text('${widget.account.birthDate}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('CCCD:'),
-                      Text('${widget.account.idCard}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Số điện thoại:'),
-                      Text('${widget.account.phone}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('BHYT:'),
-                      Text('${widget.account.healthCard}'),
-                    ],
-                  ),
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Họ Tên:',
+                              style: TextStyle(
+                                fontSize: 16
+                                
+                              ),
+                            ),
+                            Text('${widget.account.fullName}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Ngày sinh:',style: TextStyle(fontSize: 16)),
+                            Text('${widget.account.birthDate}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('CCCD:',style: TextStyle(fontSize: 16)),
+                            Text('${widget.account.idCard}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Số điện thoại:',style: TextStyle(fontSize: 16)),
+                            Text('${widget.account.phone}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('BHYT:',style: TextStyle(fontSize: 16)),
+                            Text('${widget.account.healthCard}',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,)),
+                          ],
+                        ),
                 ],
               ),
             ),
+            SizedBox(height: 10),
 						Container(
                 width: 150,
                 height: 30,
@@ -99,7 +108,7 @@ class _VaccineResult extends State<VaccineResult>{
                     context: context,
                     builder: (BuildContext context){
                       return AlertDialog(
-                        title: Text('Danh Sách bệnh'),
+                        title: Text('Danh Sách bệnh',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
                         content: diseaseAlertDialogContainer(),
                       );
                     }
@@ -112,12 +121,19 @@ class _VaccineResult extends State<VaccineResult>{
                   decoration: InputDecoration(
                     isDense: true,
                     hintText: ('Loại bệnh'),
+                    hintStyle: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+                    enabledBorder: UnderlineInputBorder(      
+                      borderSide: BorderSide(color: Colors.grey),   
+                      ),  
+              focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.teal),
+                   ),  
                   ),
                 ),
             ),
             SizedBox(height: 5),
             if(selectDisease == false)
-              Text('Vui lòng chọn loại bệnh.'),
+              Text('Vui lòng chọn loại bệnh.',style:TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
             if(selectDisease == true)
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -208,12 +224,12 @@ class _VaccineResult extends State<VaccineResult>{
     );
   }
   List<DataColumn> getColumns(List<String> columns) => columns
-  .map((String column) => DataColumn(label: Text(column))).toList();
+  .map((String column) => DataColumn(label: Text(column,style:TextStyle(fontSize: 16,fontWeight: FontWeight.bold),))).toList();
   List<DataRow> getRows(List<VacResult> results) => results
   .map((VacResult result){
     final cells = [result.injectionTime,result.vaccineName,result.datatime,result.address];
     return DataRow(cells: getCells(cells));
   }).toList();
   List<DataCell> getCells(List<dynamic> cells) =>
-      cells.map((data)=>DataCell(Text('$data'))).toList();
+      cells.map((data)=>DataCell(Text('$data',style: TextStyle(fontSize: 16)))).toList();
 }

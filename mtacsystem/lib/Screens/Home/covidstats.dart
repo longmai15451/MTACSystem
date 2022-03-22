@@ -4,38 +4,43 @@ import 'package:mtacsystem/models/ApiCovid.dart';
 import '../Home/covidStatistics.dart';
 import 'covidLoading.dart';
 
-
-class CovidStats extends StatefulWidget{
-    @override
-    _VNState createState() => _VNState();
+class CovidStats extends StatefulWidget {
+  @override
+  _VNState createState() => _VNState();
 }
 
 class _VNState extends State<CovidStats> {
   // late Future<List<SummaryCovid>> summary;
   late Future<SummaryModel> summary;
   @override
-  initState(){
+  initState() {
     super.initState();
     summary = CovidService.getCountrySummary();
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return FutureBuilder<SummaryModel>(
-      future: summary,
-      builder: (context, snapshot){
-        if(snapshot.hasError){
-          return Center(child: Text('${snapshot.error}',));
-        }
-        switch(snapshot.connectionState){
-          case ConnectionState.waiting: return CovidLoading();
-          default: return !snapshot.hasData 
-                  ? Center(child: Text("Empty"),)
+        future: summary,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+                child: Text(
+              '${snapshot.error}',
+            ));
+          }
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return CovidLoading();
+            default:
+              return !snapshot.hasData
+                  ? Center(
+                      child: Text("Empty"),
+                    )
                   : CovidStatistics(
-                    summary: snapshot.data!,
-                  );
-        }
-      }
-    );
+                      summary: snapshot.data!,
+                    );
+          }
+        });
   }
 }

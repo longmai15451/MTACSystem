@@ -16,8 +16,7 @@ import 'package:animations/animations.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 import 'package:location/location.dart';
 
-class LoginScreen extends StatefulWidget{
-
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginState createState() => _LoginState();
@@ -28,7 +27,7 @@ class _LoginState extends State<LoginScreen> {
   bool _isObscure = true;
   TextEditingController phone = TextEditingController();
   TextEditingController pass = TextEditingController();
-   Location location = new Location();
+  Location location = new Location();
   late PreferredSizeWidget app;
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
@@ -37,13 +36,12 @@ class _LoginState extends State<LoginScreen> {
   bool locationc = true;
 
   @override
-  initState(){
+  initState() {
     super.initState();
     getPermission();
   }
 
-
-  void getPermission() async{
+  void getPermission() async {
     _serviceEnabled = await location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
@@ -59,66 +57,80 @@ class _LoginState extends State<LoginScreen> {
       }
     }
     _locationData = await location.getLocation();
-    List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(_locationData.latitude!, _locationData.longitude!);
-      sver.address = addressName(placemarks[0].street).toString() + addressName(placemarks[0].subAdministrativeArea).toString() 
-                      + addressName(placemarks[0].administrativeArea).toString() + addressName(placemarks[0].country).toString();
-      sver.city = placemarks[0].administrativeArea.toString();
+    List<geo.Placemark> placemarks = await geo.placemarkFromCoordinates(
+        _locationData.latitude!, _locationData.longitude!);
+    sver.address = addressName(placemarks[0].street).toString() +
+        addressName(placemarks[0].subAdministrativeArea).toString() +
+        addressName(placemarks[0].administrativeArea).toString() +
+        addressName(placemarks[0].country).toString();
+    sver.city = placemarks[0].administrativeArea.toString();
   }
 
-  String? addressName(String? variable){
-    if(variable=="Việt Nam")
-      return variable;
-    if(variable!=null)
-      return variable + ', ';
+  String? addressName(String? variable) {
+    if (variable == "Việt Nam") return variable;
+    if (variable != null) return variable + ', ';
     return null;
   }
-  Future login()async{
-    var url=sver.serverip+"/CAP1_mobile/App_Login.php";
-    var response = await http.post(Uri.parse(url),body: {
-      "phone" : phone.text,
-      "password" : pass.text,
+
+  Future login() async {
+    var url = sver.serverip + "/CAP1_mobile/App_Login.php";
+    var response = await http.post(Uri.parse(url), body: {
+      "phone": phone.text,
+      "password": pass.text,
     });
     var data = json.decode(response.body);
-    if(data == "Error"){
+    if (data == "Error") {
       toast("Sai số điện thoại hoặc mật khẩu!", Colors.red);
-    }else{
-      toast("Đăng nhập thành công!", Colors.green,);
+    } else {
+      toast(
+        "Đăng nhập thành công!",
+        Colors.green,
+      );
       accountdata = GetProfData.getdata(data);
       getAddress();
-      if(sver.address==null)
-        toast("Đang tìm vị trí của bạn!", Colors.red,);
+      if (sver.address == null)
+        toast(
+          "Đang tìm vị trí của bạn!",
+          Colors.red,
+        );
       else
-        Get.to(MainScreen(address: sver.address!,locationc: locationc));
+        Get.to(MainScreen(address: sver.address!, locationc: locationc));
     }
   }
 
   void getAddress() {
-    if(sver.city == null){
+    if (sver.city == null) {
       sver.city = accountdata.city.toString();
       locationc = false;
     }
-    if(sver.address==null)
-      sver.address = accountdata.address.toString()+', '+accountdata.ward.toString()+', '
-          +accountdata.district.toString()+', '+accountdata.city.toString()+', '+accountdata.country.toString();
+    if (sver.address == null)
+      sver.address = accountdata.address.toString() +
+          ', ' +
+          accountdata.ward.toString() +
+          ', ' +
+          accountdata.district.toString() +
+          ', ' +
+          accountdata.city.toString() +
+          ', ' +
+          accountdata.country.toString();
     return;
   }
-   
+
   void toast(String msg, Color textcolor) {
     Fluttertoast.showToast(
-      msg: msg,
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.TOP,
-      timeInSecForIosWeb: 0,
-      backgroundColor: Colors.grey[50],
-      textColor: textcolor,
-      fontSize: 16.0
-    );
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 0,
+        backgroundColor: Colors.grey[50],
+        textColor: textcolor,
+        fontSize: 16.0);
   }
 
-  Widget customLabel(String text, double fontsize, Color color){
+  Widget customLabel(String text, double fontsize, Color color) {
     return Container(
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      //padding: EdgeInsets.symmetric(horizontal: 40),
       child: Text(
         text,
         style: TextStyle(
@@ -133,184 +145,308 @@ class _LoginState extends State<LoginScreen> {
   }
 
   @override
-  Widget build(BuildContext context){
-    // Get phone screen size
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      key: _formKey,
-      resizeToAvoidBottomInset: true,
-      appBar: Logo.getAppBar(),
-      body: Background(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: 50),
-            customLabel("Xin chào,",36,Color(0xFF002FFF)),
-            SizedBox(height: size.height * 0.02),
-            
-            customLabel("Vui lòng đăng nhập để sử dụng dịch vụ",15,Color(0xFF475DBB)),
-            SizedBox(height: size.height * 0.02),
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/covid_background.jpg"),
+                fit: BoxFit.fill)),
+        child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(30, 150, 30, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                customLabel("Xin chào!", 36, Colors.teal),
+                SizedBox(height: 10),
+                customLabel(
+                    "Vui lòng đăng nhập để sử dụng dịch vụ", 18, Colors.teal),
+                SizedBox(height: 20),
 
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextFormField(
-                controller: phone,
-                decoration: InputDecoration(
-                  hintText: "Số điện thoại",
-                ),
-                keyboardType: TextInputType.number,
-                inputFormatters: <TextInputFormatter>[
-                  WhitelistingTextInputFormatter.digitsOnly
-                ],
-                
-              ),
-            ),
-            SizedBox(height: size.height * 0.02),
-
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: TextField(
-                controller: pass,
-                obscureText: _isObscure,
-                decoration: InputDecoration(
-                  hintText: "Mật khẩu",
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isObscure ? Icons.visibility : Icons.visibility_off
-                    ),
-                    onPressed: (){
-                      setState: ((){
-                        _isObscure = !_isObscure;
-                      });
-                    }, 
-                  )
-                ),
-              ),
-            ),
-
-            Container(
-              alignment: Alignment.centerRight,
-              margin: EdgeInsets.symmetric(horizontal: 40),
-              child: Padding(
-                padding: EdgeInsets.all(5.0),
-                child: PageTransitionSwitcher(
-                  duration: const Duration(milliseconds: 50000),
-                  transitionBuilder: (
-                    Widget child,
-                    Animation<double> animation,
-                    Animation<double> secondanimation,
-                  ){
-                    return SharedAxisTransition(
+                ///input Phone number
+                TextField(
+                  controller: phone,
+                  keyboardType: TextInputType.number,
+                  style: TextStyle(fontSize: 16, color: Colors.teal),
+                  decoration: InputDecoration(
                       fillColor: Colors.white,
-                      child: child,
-                      animation: animation,
-                      secondaryAnimation: secondanimation,
-                      transitionType: SharedAxisTransitionType.horizontal,
-                    );
-                  },
-                  child: TextButton(
-                    child: Text(
-                      "Quên mật khẩu?",
-                      style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF475DBB),
+                      filled: true,
+                      hintText: ('Số điện thoại'),
+                      hintStyle: TextStyle(color: Colors.teal),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.teal, width: 1.5),
                       ),
-                    ),
-                    onPressed: (){
-                      Get.to(PasswordRetrive());// link qua trang quen mat khau
-                    },
-                  ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.teal, width: 1.5),
+                          borderRadius: BorderRadius.circular(15))),
                 ),
-              ),
-            ),
-            SizedBox(height: size.height * 0.04),
+                SizedBox(height: 20),
 
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: RaisedButton(
-                onPressed: () async{
-                  if(isLoading) return;
-                  setState(()=> isLoading = true);
-                  await login();
-                  setState(()=> isLoading = false);
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(70.0)),
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 50.0,
-                  width: size.width * 0.5,
-                  decoration: new BoxDecoration(
-                    borderRadius: BorderRadius.circular(70.0),
-                    gradient: new LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 0, 122, 255),
-                        Color.fromARGB(188, 123, 255, 255),
-                      ]
-                    )
-                  ),
-                  padding: const EdgeInsets.all(0),
-                  child: isLoading?
-                    CircularProgressIndicator(color: Colors.white)
-                    :Text(
-                    "Đăng Nhập",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )
-                  ),
-                )
-              ),
-            ),
-            Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-                Text(
-                  "Bạn chưa có tài khoản?",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFF255EF0),
-                    fontWeight: FontWeight.w500
-                  ),
-                ),
-                PageTransitionSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  transitionBuilder: (
-                    Widget child,
-                    Animation<double> animation,
-                    Animation<double> secondaryAnimation,
-                  ){
-                    return SharedAxisTransition(
+                TextField(
+                  controller: pass,
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                  style: TextStyle(fontSize: 16, color: Colors.teal),
+                  decoration: InputDecoration(
                       fillColor: Colors.white,
-                      child:child,
-                      animation: animation,
-                      secondaryAnimation: secondaryAnimation,
-                      transitionType: SharedAxisTransitionType.vertical,
-                    );
-                  },
-                  child: TextButton(
-                    onPressed: (){
-                      Get.to(RegisterScreen());//link qua trang dang ky
-                    }, 
-                    child: Text(
-                      "Đăng ký tại đây.",
-                      style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFFF80000),
+                      filled: true,
+                      
+                      hintText: ('Mật khẩu'),
+                      hintStyle: TextStyle(color: Colors.teal),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.teal, width: 1.5),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Colors.teal, width: 1.5),
+                          borderRadius: BorderRadius.circular(15))),
+                ),
+                SizedBox(height: 20),
+                //SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      //margin: EdgeInsets.only(top: 10),
+                      child: TextButton(
+                          child: Text(('Đăng ký'),
+                              style: TextStyle(
+                                color: Colors.teal,
+                                fontSize: 17,
+                              )),
+                          onPressed: () {
+                            Get.to(RegisterScreen()); //link qua trang dang ky
+                          }),
                     ),
-                  ),
+
+                    ///forgotPassword button
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          child: Text(
+                            ('Quên Mật Khẩu'),
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 17,
+                            ),
+                          ),
+                          onPressed: () {
+                            Get.to(
+                                PasswordRetrive()); //  qua trang quen mat khau
+                          }),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 25),
+                Center(
+                  child: ElevatedButton(
+                      child:
+                          Text(('Đăng Nhập'), style: TextStyle(fontSize: 18)),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.teal,
+                          padding: EdgeInsets.all(15),
+                          side: BorderSide(color: Colors.teal, width: 1.0)),
+                      onPressed: () async {
+                        if (isLoading) return;
+                        setState(() => isLoading = true);
+                        await login();
+                        setState(() => isLoading = false);
+                      }),
                 ),
               ],
             ),
-          ],
-        )
-      )
+          ),
+        ),
+      ),
     );
+
+    // Get phone screen size
+    // Size size = MediaQuery.of(context).size;
+    // return Scaffold(
+    //   key: _formKey,
+    //   resizeToAvoidBottomInset: true,
+    //   appBar: Logo.getAppBar(),
+    //   body: Background(
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: <Widget>[
+    //         SizedBox(height: 50),
+    //         customLabel("Xin chào,",36,Color(0xFF002FFF)),
+    //         SizedBox(height: size.height * 0.02),
+
+    //         customLabel("Vui lòng đăng nhập để sử dụng dịch vụ",15,Color(0xFF475DBB)),
+    //         SizedBox(height: size.height * 0.02),
+
+    //         Container(
+    //           alignment: Alignment.center,
+    //           margin: EdgeInsets.symmetric(horizontal: 40),
+    //           child: TextFormField(
+    //             controller: phone,
+    //             decoration: InputDecoration(
+    //               hintText: "Số điện thoại",
+    //             ),
+    //             keyboardType: TextInputType.number,
+    //             inputFormatters: <TextInputFormatter>[
+    //               WhitelistingTextInputFormatter.digitsOnly
+    //             ],
+
+    //           ),
+    //         ),
+    //         SizedBox(height: size.height * 0.02),
+
+    //         Container(
+    //           alignment: Alignment.center,
+    //           margin: EdgeInsets.symmetric(horizontal: 40),
+    //           child: TextField(
+    //             controller: pass,
+    //             obscureText: _isObscure,
+    //             decoration: InputDecoration(
+    //               hintText: "Mật khẩu",
+    //               suffixIcon: IconButton(
+    //                 icon: Icon(
+    //                   _isObscure ? Icons.visibility : Icons.visibility_off
+    //                 ),
+    //                 onPressed: (){
+    //                   setState: ((){
+    //                     _isObscure = !_isObscure;
+    //                   });
+    //                 },
+    //               )
+    //             ),
+    //           ),
+    //         ),
+
+    //         Container(
+    //           alignment: Alignment.centerRight,
+    //           margin: EdgeInsets.symmetric(horizontal: 40),
+    //           child: Padding(
+    //             padding: EdgeInsets.all(5.0),
+    //             child: PageTransitionSwitcher(
+    //               duration: const Duration(milliseconds: 50000),
+    //               transitionBuilder: (
+    //                 Widget child,
+    //                 Animation<double> animation,
+    //                 Animation<double> secondanimation,
+    //               ){
+    //                 return SharedAxisTransition(
+    //                   fillColor: Colors.white,
+    //                   child: child,
+    //                   animation: animation,
+    //                   secondaryAnimation: secondanimation,
+    //                   transitionType: SharedAxisTransitionType.horizontal,
+    //                 );
+    //               },
+    //               child: TextButton(
+    //                 child: Text(
+    //                   "Quên mật khẩu?",
+    //                   style: TextStyle(
+    //                   fontSize: 12,
+    //                   color: Color(0xFF475DBB),
+    //                   ),
+    //                 ),
+    //                 onPressed: (){
+    //                   Get.to(PasswordRetrive());// link qua trang quen mat khau
+    //                 },
+    //               ),
+    //             ),
+    //           ),
+    //         ),
+    //         SizedBox(height: size.height * 0.04),
+
+    //         Container(
+    //           alignment: Alignment.center,
+    //           margin: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+    //           child: RaisedButton(
+    //             onPressed: () async{
+    //               if(isLoading) return;
+    //               setState(()=> isLoading = true);
+    //               await login();
+    //               setState(()=> isLoading = false);
+    //             },
+    //             shape: RoundedRectangleBorder(
+    //               borderRadius: BorderRadius.circular(70.0)),
+    //             textColor: Colors.white,
+    //             padding: const EdgeInsets.all(0),
+    //             child: Container(
+    //               alignment: Alignment.center,
+    //               height: 50.0,
+    //               width: size.width * 0.5,
+    //               decoration: new BoxDecoration(
+    //                 borderRadius: BorderRadius.circular(70.0),
+    //                 gradient: new LinearGradient(
+    //                   colors: [
+    //                     Color.fromARGB(255, 0, 122, 255),
+    //                     Color.fromARGB(188, 123, 255, 255),
+    //                   ]
+    //                 )
+    //               ),
+    //               padding: const EdgeInsets.all(0),
+    //               child: isLoading?
+    //                 CircularProgressIndicator(color: Colors.white)
+    //                 :Text(
+    //                 "Đăng Nhập",
+    //                 textAlign: TextAlign.center,
+    //                 style: TextStyle(
+    //                   fontWeight: FontWeight.bold,
+    //                 )
+    //               ),
+    //             )
+    //           ),
+    //         ),
+    //         Row(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: <Widget>[
+    //             Text(
+    //               "Bạn chưa có tài khoản?",
+    //               style: TextStyle(
+    //                 fontSize: 12,
+    //                 color: Color(0xFF255EF0),
+    //                 fontWeight: FontWeight.w500
+    //               ),
+    //             ),
+    //             PageTransitionSwitcher(
+    //               duration: const Duration(milliseconds: 500),
+    //               transitionBuilder: (
+    //                 Widget child,
+    //                 Animation<double> animation,
+    //                 Animation<double> secondaryAnimation,
+    //               ){
+    //                 return SharedAxisTransition(
+    //                   fillColor: Colors.white,
+    //                   child:child,
+    //                   animation: animation,
+    //                   secondaryAnimation: secondaryAnimation,
+    //                   transitionType: SharedAxisTransitionType.vertical,
+    //                 );
+    //               },
+    //               child: TextButton(
+    //                 onPressed: (){
+    //                   Get.to(RegisterScreen());//link qua trang dang ky
+    //                 },
+    //                 child: Text(
+    //                   "Đăng ký tại đây.",
+    //                   style: TextStyle(
+    //                   fontSize: 12,
+    //                   color: Color(0xFFF80000),
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ],
+    //     )
+    //   )
+    // );
   }
 }

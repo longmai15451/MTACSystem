@@ -22,7 +22,6 @@ import 'package:bubble/bubble.dart';
 
 // TODO import Dialogflow
 
-
 class Chat extends StatefulWidget {
   @override
   _ChatState createState() => _ChatState();
@@ -30,7 +29,7 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final List<ChatMessage> _messages = <ChatMessage>[];
-  final    _textController = TextEditingController();
+  final _textController = TextEditingController();
 
   bool _isRecording = false;
 
@@ -64,11 +63,7 @@ class _ChatState extends State<Chat> {
         });
     });
 
-    await Future.wait([
-      _recorder.initialize()
-    ]);
-
-
+    await Future.wait([_recorder.initialize()]);
 
     // TODO Get a Service account
     // Get a Service account
@@ -76,7 +71,6 @@ class _ChatState extends State<Chat> {
         '${(await rootBundle.loadString('assets/chatbot-mtac-svhe-54960bb2e7c9.json'))}');
     // Create a DialogflowGrpc Instance
     dialogflow = DialogflowGrpcV2Beta1.viaServiceAccount(serviceAccount);
-
   }
 
   void stopStream() async {
@@ -91,27 +85,23 @@ class _ChatState extends State<Chat> {
 
     //TODO Dialogflow Code
     ChatMessage message = ChatMessage(
-    text: text,
-    name: "You",
-    type: true,
+      text: text,
+      name: "You",
+      type: true,
     );
 
     setState(() {
-    _messages.insert(0, message);
+      _messages.insert(0, message);
     });
     DetectIntentResponse data = await dialogflow.detectIntent(text, 'vi-VN');
     String fulfillmentText = data.queryResult.fulfillmentText;
-    if(fulfillmentText.isNotEmpty) {
-      ChatMessage botMessage = ChatMessage(
-        text: fulfillmentText,
-        name: "Bot",
-        type: false
-      );
+    if (fulfillmentText.isNotEmpty) {
+      ChatMessage botMessage =
+          ChatMessage(text: fulfillmentText, name: "Bot", type: false);
       setState(() {
         _messages.insert(0, botMessage);
       });
     }
-
   }
 
   void handleStream() async {
@@ -123,29 +113,25 @@ class _ChatState extends State<Chat> {
       _audioStream.add(data);
     });
 
-
     // TODO Create SpeechContexts
-    var biasList = SpeechContextV2Beta1(
-        phrases: [
-          'Dialogflow ES',
-          'Dialogflow Essentials',
-          'Action Builder',
-          'HIPAA'
-        ],
-        boost: 20.0
-    );
+    var biasList = SpeechContextV2Beta1(phrases: [
+      'Dialogflow ES',
+      'Dialogflow Essentials',
+      'Action Builder',
+      'HIPAA'
+    ], boost: 20.0);
 
-        // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
+    // See: https://cloud.google.com/dialogflow/es/docs/reference/rpc/google.cloud.dialogflow.v2#google.cloud.dialogflow.v2.InputAudioConfig
     var config = InputConfigV2beta1(
         encoding: 'AUDIO_ENCODING_LINEAR_16',
         languageCode: 'vi-VN',
         sampleRateHertz: 16000,
         singleUtterance: false,
-        speechContexts: [biasList]
-    );
+        speechContexts: [biasList]);
 
     // Create an audio InputConfig
-    final responseStream = dialogflow.streamingDetectIntent(config, _audioStream);
+    final responseStream =
+        dialogflow.streamingDetectIntent(config, _audioStream);
 
     // TODO Make the streamingDetectIntent call, with the InputConfig and the audioStream
     // TODO Get the transcript and detectedIntent and show on screen
@@ -158,8 +144,7 @@ class _ChatState extends State<Chat> {
         String queryText = data.queryResult.queryText;
         String fulfillmentText = data.queryResult.fulfillmentText;
 
-        if(fulfillmentText.isNotEmpty) {
-
+        if (fulfillmentText.isNotEmpty) {
           ChatMessage message = new ChatMessage(
             text: queryText,
             name: "You",
@@ -167,26 +152,23 @@ class _ChatState extends State<Chat> {
           );
 
           ChatMessage botMessage = new ChatMessage(
-            text: fulfillmentText,  
+            text: fulfillmentText,
             name: "Bot",
             type: false,
           );
           _messages.insert(0, message);
           _textController.clear();
           _messages.insert(0, botMessage);
-
         }
-        if(transcript.isNotEmpty) {
+        if (transcript.isNotEmpty) {
           _textController.text = transcript;
         }
-
       });
-    },onError: (e){
+    }, onError: (e) {
       //print(e);
-    },onDone: () {
+    }, onDone: () {
       //print('done');
     });
-
   }
 
   // The chat interface
@@ -197,12 +179,15 @@ class _ChatState extends State<Chat> {
     return Column(children: <Widget>[
       Flexible(
           child: ListView.builder(
-            padding: EdgeInsets.all(8.0),
-            reverse: true,
-            itemBuilder: (_, int index) => _messages[index],
-            itemCount: _messages.length,
-          )),
-      Divider(height: 1.0, color: Colors.greenAccent,),
+        padding: EdgeInsets.all(8.0),
+        reverse: true,
+        itemBuilder: (_, int index) => _messages[index],
+        itemCount: _messages.length,
+      )),
+      Divider(
+        height: 1.0,
+        color: Colors.greenAccent,
+      ),
       Container(
           decoration: BoxDecoration(color: Theme.of(context).cardColor),
           child: IconTheme(
@@ -215,37 +200,36 @@ class _ChatState extends State<Chat> {
                     child: TextField(
                       controller: _textController,
                       onSubmitted: handleSubmitted,
-                      decoration: InputDecoration.collapsed(hintText: "Send a message"),
+                      decoration: InputDecoration.collapsed(
+                          hintText: "Gửi một tin nhắn"),
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 4.0),
                     child: IconButton(
-                      icon: Icon(Icons.send),
+                      icon: Icon(Icons.send, color: Colors.teal),
                       onPressed: () => handleSubmitted(_textController.text),
                     ),
                   ),
-                  IconButton(
-                    iconSize: 30.0,
-                    icon: Icon(_isRecording ? Icons.mic_off : Icons.mic),
-                    onPressed: _isRecording ? stopStream : handleStream,
-                  ),
+                  // IconButton(
+                  //   iconSize: 30.0,
+                  //   icon: Icon(_isRecording ? Icons.mic_off : Icons.mic,color: Colors.teal),
+                  //   onPressed: _isRecording ? stopStream : handleStream,
+                  // ),
                 ],
               ),
             ),
-          )
-      ),
+          )),
     ]);
   }
 }
-
 
 //------------------------------------------------------------------------------------
 // The chat message balloon
 //
 //------------------------------------------------------------------------------------
 class ChatMessage extends StatelessWidget {
-  ChatMessage({required this.text,required this.name,required this.type});
+  ChatMessage({required this.text, required this.name, required this.type});
 
   final String text;
   final String name;
@@ -254,25 +238,29 @@ class ChatMessage extends StatelessWidget {
   List<Widget> otherMessage(context) {
     return <Widget>[
       new Container(
-        margin: const EdgeInsets.only(right: 16.0),
-        child: CircleAvatar(child: new Text('B')),
+        margin: EdgeInsets.only(right: 16.0),
+        child: CircleAvatar(
+          backgroundColor: Colors.blueGrey,
+          child: Text(
+            'B',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
       ),
       new Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(this.name,
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(this.name, style: TextStyle(fontWeight: FontWeight.bold)),
             Container(
-              margin: const EdgeInsets.only(top: 5.0),
+              margin: EdgeInsets.only(top: 5.0),
               child: Bubble(
                 child: Text(
-                  text, 
-                  style: TextStyle(
-                    color: Colors.white
-                  ),),
+                  text,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
                 radius: Radius.circular(15.0),
-                color: Colors.blueGrey,
+                color: Colors.grey,
               ),
             ),
           ],
@@ -289,28 +277,31 @@ class ChatMessage extends StatelessWidget {
           children: <Widget>[
             Text(this.name, style: Theme.of(context).textTheme.subtitle1),
             Container(
-              margin: const EdgeInsets.only(top: 5.0),
+              margin: EdgeInsets.only(top: 5.0),
               // child: Text(text),
               child: Bubble(
                 child: Text(
-                  text, 
+                  text,
                   style: TextStyle(
-                    color: Colors.white
-                  ),),
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
                 radius: Radius.circular(15.0),
-                color: Colors.blueAccent,
+                color: Colors.teal,
               ),
             ),
           ],
         ),
       ),
       Container(
-        margin: const EdgeInsets.only(left: 16.0),
+        margin: EdgeInsets.only(left: 16.0),
         child: CircleAvatar(
+            backgroundColor: Colors.teal,
             child: Text(
-              this.name[0],
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
+          this.name[0],
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )),
       ),
     ];
   }
@@ -318,7 +309,7 @@ class ChatMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      margin: EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: this.type ? myMessage(context) : otherMessage(context),

@@ -70,10 +70,10 @@ class HomeScreen extends State<MainScreen>{
     return Scaffold( 
          body: _bodycontent[selectedIndex],
          bottomNavigationBar: CurvedNavigationBar(
-          color: Colors.blue.shade200,
+          color: Colors.teal,
           height: 50,
           buttonBackgroundColor: Colors.grey.shade100,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.teal.shade100,
           items: const <Widget>[
             Icon(Icons.home),
             Icon(Icons.calendar_today),

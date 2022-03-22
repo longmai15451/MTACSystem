@@ -8,11 +8,16 @@ import 'package:mtacsystem/controller/schedule_controller.dart';
 import 'package:mtacsystem/models/schedule.dart';
 import 'detail_vaccin_regis.dart';
 
-class CalendarContent extends StatefulWidget{
+class CalendarContent extends StatefulWidget {
   final String idCard;
   final String adres;
   final bool locationc;
-  const CalendarContent({Key? key, required this.idCard, required this.adres, required this.locationc}) : super(key: key); 
+  const CalendarContent(
+      {Key? key,
+      required this.idCard,
+      required this.adres,
+      required this.locationc})
+      : super(key: key);
   @override
   State<CalendarContent> createState() => _CalendarContentState();
 }
@@ -21,119 +26,122 @@ class _CalendarContentState extends State<CalendarContent> {
   static DateTime _selectDate = DateTime.now();
   final _scheduleController = ScheduleController();
   @override
-  initState(){
+  initState() {
     _selectDate = DateTime.now();
     _getSchedule();
-    setState((){
-    });
+    setState(() {});
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        toolbarHeight: 80.0,
-        backgroundColor: Colors.blue.shade100,
-        iconTheme: IconThemeData(
-          color:Colors.blue.shade100,
-        ),
-        centerTitle: true,
-        title: Text(
-          'LỊCH HẸN',
-          style: TextStyle(
-            fontWeight: FontWeight.w300,
-            color: Color(0xFF002FFF),
-            fontFamily: "Roboto",
-            fontSize: 30,
+        appBar: AppBar(
+            automaticallyImplyLeading: false,
+            toolbarHeight: 80.0,
+            backgroundColor: Colors.teal,
+            iconTheme: IconThemeData(
+              color: Colors.teal,
             ),
-            textAlign: TextAlign.center,
-        )
-      ),
-      body: Column(
-      children: [
-          _dateBar(),
-          SizedBox(height: 10),
-          _showSchedule(),
-        ],
-      )
-    );
+            centerTitle: true,
+            title: Text(
+              'LỊCH HẸN',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontFamily: "Roboto",
+                fontSize: 26,
+              ),
+              textAlign: TextAlign.center,
+            )),
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/covid_background.jpg"),
+                fit: BoxFit.fill),
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              _dateBar(),
+              SizedBox(height: 10),
+              _showSchedule(),
+            ],
+          ),
+        ));
   }
 
-  _getSchedule()async{
-    _scheduleController.getSchedule(widget.idCard,DateFormat('yyyy-MM-dd').format(_selectDate));
-    
+  _getSchedule() async {
+    _scheduleController.getSchedule(
+        widget.idCard, DateFormat('yyyy-MM-dd').format(_selectDate));
   }
 
-
-  _showSchedule(){
-    return Expanded(
-      child: Obx((){
-        return ListView.builder(
+  _showSchedule() {
+    return Expanded(child: Obx(() {
+      return ListView.builder(
           itemCount: _scheduleController.scheduleList.length,
-          itemBuilder: (_, index){
+          itemBuilder: (_, index) {
             Schedule schedule = _scheduleController.scheduleList[index];
             print(schedule.regisID);
-            if(schedule.registerDate.toString().split(" ")[0] == DateFormat('yyyy-MM-dd').format(_selectDate) ) {
+            if (schedule.registerDate.toString().split(" ")[0] ==
+                DateFormat('yyyy-MM-dd').format(_selectDate)) {
               return AnimationConfiguration.staggeredList(
-                position: index,
-                child: SlideAnimation(
-                  child: FadeInAnimation(
-                    child:Row(
-                      children: [
-                        GestureDetector(
-                          onTap: (){
-                            Get.to(()=>Detail(adres: widget.adres, des: schedule.address!, id: schedule.regisID!, type: schedule.type,locationc: widget.locationc));
-                          },
-                          child:TaskTile(schedule),
-                        )
-                      ]
+                  position: index,
+                  child: SlideAnimation(
+                      child: FadeInAnimation(
+                          child: Row(children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => Detail(
+                            adres: widget.adres,
+                            des: schedule.address!,
+                            id: schedule.regisID!,
+                            type: schedule.type,
+                            locationc: widget.locationc));
+                      },
+                      child: TaskTile(schedule),
                     )
-                  )
-                )
-              );
-            }
-            else
+                  ]))));
+            } else
               return Container();
-          }
-        );
-      })
-    );
+          });
+    }));
   }
 
   _dateBar() {
     return Container(
-        margin: const EdgeInsets.only(top: 20, left: 20),
-        child: DatePicker(
-          DateTime.now(),
-          height: 85,
-          width: 60,
-          initialSelectedDate: DateTime.now(),
-          selectionColor: Colors.blue,
-          selectedTextColor: Colors.white,
-          dateTextStyle: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey,
-          ),
-          dayTextStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey,
-          ),
-          monthTextStyle: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey,
-          ),
-          onDateChange: (date){
-            _selectDate=date;
-            _getSchedule();
-            setState((){
-            });
-          },
+      color: Colors.teal.shade100,
+      padding: EdgeInsets.only(right: 15, left: 15),
+      margin: const EdgeInsets.only(top: 10),
+      child: DatePicker(
+        DateTime.now(),
+        height: 85,
+        width: 60,
+        initialSelectedDate: DateTime.now(),
+        selectionColor: Colors.teal,
+        selectedTextColor: Colors.white,
+        dateTextStyle: TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w600,
+          color: Colors.teal,
         ),
-      );
+        dayTextStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.teal,
+        ),
+        monthTextStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.teal,
+        ),
+        onDateChange: (date) {
+          _selectDate = date;
+          _getSchedule();
+          setState(() {});
+        },
+      ),
+    );
   }
 }

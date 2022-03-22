@@ -28,8 +28,15 @@ class _Gender extends State<Gender> {
           width: 115,
           child: InputDecorator(
             decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10)),
+              focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.teal, width: 1.5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.teal, width: 1.5),
+                                  borderRadius: BorderRadius.circular(10),),
             ),
             child: Container(
               child: DropdownButtonHideUnderline(

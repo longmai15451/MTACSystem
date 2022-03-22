@@ -47,11 +47,15 @@ class _dateTimePicker extends State<dateTimePicker> {
           decoration: InputDecoration(
             hintText: ('${formattedDate.format(_date)}'),
             // errorText: 'Error message', ------ báo lỗi k nhập
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10)),
-            suffixIcon: Icon(
-              Icons.error,
-            ),
+            focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.teal, width: 1.5),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.teal, width: 1.5),
+                                  borderRadius: BorderRadius.circular(10),),
           ),
         ),
     );
