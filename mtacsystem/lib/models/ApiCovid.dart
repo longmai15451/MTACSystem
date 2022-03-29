@@ -115,7 +115,13 @@ class CountryInfo {
   late double long;
   late String flag;
 
-  CountryInfo({required this.iId,required  this.iso2,required  this.iso3,required  this.lat,required  this.long,required  this.flag});
+  CountryInfo(
+      {required this.iId,
+      required this.iso2,
+      required this.iso3,
+      required this.lat,
+      required this.long,
+      required this.flag});
 
   CountryInfo.fromJson(Map<String, dynamic> json) {
     iId = json['_id'];
@@ -132,8 +138,9 @@ class CountryInfo {
     data['iso2'] = this.iso2;
     data['iso3'] = this.iso3;
     data['lat'] = this.lat;
-    data['long'] = this.long;
     data['flag'] = this.flag;
+    data['long'] = this.long;
+
     return data;
   }
 }
