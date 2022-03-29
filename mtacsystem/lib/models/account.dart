@@ -16,23 +16,24 @@ class AccountProfile {
   String? password;
   String? avatar;
 
-  AccountProfile(
-      {required this.idCard,
-      required this.fullName,
-      required this.birthDate,
-      required this.gender,
-      required this.healthCard,
-      required this.phone,
-      required this.email,
-      required this.job,
-      required this.address,
-      required this.ward,
-      required this.district,
-      required this.city,
-      required this.country,
-      required this.nation,
-      required this.password,
-      required this.avatar,});
+  AccountProfile({
+    required this.idCard,
+    required this.fullName,
+    required this.birthDate,
+    required this.gender,
+    required this.healthCard,
+    required this.phone,
+    required this.email,
+    required this.job,
+    required this.address,
+    required this.ward,
+    required this.district,
+    required this.city,
+    required this.country,
+    required this.nation,
+    required this.password,
+    required this.avatar,
+  });
 
   AccountProfile.fromJson(Map<String, dynamic> json) {
     idCard = json['id_card'];
@@ -69,8 +70,8 @@ class AccountProfile {
     data['city'] = this.city;
     data['country'] = this.country;
     data['nation'] = this.nation;
-    data['password'] = this.password;
     data['avatar'] = this.avatar;
+    data['password'] = this.password;
     return data;
   }
 }
