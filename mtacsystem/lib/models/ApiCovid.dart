@@ -138,8 +138,9 @@ class CountryInfo {
     data['iso2'] = this.iso2;
     data['iso3'] = this.iso3;
     data['lat'] = this.lat;
-    data['flag'] = this.flag;
     data['long'] = this.long;
+    data['flag'] = this.flag;
+    
 
     return data;
   }
