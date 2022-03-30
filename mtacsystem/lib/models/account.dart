@@ -30,9 +30,9 @@ class AccountProfile {
     required this.district,
     required this.city,
     required this.country,
+    required this.avatar,
     required this.nation,
     required this.password,
-    required this.avatar,
   });
 
   AccountProfile.fromJson(Map<String, dynamic> json) {
