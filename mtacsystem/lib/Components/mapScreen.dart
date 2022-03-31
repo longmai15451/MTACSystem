@@ -56,53 +56,46 @@ class _MapScreen extends State<MapScreen>{
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: widget.height,
-        width: widget.width,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            GoogleMap(
-              initialCameraPosition: _initialCameraPosition,
-              myLocationButtonEnabled: false,
-              markers: _markers,
-              polylines: _polylines,
-              onMapCreated: (GoogleMapController controller){
-                _controller.complete(controller);
-              },
-            ),
-              Positioned(
-                top: 10.0,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6.0,
-                    horizontal: 12.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.yellowAccent,
-                    borderRadius: BorderRadius.circular(20.0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      )
-                    ]
-                  ),
-                  child: Text(
-                    distance!=null&&duration!=null?
-                    '$distance, $duration':'',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: SizedBox(
+          height: widget.height,
+          width: widget.width,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              GoogleMap(
+                initialCameraPosition: _initialCameraPosition,
+                myLocationButtonEnabled: false,
+                markers: _markers,
+                polylines: _polylines,
+                onMapCreated: (GoogleMapController controller){
+                  _controller.complete(controller);
+                },
+              ),
+                Positioned(
+                  top: 10.0,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6.0,
+                      horizontal: 12.0,
+                    ),
+                    
+                    child: Text(
+                      distance!=null&&duration!=null?
+                      '$distance, $duration':'',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.teal,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            
-          ],
+              
+            ],
+          ),
         ),
       ),
     );

@@ -78,6 +78,7 @@ class _Detail extends State<Detail> {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.teal,
         leading: IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () { 
@@ -136,16 +137,16 @@ class _Detail extends State<Detail> {
                             ),
                           ],
                         ),
-                        if(widget.type == '1')
-                          Row(
+                        widget.type == '1'
+                         ? Row(
                             children: [
                               Text('Tiêm phòng bệnh: '),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('${data!=null?data['disease']:""}'),
+                                child: Text('${data !=null ? data['disease']:""}'),
                               ),
                             ],
-                          ),
+                          ) : 
                         Row(
                           children: [
                             Text('Ngày Hẹn: '),
@@ -189,16 +190,16 @@ class _Detail extends State<Detail> {
                               onPressed: () async{ 
                                   AwesomeDialog(
                                     context: context,
-                                    dialogType: DialogType.WARNING,
-                                    borderSide: BorderSide(color: Colors.blue, width: 2),
+                                    dialogType: DialogType.NO_HEADER,
+                                    borderSide: BorderSide(color: Colors.teal, width: 2),
                                     headerAnimationLoop: false,
-                                    animType: AnimType.BOTTOMSLIDE,
+                                    animType: AnimType.SCALE,
                                     body: Column(
                                       children: [
                                         Text('BẠN CÓ MUỐN HỦY LỊCH!',),
                                       ],
                                     ),
-                                    btnOkColor: Colors.blue.shade600,
+                                    btnOkColor: Colors.teal,
                                     btnCancelIcon: Icons.cancel,
                                     btnOkIcon: Icons.check_circle_outline,
                                     btnCancelText: '',
@@ -216,7 +217,7 @@ class _Detail extends State<Detail> {
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100),
-                                    side: BorderSide(color: Colors.red)
+                                    side: BorderSide(color: Colors.red, width: 2.5)
                                   )
                                 )
                               ),
@@ -233,8 +234,8 @@ class _Detail extends State<Detail> {
                               },
                               child: Text('ĐIỀU HƯỚNG',style: TextStyle(fontSize: 24, color: Colors.black)),
                               style: ButtonStyle(
-                                overlayColor: MaterialStateProperty.all<Color>(Colors.green),
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade300),
+                                overlayColor: MaterialStateProperty.all<Color>(Colors.tealAccent),
+                                backgroundColor: MaterialStateProperty.all<Color>(Colors.teal),
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100),
