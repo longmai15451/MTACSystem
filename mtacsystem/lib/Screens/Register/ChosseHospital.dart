@@ -288,9 +288,9 @@ class _ChosseHospital extends State<ChosseHospital> {
         elevation: 0,
         title: Row(
           children: [
-            SizedBox(width: 45),
+            SizedBox(width: 35),
             Container(child: Text("ĐẶT LỊCH TIÊM")),
-            SizedBox(width: 60),
+            SizedBox(width: 50),
             Padding(
               padding: const EdgeInsets.all(2.0),
               child: Container(

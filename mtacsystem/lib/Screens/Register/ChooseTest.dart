@@ -578,7 +578,7 @@ class _ChooseTest extends State<ChooseTest> {
                         dialogType: DialogType.QUESTION,
                         borderSide: BorderSide(color: Colors.blue, width: 2),
                         headerAnimationLoop: false,
-                        animType: AnimType.BOTTOMSLIDE,
+                        animType: AnimType.SCALE,
                         body: Column(
                           children: [
                             Text(
@@ -593,7 +593,7 @@ class _ChooseTest extends State<ChooseTest> {
                         ),
                         btnCancelText: 'HỦY',
                         btnOkText: 'ĐẶT',
-                        btnOkColor: Colors.blue.shade600,
+                        btnOkColor: Colors.teal,
                         btnCancelOnPress: () {},
                         btnOkOnPress: () {
                           setState(() {
