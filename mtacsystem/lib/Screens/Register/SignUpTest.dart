@@ -66,29 +66,29 @@ class _SignUpTest extends State<SignUpTest> {
             
             Container(child: Text("ĐĂNG KÝ XÉT NGHIỆM")),
             SizedBox(width: 25),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-                child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //     child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //   ),
+            // ),
           ],
         )),
       ),
@@ -98,24 +98,25 @@ class _SignUpTest extends State<SignUpTest> {
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  width: 380,
-                  alignment: Alignment.center,
-                  padding:
-                      EdgeInsets.only(right: 20, left: 10, top: 20, bottom: 10),
-                  child: Text(
-                    "Thông tin đăng ký xét nghiệm",
-                    style: TextStyle(
-                        color: Colors.teal,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: "Roboto"),
-                    textAlign: TextAlign.center,
+            Center(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.center,
+                    padding:
+                        EdgeInsets.only(right: 20, left: 40, top: 20, bottom: 10),
+                    child: Text(
+                      "Thông tin đăng ký xét nghiệm",
+                      style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: "Roboto"),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             Text(
               'Vui lòng kiểm tra thông tin trước khi đăng ký.',

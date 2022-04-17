@@ -152,11 +152,8 @@ class _EditProfile extends State<EditProfile> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.teal,
-      elevation: 0,
-        title: SizedBox(
-          
-          
-          child: Text('THÔNG TIN CÁ NHÂN')),
+        elevation: 0,
+        title: SizedBox(child: Text('THÔNG TIN CÁ NHÂN')),
       ),
       body: ListView(
         children: <Widget>[
@@ -166,11 +163,11 @@ class _EditProfile extends State<EditProfile> {
                 children: <Widget>[
                   Container(
                     decoration: BoxDecoration(
-                        color: Colors.teal.shade50,
-                        
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(50.0),
-                        )),
+                      color: Colors.teal.shade50,
+                      // borderRadius: BorderRadius.vertical(
+                      //     top: Radius.circular(50.0),
+                      //     ),
+                    ),
                     child: Column(
                       children: <Widget>[
                         Padding(
@@ -208,8 +205,8 @@ class _EditProfile extends State<EditProfile> {
                         ),
                         Container(
                           alignment: Alignment.center,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: TextField(
                             controller: temp.name,
                             keyboardType: TextInputType.text,
@@ -219,13 +216,13 @@ class _EditProfile extends State<EditProfile> {
                               hintText: 'Họ và tên ',
                               // errorText: 'Error message', ------ báo lỗi k nhập
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
@@ -236,8 +233,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Ngày sinh '),
                                   new Text(
@@ -250,8 +246,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 130, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Giới tính '),
                                   new Text(
@@ -271,14 +266,13 @@ class _EditProfile extends State<EditProfile> {
                                 Container(
                                   width: 170,
                                   alignment: Alignment.center,
-                                  margin:
-                                      EdgeInsets.only(left: 20, right: 10),
+                                  margin: EdgeInsets.only(left: 20, right: 10),
                                   child: Container(
                                     child: TextField(
                                       controller: temp.birthdate =
                                           new TextEditingController(
-                                              text: formattedDate
-                                                  .format(_date)),
+                                              text:
+                                                  formattedDate.format(_date)),
                                       onTap: () {
                                         setState(() {
                                           _selectDate(context);
@@ -293,15 +287,13 @@ class _EditProfile extends State<EditProfile> {
                                         // errorText: 'Error message', ------ báo lỗi k nhập
                                         focusedBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.teal,
-                                              width: 1.5),
+                                              color: Colors.teal, width: 1.5),
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                              color: Colors.teal,
-                                              width: 1.5),
+                                              color: Colors.teal, width: 1.5),
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
@@ -324,26 +316,22 @@ class _EditProfile extends State<EditProfile> {
                                         decoration: InputDecoration(
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: Colors.teal,
-                                                width: 1.5),
+                                                color: Colors.teal, width: 1.5),
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
-                                                color: Colors.teal,
-                                                width: 1.5),
+                                                color: Colors.teal, width: 1.5),
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
                                         ),
                                         child: Container(
-                                          child:
-                                              DropdownButtonHideUnderline(
-                                                  child: DropdownButton<
-                                                      String>(
-                                            value: gd = getGender(
-                                                widget.accountdata),
+                                          child: DropdownButtonHideUnderline(
+                                              child: DropdownButton<String>(
+                                            value: gd =
+                                                getGender(widget.accountdata),
                                             isDense: true,
                                             onChanged: (String? newValue) {
                                               temp.gender.text =
@@ -355,13 +343,10 @@ class _EditProfile extends State<EditProfile> {
                                                 gd = newValue!;
                                               });
                                             },
-                                            items: <String>[
-                                              'Nam',
-                                              'Nữ'
-                                            ].map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                              return DropdownMenuItem<
-                                                  String>(
+                                            items: <String>['Nam', 'Nữ']
+                                                .map<DropdownMenuItem<String>>(
+                                                    (String value) {
+                                              return DropdownMenuItem<String>(
                                                 value: value,
                                                 child: Text(value),
                                               );
@@ -390,8 +375,8 @@ class _EditProfile extends State<EditProfile> {
                         ),
                         Container(
                           alignment: Alignment.center,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: TextField(
                             controller: temp.phone,
                             keyboardType: TextInputType.text,
@@ -401,13 +386,13 @@ class _EditProfile extends State<EditProfile> {
                               hintText: 'Số điện thoại',
                               // errorText: 'Error message', ------ báo lỗi k nhập
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
@@ -429,8 +414,8 @@ class _EditProfile extends State<EditProfile> {
                         ),
                         Container(
                           alignment: Alignment.center,
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 5),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: TextField(
                             controller: temp.idcard,
                             keyboardType: TextInputType.text,
@@ -440,13 +425,13 @@ class _EditProfile extends State<EditProfile> {
                               hintText: 'Sổ hộ chiếu/CMND/CCCD',
                               // errorText: 'Error message', ------ báo lỗi k nhập
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.teal, width: 1.5),
+                                borderSide:
+                                    BorderSide(color: Colors.teal, width: 1.5),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
@@ -457,8 +442,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[new Text('Email ')],
                               ),
                             ),
@@ -494,8 +478,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Dân tộc '),
                                 ],
@@ -533,8 +516,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Nghề nghiệp '),
                                 ],
@@ -572,8 +554,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Số thẻ BHYT '),
                                   new Text(
@@ -615,8 +596,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Tỉnh/Thành phố '),
                                   new Text(
@@ -658,8 +638,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Quận/Huyện '),
                                   new Text(
@@ -701,8 +680,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Phường/Xã '),
                                   new Text(
@@ -744,8 +722,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Địa chỉ '),
                                   new Text(
@@ -787,8 +764,7 @@ class _EditProfile extends State<EditProfile> {
                             Container(
                               margin: EdgeInsets.only(left: 20, top: 10),
                               child: new Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   new Text('Quốc tịch '),
                                   new Text(
@@ -851,8 +827,7 @@ class _EditProfile extends State<EditProfile> {
                                             left: 25,
                                             right: 25),
                                         side: BorderSide(
-                                            color: Colors.teal,
-                                            width: 1.0)),
+                                            color: Colors.teal, width: 1.0)),
                                   ),
                                 ),
                               ],
