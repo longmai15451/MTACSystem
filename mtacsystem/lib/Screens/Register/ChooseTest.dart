@@ -290,30 +290,30 @@ class _ChooseTest extends State<ChooseTest> {
             SizedBox(width: 10),
             Container(child: Text("ĐẶT LỊCH XÉT NGHIỆM")),
             SizedBox(width: 25),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-                child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                child: Center(child: Text('2', style: TextStyle(fontSize: 13))),
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //     child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     child: Center(child: Text('2', style: TextStyle(fontSize: 13))),
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

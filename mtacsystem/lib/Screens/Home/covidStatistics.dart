@@ -41,7 +41,7 @@ class CovidStatistics extends StatelessWidget {
                         Text('Thống kê về tình trạng Covid-19 tại Việt Nam',
                             style: TextStyle(
                               color: Colors.teal,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),
                       ],
@@ -138,7 +138,7 @@ class CovidStatistics extends StatelessWidget {
             margin: EdgeInsets.only(top: 5),
             child: ImageIcon(
               AssetImage(image),
-              size: 50.0,
+              size: 35.0,
               color: imageColor,
             ),
           ),
@@ -149,13 +149,13 @@ class CovidStatistics extends StatelessWidget {
                 data,
                 style: TextStyle(
                     color: dataColor,
-                    fontSize: 25,
+                    fontSize: 20,
                     fontWeight: FontWeight.w500),
               )),
           Container(
               margin: EdgeInsets.only(top: 10.0),
               height: 30,
-              width: 150,
+              width: 140,
               child: Text(
                 title,
                 textAlign: TextAlign.center,

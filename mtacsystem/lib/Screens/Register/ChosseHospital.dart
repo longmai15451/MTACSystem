@@ -291,66 +291,33 @@ class _ChosseHospital extends State<ChosseHospital> {
             SizedBox(width: 35),
             Container(child: Text("ĐẶT LỊCH TIÊM")),
             SizedBox(width: 50),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-                child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                child: Center(child: Text('2', style: TextStyle(fontSize: 13))),
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //     child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     child: Center(child: Text('2', style: TextStyle(fontSize: 13))),
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
-      // appBar: AppBar(
-      //   title: SizedBox(child: Row(
-      //     children: [
-      //       Container(child: Text("ĐẶT LỊCH TIÊM")),
-      //       Spacer(),
-      //       Padding(
-      //         padding: const EdgeInsets.all(2.0),
-      //         child: Container(
-      //           width: 20,
-      //           height: 20,
-      //           decoration: BoxDecoration(
-      //             border: Border.all(color:Colors.white,width:1.5),
-      //             borderRadius: BorderRadius.all(Radius.circular(100.0)),
-      //           ),
-      //           child: Center(child: Text('1',style: TextStyle(fontSize: 13))),
-      //         ),
-      //       ),
-      //       Padding(
-      //         padding: const EdgeInsets.all(2.0),
-      //         child: Container(
-      //           width: 20,
-      //           height: 20,
-      //           decoration: BoxDecoration(
-      //             border: Border.all(color:Colors.white,width:1.5),
-      //             borderRadius: BorderRadius.all(Radius.circular(100.0)),
-      //           ),
-      //           child: Center(child: Text('2',style: TextStyle(fontSize: 13))),
-      //         ),
-      //       ),
-      //     ],
-      //   )),
-      //   backgroundColor: Colors.blue.shade300,
-      // ),
       body: Container(
         color: Colors.teal.shade50,
         child: Background(

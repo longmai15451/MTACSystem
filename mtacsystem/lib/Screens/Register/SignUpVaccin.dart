@@ -63,29 +63,29 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
             SizedBox(width: 15),
             Container(child: Text("ĐĂNG KÝ TIÊM CHỦNG")),
             SizedBox(width: 28),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-                child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(2.0),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.3),
-                  borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //     child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(2.0),
+            //   child: Container(
+            //     width: 20,
+            //     height: 20,
+            //     decoration: BoxDecoration(
+            //       border: Border.all(color: Colors.white, width: 1.3),
+            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            //     ),
+            //   ),
+            // ),
           ],
         )),
       ),
@@ -96,7 +96,6 @@ class _SignUpVaccinState extends State<SignUpVaccin> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: 350,
                 alignment: Alignment.center,
                 padding:
                     EdgeInsets.only(right: 20, left: 20, top: 20, bottom: 10),
