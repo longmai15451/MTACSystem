@@ -462,7 +462,7 @@ class _HomeContentState extends State<HomeContent> {
                                     height: 50.0,
                                     width: 70.0,
                                     child: Text(
-                                      'Mã số điện tử',
+                                      'QR Code',
                                       textAlign: TextAlign.center,
                                       maxLines: 2,
                                       style: TextStyle(

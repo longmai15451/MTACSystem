@@ -14,7 +14,7 @@ class QRCodePage extends GetWidget<QRCodeController> {
           backgroundColor: Colors.teal,
           elevation: 0,
           centerTitle: true,
-          title: Text("ĐẶT LỊCH TIÊM")),
+          title: Text("QR CODE")),
       body: Container(
         width: screenSize.width,
         color: Colors.teal.shade50,
@@ -58,4 +58,6 @@ class QRCodePage extends GetWidget<QRCodeController> {
       ),
     );
   }
+
+  
 }
