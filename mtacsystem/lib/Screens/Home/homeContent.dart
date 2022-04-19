@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:mtacsystem/Screens/qrCode/qrCode_page.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class _HomeContentState extends State<HomeContent> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          toolbarHeight:70.0,
+          toolbarHeight: 70.0,
           backgroundColor: Colors.teal,
           elevation: 0.0,
           leading: IconButton(
@@ -277,7 +278,7 @@ class _HomeContentState extends State<HomeContent> {
                                         color: Colors.white,
                                       ),
                                       Container(
-                                        padding: EdgeInsets.only(top:5.0),
+                                        padding: EdgeInsets.only(top: 5.0),
                                         height: 50.0,
                                         width: 60.0,
                                         child: Text(
@@ -443,10 +444,11 @@ class _HomeContentState extends State<HomeContent> {
                                 borderRadius: BorderRadius.circular(50.0),
                               ),
                               onPressed: () {
-                                if (widget.accountdata.address == '' ||
-                                    widget.accountdata.healthCard == '' ||
-                                    widget.accountdata.city == '')
-                                  return checkData();
+                                // if (widget.accountdata.address == '' ||
+                                //     widget.accountdata.healthCard == '' ||
+                                //     widget.accountdata.city == '')
+                                //   return checkData();
+                                Get.to(QRCodePage());
                               },
                               child: Column(
                                 children: <Widget>[
