@@ -19,7 +19,7 @@ class _DateRegister extends State<DateRegister> {
   bool _decideWhichDayToEnable(DateTime day) {
     // set ngày hiện tại đến 10 ngày sau
     if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
-        day.isBefore(DateTime.now().add(Duration(days: 10))))) {
+        day.isBefore(DateTime.now().add(Duration(days: 8))))) {
       return true;
     }
     return false;
@@ -63,7 +63,7 @@ class _DateRegister extends State<DateRegister> {
             ),
             hintText: ('${formattedDate.format(_date)}'),
             hintStyle: TextStyle(color: Colors.black),
-            icon: Icon(Icons.date_range,color: Colors.teal, size: 30)),
+            icon: Icon(Icons.date_range, color: Colors.teal, size: 30)),
       ),
     );
   }
