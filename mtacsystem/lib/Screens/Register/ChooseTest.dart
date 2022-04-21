@@ -50,6 +50,7 @@ class _ChooseTest extends State<ChooseTest> {
   TestRegister regisdata = new TestRegister();
   late bool check1;
   late bool check2;
+  int _thanhToan = 0;
   late Future<List<Hospital>> hosData;
   var notify;
   var direction;
@@ -488,67 +489,31 @@ class _ChooseTest extends State<ChooseTest> {
                     SizedBox(height: 10),
                     Row(
                       children: [
-                        SizedBox(width:10),
                         Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  check1 = false;
-                                });
-                              },
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      check1
-                                          ? Icons.radio_button_off
-                                          : Icons.radio_button_on,
-                                      size: 20,
-                                      color: check1 ? Colors.teal : Colors.teal,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        'Thanh toán online',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                          child: ListTile(
+                              title: Text("Thanh toán online"),
+                              leading: Radio(
+                                value: 1,
+                                groupValue: _thanhToan,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _thanhToan = 1;
+                                  });
+                                },
                               )),
                         ),
                         SizedBox(width: 10),
                         Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  check1 = true;
-                                });
-                              },
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      !check1
-                                          ? Icons.radio_button_off
-                                          : Icons.radio_button_on,
-                                      size: 20,
-                                      color:
-                                          !check1 ? Colors.teal : Colors.teal,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        'Thanh toán tại BV ',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                          child: ListTile(
+                              title: Text("Thanh toán trực tiếp"),
+                              leading: Radio(
+                                value: 0,
+                                groupValue: _thanhToan,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _thanhToan = 0;
+                                  });
+                                },
                               )),
                         ),
                       ],
@@ -572,7 +537,7 @@ class _ChooseTest extends State<ChooseTest> {
                     setState(() => isLoading = true);
                     await signup();
                     setState(() => isLoading = false);
-                    if (data != "Faild" && data != null)
+                    if (data != "Faild" && data != null && _thanhToan == 0)
                       AwesomeDialog(
                         context: context,
                         dialogType: DialogType.QUESTION,
