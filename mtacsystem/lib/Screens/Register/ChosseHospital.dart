@@ -22,6 +22,7 @@ import '../../Network/location_service.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:mtacsystem/Components/process_method.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class ChosseHospital extends StatefulWidget {
   final AccountProfile accountdata;
@@ -52,8 +53,10 @@ class _ChosseHospital extends State<ChosseHospital> {
   VacRegister regisdata = new VacRegister();
   late bool check1;
   late bool check2;
+  int _thanhToan = 0;
   late Future<List<Hospital>> hosData;
   late Future<List<Diseases>> diseaseData;
+  List<bool> _isSelected = [true, false];
   late bool selectDisease;
   var direction;
   var notify;
@@ -164,6 +167,7 @@ class _ChosseHospital extends State<ChosseHospital> {
   Future signup() async {
     int estimate = direction['duration_seconds'] + 300;
     var url = sver.serverip + "/CAP1_mobile/vaccination_register.php";
+    print(regisdata.startTime);
     var response = await http.post(Uri.parse(url), body: {
       "id_card": widget.accountdata.idCard.toString(),
       "id_hos": regisdata.idHos.toString(),
@@ -291,30 +295,6 @@ class _ChosseHospital extends State<ChosseHospital> {
             SizedBox(width: 35),
             Container(child: Text("ĐẶT LỊCH TIÊM")),
             SizedBox(width: 50),
-            // Padding(
-            //   padding: const EdgeInsets.all(2.0),
-            //   child: Container(
-            //     width: 20,
-            //     height: 20,
-            //     decoration: BoxDecoration(
-            //       border: Border.all(color: Colors.white, width: 1.3),
-            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
-            //     ),
-            //     child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(2.0),
-            //   child: Container(
-            //     child: Center(child: Text('2', style: TextStyle(fontSize: 13))),
-            //     width: 20,
-            //     height: 20,
-            //     decoration: BoxDecoration(
-            //       border: Border.all(color: Colors.white, width: 1.3),
-            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -359,6 +339,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                 ),
               ),
               Container(
+                width: double.infinity,
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
@@ -390,9 +371,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                                               int index) {
                                             return Column(
                                               children: [
-                                                for (int i = 0;
-                                                    i < data.length;
-                                                    ++i)
+                                                for (int i = 0; i < data.length; ++i)
                                                   TextButton(
                                                     onPressed: () async {
                                                       index = i;
@@ -566,78 +545,36 @@ class _ChosseHospital extends State<ChosseHospital> {
                           },
                         )),
                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        SizedBox(width: 5),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                check1 = false;
-                              });
-                            },
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(width: 10),
-                                  Icon(
-                                    check1
-                                        ? Icons.radio_button_off
-                                        : Icons.radio_button_on,
-                                    size: 20,
-                                    color: check1 ? Colors.teal : Colors.teal,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text('Thanh toán online',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black)),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                check1 = true;
-                              });
-                            },
-                            child: Container(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(width: 10),
-                                  Icon(
-                                    !check1
-                                        ? Icons.radio_button_off
-                                        : Icons.radio_button_on,
-                                    size: 20,
-                                    color: !check1 ? Colors.teal : Colors.teal,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      'Thanh toán tại BV',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.black),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 15),
                     Container(
+                      child: Column(
+                        children: [
+                          ToggleSwitch(
+                            minHeight: 70,
+                            minWidth: 150,
+                            totalSwitches: 2,
+                            activeBgColor: [Colors.teal],
+                            activeFgColor: Colors.white,
+                            inactiveBgColor: Colors.white,
+                            inactiveFgColor: Colors.grey[400],
+                            borderColor: [Colors.teal],
+                            labels: ['Thanh toán ZaloPay', 'Tiền mặt'],
+                            initialLabelIndex: _thanhToan,
+                            onToggle: (index) {
+                              print('switched to: $index');
+                              setState(() {
+                                _thanhToan = index!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      width: 1500,
                       alignment: Alignment.center,
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                      // margin:
+                      //     EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                       child: ElevatedButton(
                         child: Text("XÁC NHẬN"),
                         style: ElevatedButton.styleFrom(
@@ -650,7 +587,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                           setState(() => isLoading = true);
                           await signup();
                           setState(() => isLoading = false);
-                          if (data != "Faild" && data != null)
+                          if (data != "Faild" && data != null && _thanhToan == 1)
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.QUESTION,

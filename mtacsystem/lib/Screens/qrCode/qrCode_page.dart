@@ -3,9 +3,13 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:mtacsystem/Screens/qrCode/qrCode_controller.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:mtacsystem/models/account.dart';
 
 class QRCodePage extends GetWidget<QRCodeController> {
   var controller = Get.put(QRCodeController());
+   AccountProfile ? accountdata ;
+
+  // QRCodePage(this._accountdata);
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -14,7 +18,7 @@ class QRCodePage extends GetWidget<QRCodeController> {
           backgroundColor: Colors.teal,
           elevation: 0,
           centerTitle: true,
-          title: Text("QR CODE")),
+          title: Text("Mã QR của tôi")),
       body: Container(
         width: screenSize.width,
         color: Colors.teal.shade50,
@@ -22,37 +26,76 @@ class QRCodePage extends GetWidget<QRCodeController> {
           children: [
             SizedBox(height: 10),
             Container(
-              child: Text("Mã QR của tôi",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.teal)),
-            ),
-            SizedBox(height: 10),
-            QrImage(
-              data:
-                  'https://www.figma.com/file/mF7hGiZFz5O58TjpjXFnru/Paracel-CRM?node-id=0%3A1',
-              version: QrVersions.auto,
-              size: 310,
-              embeddedImage: AssetImage('assets/images/logo.png'),
-              embeddedImageStyle: QrEmbeddedImageStyle(
-                size: Size(150, 150),
+              child:  CircleAvatar(
+                radius: 40,
+                backgroundColor: Colors.teal,
+                child: Text(
+                  'MBL',
+                  style: TextStyle(fontSize: 20, color: Colors.white),
+                ),
               ),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-                child: Text(
+            Container(
+              child: Text("Mai Bá Long",
+                  style: TextStyle(fontSize: 20, color: Colors.black)),
+
+            ),
+            SizedBox(height: 20),
+            Container(
+              margin: EdgeInsets.all(5),
+              height: 250.0,
+              width: 255.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.teal.withOpacity(0.2),
+                      spreadRadius: 3,
+                      blurRadius: 15,
+                      offset: Offset(0, 5))
+                ],
+                gradient: LinearGradient(
+                    colors: [Colors.white70, Colors.white70, Colors.white70],
+                    begin: FractionalOffset.bottomLeft,
+                    end: FractionalOffset.topRight),
+              ),
+              //QR CODE
+              child: Column(
+                children: [
+                  QrImage(
+                    data:
+                        'https://https://mtacs.000webhostapp.com/id=0%3A1',
+                    version: 4,
+                    size: 250,
+                    embeddedImage: AssetImage('assets/images/logo.png'),
+                    embeddedImageStyle: QrEmbeddedImageStyle(
+                      size: Size(150, 150),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: 20),
+            ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.qr_code_scanner,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  controller.scanQR();
+                  // Get.to(() => QRViewExample());
+                },
+                label: Text(
                   "Scan QR Code",
                   style: TextStyle(fontSize: 16),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.teal,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
                 ),
-                onPressed: () {
-                  controller.scanQR();
-                  //Get.to(() => QRViewExample());
-                })
+            )
           ],
         ),
       ),
