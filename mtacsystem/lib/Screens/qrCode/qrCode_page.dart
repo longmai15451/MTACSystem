@@ -7,9 +7,9 @@ import 'package:mtacsystem/models/account.dart';
 
 class QRCodePage extends GetWidget<QRCodeController> {
   var controller = Get.put(QRCodeController());
-   AccountProfile ? accountdata ;
+  final AccountProfile accountdata;
 
-  // QRCodePage(this._accountdata);
+  QRCodePage(this.accountdata);
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -37,7 +37,7 @@ class QRCodePage extends GetWidget<QRCodeController> {
             ),
             SizedBox(height: 20),
             Container(
-              child: Text("Mai Bá Long",
+              child: Text(accountdata.fullName.toString(),
                   style: TextStyle(fontSize: 20, color: Colors.black)),
 
             ),

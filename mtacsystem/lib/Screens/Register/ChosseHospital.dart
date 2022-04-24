@@ -12,10 +12,12 @@ import 'package:mtacsystem/controller/diseases_controller.dart';
 import 'package:mtacsystem/controller/hospital_controller.dart';
 import 'package:mtacsystem/controller/limit_controller.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
+import 'package:mtacsystem/controller/vaccine_controller.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:http/http.dart' as http;
 import 'package:mtacsystem/models/diseases.dart';
 import 'package:mtacsystem/models/hospital.dart';
+import 'package:mtacsystem/models/vaccine.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
@@ -54,8 +56,11 @@ class _ChosseHospital extends State<ChosseHospital> {
   late bool check1;
   late bool check2;
   int _thanhToan = 0;
+  bool _ktLoaiBenh = false;
+  bool chooseVac = false;
   late Future<List<Hospital>> hosData;
   late Future<List<Diseases>> diseaseData;
+  late Future<List<Vaccine>> vaccine;
   List<bool> _isSelected = [true, false];
   late bool selectDisease;
   var direction;
@@ -147,6 +152,13 @@ class _ChosseHospital extends State<ChosseHospital> {
     });
   }
 
+void _getVac(String? id_des) async{
+    vaccine = VaccineController().fetchData(id_des!);
+    setState(() {
+
+    });
+}
+
   void _getControllerText(String text) {
     setState(() {
       regisdata.registerDate.text = text;
@@ -177,6 +189,8 @@ class _ChosseHospital extends State<ChosseHospital> {
       "startTime": regisdata.startTime,
       "endTime": regisdata.endTime,
       "estimateTime": estimate.toString(),
+      "idvac": regisdata.idVac.toString(),
+      "proc": _thanhToan==0?"Chưa thanh toán":"Đã thanh toán",
     });
     data = json.decode(response.body);
     if (data != "Faild" && data != null) {
@@ -382,6 +396,11 @@ class _ChosseHospital extends State<ChosseHospital> {
                                                         regisdata.idDes =
                                                             data[i].idDiseases;
                                                         print(regisdata.idDes);
+                                                        _getVac(regisdata.idDes);
+                                                        if(_ktLoaiBenh == false){
+                                                          _ktLoaiBenh = true;
+                                                        }
+                                                        //mở chọn vaccine
                                                         Get.back();
                                                       });
                                                     },
@@ -418,6 +437,90 @@ class _ChosseHospital extends State<ChosseHospital> {
                         ),
                       ),
                     ),
+                    if(_ktLoaiBenh == true)
+                      Container(
+                        child: TextField(
+                          readOnly: true,
+                          controller: regisdata.vac,
+                          onTap: () {
+                            AwesomeDialog(
+                              context: context,
+                              dialogType: DialogType.NO_HEADER,
+                              borderSide:
+                              BorderSide(color: Colors.teal, width: 2),
+                              headerAnimationLoop: false,
+                              animType: AnimType.SCALE,
+                              btnOkColor: Colors.teal,
+                              body: Column(
+                                children: [
+                                  Text('CHỌN VẮC XIN'),
+                                  FutureBuilder<List<Vaccine>>(
+                                    future: vaccine,
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        List<Vaccine> data = snapshot.data!;
+                                        return ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: 1,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Column(
+                                                children: [
+                                                  for (int i = 0; i < data.length; ++i)
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        index = i;
+                                                        chooseVac = true;
+                                                        setState(() {
+                                                          regisdata.vac.text =
+                                                          '${data[i].vacName}';
+                                                          regisdata.idVac =
+                                                              data[i].idVac;
+                                                          print(regisdata.idVac);
+                                                          //mở chọn vaccine
+                                                          Get.back();
+                                                        });
+                                                      },
+                                                      child: ListTile(
+                                                        title: Text(
+                                                            '${data[i].vacName}'),
+                                                        subtitle: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text('Gía tiền: ${data[i].price} đồng'),
+                                                            Text('Số lượng còn: ${data[i].quantity}'),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ],
+                                              );
+                                            });
+                                      } else if (snapshot.hasError) {
+                                        return Text("${snapshot.error}");
+                                      }
+                                      // By default show a loading spinner.
+                                      return CircularProgressIndicator();
+                                    },
+                                  ),
+                                ],
+                              ),
+                              buttonsTextStyle: TextStyle(fontSize: 13),
+                            )..show();
+                          },
+                          decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.teal),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.teal),
+                            ),
+                            hintText: 'Chọn vắc xin',
+                            icon: Icon(Icons.sticky_note_2,
+                                color: Colors.teal, size: 30),
+                          ),
+                        ),
+                      ),
                     Container(
                       child: TextField(
                         readOnly: true,
@@ -549,7 +652,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                       child: Column(
                         children: [
                           ToggleSwitch(
-                            minHeight: 70,
+                            minHeight: 60,
                             minWidth: 150,
                             totalSwitches: 2,
                             activeBgColor: [Colors.teal],
@@ -587,41 +690,68 @@ class _ChosseHospital extends State<ChosseHospital> {
                           setState(() => isLoading = true);
                           await signup();
                           setState(() => isLoading = false);
-                          if (data != "Faild" && data != null && _thanhToan == 1)
+
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.QUESTION,
                               borderSide:
-                                  BorderSide(color: Colors.teal, width: 2),
+                              BorderSide(color: Colors.teal, width: 2),
                               headerAnimationLoop: false,
                               animType: AnimType.SCALE,
                               body: Column(
                                 children: [
                                   Text(
-                                    'TIẾN HÀNH ĐẶT LỊCH',
+                                    'THÔNG TIN ĐẶT LỊCH',
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                      'Giờ hẹn dự kiến: ${data['registerTimed'].toString().split(':')[0]}:${data['registerTimed'].toString().split(':')[1]}'),
+                                      'Loại bênh: ${data['Loai benh'].toString()}'),
                                   Text(
-                                      'Thông báo trước giờ hẹn ${data['minutes'].toString().split(':')[1]} phút.'),
+                                      'Loại vắc xin: ${data['Ten vacxin'].toString()}'),
+                                  Text(
+                                      'Giá tiền cần thanh toán: ${data['price'].toString()}'),
+                                  Text(
+                                      'Giờ hẹn dự kiến: ${data['registerTimed']
+                                          .toString()
+                                          .split(
+                                          ':')[0]}:${data['registerTimed']
+                                          .toString()
+                                          .split(':')[1]}'),
+                                  Text(
+                                      'Thông báo trước giờ hẹn ${data['minutes']
+                                          .toString()
+                                          .split(':')[1]} phút.'),
                                 ],
                               ),
                               btnCancelText: 'HỦY',
-                              btnOkText: 'ĐẶT',
+                              btnOkText: _thanhToan == 0?'THANH TOÁN':'ĐẶT',
                               btnOkColor: Colors.teal,
                               btnCancelOnPress: () {},
                               btnOkOnPress: () {
-                                setState(() {
-                                  toast('Đăng ký thành công', Colors.green);
-                                  Get.to(Detail(
-                                      adres: widget.userlocation,
-                                      des: data['address'],
-                                      id: data['id'],
-                                      type: '1',
-                                      res: true,
-                                      locationc: widget.locationc));
-                                });
+                                if(_thanhToan == 0){
+                                  setState(() {
+                                    toast('Đăng ký thành công', Colors.green);
+                                    Get.to(Detail(
+                                        adres: widget.userlocation,
+                                        des: data['address'],
+                                        id: data['id'],
+                                        type: '1',
+                                        res: true,
+                                        locationc: widget.locationc));
+                                  });
+                                }else{
+                                  setState(() {
+                                    toast('Đăng ký thành công', Colors.green);
+                                    Get.to(Detail(
+                                        adres: widget.userlocation,
+                                        des: data['address'],
+                                        id: data['id'],
+                                        type: '1',
+                                        res: true,
+                                        locationc: widget.locationc));
+                                  });
+                                }
+
                               },
                               onDissmissCallback: (type) {
                                 if (type == DismissType.OTHER ||
@@ -629,9 +759,10 @@ class _ChosseHospital extends State<ChosseHospital> {
                                   cancelSchedule(data['id']);
                               },
                               buttonsTextStyle:
-                                  TextStyle(fontSize: 14, color: Colors.white),
-                            )..show();
-                        },
+                              TextStyle(fontSize: 14, color: Colors.white),
+                            )
+                              ..show();
+                          }
                       ),
                     ),
                   ],
