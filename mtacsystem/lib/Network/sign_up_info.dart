@@ -11,6 +11,7 @@ class SignUpInfo{
         "regisId": regisID,
     });
     var json = jsonDecode(response.body);
+    print(json);
     var result = {
         "full_name": json['fullname'],
         "phone": json['phone'],
@@ -30,6 +31,7 @@ class SignUpInfo{
         "regisId": regisID,
     });
     var json = jsonDecode(response.body);
+    print(json);
     var result = {
         "full_name": json['fullname'],
         "phone": json['phone'],

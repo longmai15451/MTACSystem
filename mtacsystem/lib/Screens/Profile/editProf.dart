@@ -173,18 +173,12 @@ class _EditProfile extends State<EditProfile> {
                         Padding(
                           padding: const EdgeInsets.all(25.0),
                           child: Container(
-                            height: 120,
-                            width: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.blue.shade100,
-                              shape: BoxShape.rectangle,
-                              border: Border.all(
-                                  color: Colors.teal.shade50, width: 1.5),
-                              image: DecorationImage(
-                                fit: BoxFit.contain,
-                                image: AssetImage(
-                                  'assets/images/Splash.png',
-                                ),
+                            child:  CircleAvatar(
+                              radius: 40,
+                              backgroundColor: Colors.teal,
+                              child: Text(
+                                'MBL',
+                                style: TextStyle(fontSize: 20, color: Colors.white),
                               ),
                             ),
                           ),
