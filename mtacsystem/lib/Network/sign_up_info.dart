@@ -21,6 +21,8 @@ class SignUpInfo{
         "vaccine": json['vaccine_name'],
         "register_date": json['registerDate'],
         "register_time": json['registerTime'],
+        "price":json['price'],
+        "status":json['status'],
         "hos_address": json['hos_address'], 
     };
     return result;

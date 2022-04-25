@@ -165,6 +165,24 @@ class _Detail extends State<Detail> {
                             ),
                           ],
                         ),
+                        Row(
+                          children: [
+                            Text('Tổng tiền cần thanh toán:  '),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('${data!=null?data['price']:""}'),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text('Trạng thái thanh toán:  '),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text('${data!=null?data['status']:""}'),
+                            ),
+                          ],
+                        ),
                         ListTile(
                             dense: false,
                             title: Text('Địa Chỉ Bệnh Viện:'),

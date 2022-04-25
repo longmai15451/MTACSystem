@@ -198,7 +198,7 @@ class _ChosseHospital extends State<ChosseHospital> {
       "endTime": regisdata.endTime,
       "estimateTime": estimate.toString(),
       "idvac": regisdata.idVac.toString(),
-      "proc": _thanhToan==1?"Chưa thanh toán":"Đã thanh toán",
+      "proc":_thanhToan==1?"Chưa thanh toán":"Đã thanh toán",
     });
     data = json.decode(response.body);
     if (data != "Faild" && data != null) {
