@@ -448,7 +448,7 @@ class _HomeContentState extends State<HomeContent> {
                                 //     widget.accountdata.healthCard == '' ||
                                 //     widget.accountdata.city == '')
                                 //   return checkData();
-                                Get.to(QRCodePage());
+                                Get.to(QRCodePage(widget.accountdata));
                               },
                               child: Column(
                                 children: <Widget>[
