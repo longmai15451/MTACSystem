@@ -18,28 +18,19 @@ class QRCodePage extends GetWidget<QRCodeController> {
           backgroundColor: Colors.teal,
           elevation: 0,
           centerTitle: true,
-          title: Text("Mã QR của tôi")),
+          title: Text("QR CODE")),
       body: Container(
         width: screenSize.width,
         color: Colors.teal.shade50,
         child: Column(
           children: [
-            SizedBox(height: 10),
-            Container(
-              child:  CircleAvatar(
-                radius: 40,
-                backgroundColor: Colors.teal,
-                child: Text(
-                  'MBL',
-                  style: TextStyle(fontSize: 20, color: Colors.white),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             Container(
               child: Text(accountdata.fullName.toString(),
-                  style: TextStyle(fontSize: 20, color: Colors.black)),
-
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.teal,
+                      fontWeight: FontWeight.bold)),
             ),
             SizedBox(height: 20),
             Container(
@@ -64,8 +55,7 @@ class QRCodePage extends GetWidget<QRCodeController> {
               child: Column(
                 children: [
                   QrImage(
-                    data:
-                        'https://https://mtacs.000webhostapp.com/id=0%3A1',
+                    data: 'https://https://mtacs.000webhostapp.com/id=0%3A1',
                     version: 4,
                     size: 250,
                     embeddedImage: AssetImage('assets/images/logo.png'),
@@ -76,31 +66,27 @@ class QRCodePage extends GetWidget<QRCodeController> {
                 ],
               ),
             ),
-
             SizedBox(height: 20),
             ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.qr_code_scanner,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  controller.scanQR();
-                  // Get.to(() => QRViewExample());
-                },
-                label: Text(
-                  "Scan QR Code",
-                  style: TextStyle(fontSize: 16),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.teal,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-                ),
+              icon: const Icon(
+                Icons.qr_code_scanner,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                controller.scanQR();
+              },
+              label: Text(
+                "Scan QR Code",
+                style: TextStyle(fontSize: 16),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.teal,
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+              ),
             )
           ],
         ),
       ),
     );
   }
-
-  
 }

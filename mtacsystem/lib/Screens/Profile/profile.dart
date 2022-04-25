@@ -5,6 +5,7 @@ import 'package:mtacsystem/Screens/Login/Login.dart';
 import 'package:mtacsystem/Screens/Login/changePassword.dart';
 import 'package:mtacsystem/Screens/Profile/test_result.dart';
 import 'package:mtacsystem/Screens/Profile/vaccine_result.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'editProf.dart';
 import 'package:mtacsystem/models/account.dart';
 
@@ -58,12 +59,15 @@ class _Profile extends State<Profile> {
                           height: 170,
                           width: 170,
                           color: Colors.white,
-                          child: Container(
-                            color: Colors.red,
-                            width: 160,
-                            height: 160,
-                            child: Image.asset(
-                                'assets/images/An-example-of-QR-code.png'),
+                          child: QrImage(
+                            data:
+                                'https://https://mtacs.000webhostapp.com/id=0%3A1',
+                            version: 4,
+                            size: 250,
+                            embeddedImage: AssetImage('assets/images/logo.png'),
+                            embeddedImageStyle: QrEmbeddedImageStyle(
+                              size: Size(150, 150),
+                            ),
                           ),
                         ),
                       ],
