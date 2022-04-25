@@ -6,12 +6,13 @@ import 'package:mtacsystem/models/vaccine.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 
 class VaccineController extends GetxController{
-  Future <List<Vaccine>> fetchData(String idDes) async {
+  Future <List<Vaccine>> fetchData(String idDes, String idHos) async {
     String url = sver.serverip+'/CAP1_mobile/vaccine_data.php'; 
     final response =
       await http.post(Uri.parse(url), body: 
         {
           "id_disease" : idDes,
+          "id_hospital" : idHos,
         }
       );
     print(response.body);

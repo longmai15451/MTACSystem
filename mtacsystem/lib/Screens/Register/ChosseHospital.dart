@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -152,8 +153,15 @@ class _ChosseHospital extends State<ChosseHospital> {
     });
   }
 
-void _getVac(String? id_des) async{
-    vaccine = VaccineController().fetchData(id_des!);
+  void _getDis(String? id_hos) async{
+    diseaseData = DiseaseController().fetch(id_hos!);
+    setState(() {
+
+    });
+  }
+
+  void _getVac(String? id_des, String? id_host) async{
+    vaccine = VaccineController().fetchData(id_des!, id_host!);
     setState(() {
 
     });
@@ -190,7 +198,7 @@ void _getVac(String? id_des) async{
       "endTime": regisdata.endTime,
       "estimateTime": estimate.toString(),
       "idvac": regisdata.idVac.toString(),
-      "proc": _thanhToan==0?"Chưa thanh toán":"Đã thanh toán",
+      "proc": _thanhToan==1?"Chưa thanh toán":"Đã thanh toán",
     });
     data = json.decode(response.body);
     if (data != "Faild" && data != null) {
@@ -360,6 +368,82 @@ void _getVac(String? id_des) async{
                     Container(
                       child: TextField(
                         readOnly: true,
+                        controller: regisdata.hos,
+                        onTap: () {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.NO_HEADER,
+                            borderSide:
+                            BorderSide(color: Colors.teal, width: 2),
+                            headerAnimationLoop: false,
+                            animType: AnimType.SCALE,
+                            btnOkColor: Colors.blue.shade600,
+                            body: Column(
+                              children: [
+                                Text('BỆNH VIỆN'),
+                                FutureBuilder<List<Hospital>>(
+                                  future: hosData,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      List<Hospital> data = snapshot.data!;
+                                      return ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: 1,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return Column(
+                                              children: [
+                                                for (int i = 0;
+                                                i < data.length;
+                                                ++i)
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      index = i;
+                                                      await _dataProcessing(
+                                                          i, data, index);
+                                                      _getDis(data[i].idHos);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: ListTile(
+                                                      title: Text(
+                                                          '${data[i].hosName}'),
+                                                      subtitle: Text(
+                                                          '${data[i].hosAddress}'),
+                                                    ),
+                                                  ),
+                                              ],
+                                            );
+                                          });
+                                    } else if (snapshot.hasError) {
+                                      return Text("${snapshot.error}");
+                                    }
+                                    // By default show a loading spinner.
+                                    return CircularProgressIndicator();
+                                  },
+                                ),
+                                SizedBox(height: 10),
+                              ],
+                            ),
+                            buttonsTextStyle: TextStyle(fontSize: 15),
+                          )..show();
+                          setState(() {});
+                        },
+                        decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.teal),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.teal),
+                            ),
+                            hintText: 'Chọn bệnh viện',
+                            hintStyle: TextStyle(color: Colors.black),
+                            icon: Icon(Icons.local_hospital_sharp,
+                                color: Colors.teal, size: 30)),
+                      ),
+                    ),
+                    Container(
+                      child: TextField(
+                        readOnly: true,
                         controller: regisdata.des,
                         onTap: () {
                           AwesomeDialog(
@@ -396,7 +480,7 @@ void _getVac(String? id_des) async{
                                                         regisdata.idDes =
                                                             data[i].idDiseases;
                                                         print(regisdata.idDes);
-                                                        _getVac(regisdata.idDes);
+                                                        _getVac(regisdata.idDes, regisdata.idHos);
                                                         if(_ktLoaiBenh == false){
                                                           _ktLoaiBenh = true;
                                                         }
@@ -521,81 +605,6 @@ void _getVac(String? id_des) async{
                           ),
                         ),
                       ),
-                    Container(
-                      child: TextField(
-                        readOnly: true,
-                        controller: regisdata.hos,
-                        onTap: () {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.NO_HEADER,
-                            borderSide:
-                                BorderSide(color: Colors.teal, width: 2),
-                            headerAnimationLoop: false,
-                            animType: AnimType.SCALE,
-                            btnOkColor: Colors.blue.shade600,
-                            body: Column(
-                              children: [
-                                Text('BỆNH VIỆN'),
-                                FutureBuilder<List<Hospital>>(
-                                  future: hosData,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      List<Hospital> data = snapshot.data!;
-                                      return ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: 1,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return Column(
-                                              children: [
-                                                for (int i = 0;
-                                                    i < data.length;
-                                                    ++i)
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      index = i;
-                                                      await _dataProcessing(
-                                                          i, data, index);
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: ListTile(
-                                                      title: Text(
-                                                          '${data[i].hosName}'),
-                                                      subtitle: Text(
-                                                          '${data[i].hosAddress}'),
-                                                    ),
-                                                  ),
-                                              ],
-                                            );
-                                          });
-                                    } else if (snapshot.hasError) {
-                                      return Text("${snapshot.error}");
-                                    }
-                                    // By default show a loading spinner.
-                                    return CircularProgressIndicator();
-                                  },
-                                ),
-                                SizedBox(height: 10),
-                              ],
-                            ),
-                            buttonsTextStyle: TextStyle(fontSize: 15),
-                          )..show();
-                          setState(() {});
-                        },
-                        decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),
-                            ),
-                            hintText: 'Chọn bệnh viện',
-                            hintStyle: TextStyle(color: Colors.black),
-                            icon: Icon(Icons.local_hospital_sharp,
-                                color: Colors.teal, size: 30)),
-                      ),
-                    ),
                     Container(
                       child: DateRegister(
                           getControllerText: _getControllerText,
