@@ -18,13 +18,6 @@ class QRCodeController extends GetxController {
         true,
         ScanMode.QR,
       );
-      // Get.snackbar(
-      //   "Result",
-      //   "QR code" + scanQrCode,
-      //   snackPosition: SnackPosition.BOTTOM,
-      //   backgroundColor: Colors.green,
-      //   colorText: Colors.white,
-      // );
       _launchURL();
     } on PlatformException {}
   }
