@@ -30,6 +30,9 @@ Future<CreateOrderResponse?> createOrder(int price) async {
   body["bank_code"] = utils.getBankCode();
   body["description"] = utils.getDescription(body["app_trans_id"]!);
 
+
+
+
   var dataGetMac = sprintf("%s|%s|%s|%s|%s|%s|%s", [
     body["app_id"],
     body["app_trans_id"],

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mtacsystem/Components/process_method.dart';
@@ -16,7 +17,6 @@ import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
 import 'package:mtacsystem/Network/location_service.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
-// import 'package:mtacsystem/controller/hospital_controller.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:mtacsystem/models/hospital.dart';
@@ -51,6 +51,7 @@ class _ChooseTest extends State<ChooseTest> {
   TestRegister regisdata = new TestRegister();
   late bool check1;
   late bool check2;
+  int _thanhToan = 0;
   late Future<List<Hospital>> hosData;
   var notify;
   var direction;
@@ -291,30 +292,6 @@ class _ChooseTest extends State<ChooseTest> {
             SizedBox(width: 10),
             Container(child: Text("ĐẶT LỊCH XÉT NGHIỆM")),
             SizedBox(width: 25),
-            // Padding(
-            //   padding: const EdgeInsets.all(2.0),
-            //   child: Container(
-            //     width: 20,
-            //     height: 20,
-            //     decoration: BoxDecoration(
-            //       border: Border.all(color: Colors.white, width: 1.3),
-            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
-            //     ),
-            //     child: Center(child: Text('1', style: TextStyle(fontSize: 13))),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.all(2.0),
-            //   child: Container(
-            //     child: Center(child: Text('2', style: TextStyle(fontSize: 13))),
-            //     width: 20,
-            //     height: 20,
-            //     decoration: BoxDecoration(
-            //       border: Border.all(color: Colors.white, width: 1.3),
-            //       borderRadius: BorderRadius.all(Radius.circular(100.0)),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -487,72 +464,29 @@ class _ChooseTest extends State<ChooseTest> {
                           },
                         )),
                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        SizedBox(width:10),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  check1 = false;
-                                });
-                              },
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      check1
-                                          ? Icons.radio_button_off
-                                          : Icons.radio_button_on,
-                                      size: 20,
-                                      color: check1 ? Colors.teal : Colors.teal,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        'Thanh toán online',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  check1 = true;
-                                });
-                              },
-                              child: Container(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      !check1
-                                          ? Icons.radio_button_off
-                                          : Icons.radio_button_on,
-                                      size: 20,
-                                      color:
-                                          !check1 ? Colors.teal : Colors.teal,
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Text(
-                                        'Thanh toán tại BV ',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.black),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ),
-                      ],
+                    Container(
+                      child: Column(
+                        children: [
+                          ToggleSwitch(
+                            minHeight: 60,
+                            minWidth: 150,
+                            totalSwitches: 2,
+                            activeBgColor: [Colors.teal],
+                            activeFgColor: Colors.white,
+                            inactiveBgColor: Colors.white,
+                            inactiveFgColor: Colors.grey[400],
+                            borderColor: [Colors.teal],
+                            labels: ['Thanh toán ZaloPay', 'Tiền mặt'],
+                            initialLabelIndex: _thanhToan,
+                            onToggle: (index) {
+                              print('switched to: $index');
+                              setState(() {
+                                _thanhToan = index!;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
