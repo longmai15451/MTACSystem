@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../Network/location_service.dart';
+import 'package:mtacsystem/server/Server.dart' as sver;
 
 
 class MapScreen extends StatefulWidget{
@@ -35,7 +36,7 @@ class _MapScreen extends State<MapScreen>{
   }
 
   void _loadMap() async{
-    var direction = await LocationService().getDirection(widget.origin,widget.destination);
+    var direction = await LocationService().getDirection(widget.origin,widget.destination+', ${sver.city??''}');
     _gotoPlace(
       direction['start_location']['lat'],
       direction['start_location']['lng'],

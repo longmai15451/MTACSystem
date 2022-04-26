@@ -5,6 +5,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mtacsystem/Components/process_method.dart';
 import 'package:mtacsystem/Screens/Calendar/detail_vaccin_regis.dart';
+import 'package:mtacsystem/controller/hospital_test_controller.dart';
 import 'package:mtacsystem/controller/limit_controller.dart';
 import 'package:mtacsystem/server/Server.dart' as sver;
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ import 'package:mtacsystem/Components/background.dart';
 import 'package:mtacsystem/Components/DateRegister.dart';
 import 'package:mtacsystem/Network/location_service.dart';
 import 'package:mtacsystem/controller/controllerData.dart';
-import 'package:mtacsystem/controller/hospital_controller.dart';
+// import 'package:mtacsystem/controller/hospital_controller.dart';
 import 'package:mtacsystem/controller/notify_helper.dart';
 import 'package:mtacsystem/models/account.dart';
 import 'package:mtacsystem/models/hospital.dart';
@@ -129,7 +130,7 @@ class _ChooseTest extends State<ChooseTest> {
   }
 
   void _getHos() async {
-    hosData = HospitalController().fetchData();
+    hosData = HospitalTestController().fetchData();
     regisdata.registerDate = new TextEditingController(
         text: DateFormat("yyy-MM-dd").format(DateTime.now()));
     setState(() {
