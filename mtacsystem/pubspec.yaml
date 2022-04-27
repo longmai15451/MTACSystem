@@ -60,6 +60,7 @@ dependencies:
     sprintf: ^6.0.0
 
 dev_dependencies:
+  crypto: ^3.0.1
   flutter_test:
     sdk: flutter
 

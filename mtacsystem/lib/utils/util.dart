@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:intl/intl.dart';
 import 'package:mtacsystem/repo/payment.dart';
+import 'package:mtacsystem/repo/zalo_pay_config.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:crypto/crypto.dart';
 
@@ -25,6 +26,11 @@ String getAppTransId() {
   transIdDefault += 1;
   var timeString = formatDateTime(DateTime.now(), "yyMMdd_hhmmss");
   return sprintf("%s%06d",[timeString, transIdDefault]);
+}
+
+String getTimestamp(){
+  var timestamp = formatDateTime(DateTime.now(), "yyMMdd_hhmmss");
+  return timestamp.toString().split('_')[0];
 }
 
 String getBankCode() => "zalopayapp";

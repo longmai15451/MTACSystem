@@ -75,7 +75,8 @@ class _ChosseHospital extends State<ChosseHospital> {
   bool isLoading = false;
   static const MethodChannel platform = MethodChannel('flutter.native/channelPayOrder');
   String zpTransToken = "";
-  String payResult = "asdqwe";
+  String payResult = "";
+  String price = '0';
 
   @override
   initState() {
@@ -88,16 +89,15 @@ class _ChosseHospital extends State<ChosseHospital> {
   }
 
   Future<void> pay(String zpTransToken)async{
-    final String result = await platform.invokeMethod('payOrder', {"zptoken": zpTransToken});
-    print('DODOAMKWDQWEQweWQEQWE');
-    payResult = result;
-    print("payOrder Result: '$result'.");
-    // try {
-    //
-    //
-    // }on PlatformException catch (e) {
-    //   payResult = "Thanh toán thất bại";
-    // }
+
+    try {
+      final String result = await platform.invokeMethod('payOrder', {"zptoken": zpTransToken});
+      payResult = result;
+      print("payOrder Result: '$result'.");
+
+    }on PlatformException catch (e) {
+      payResult = "Thanh toán thất bại";
+    }
   }
 
   Future<void> _gotoPlace(
@@ -217,7 +217,7 @@ class _ChosseHospital extends State<ChosseHospital> {
       "endTime": regisdata.endTime,
       "estimateTime": estimate.toString(),
       "idvac": regisdata.idVac.toString(),
-      "proc":_thanhToan==1?"Chưa thanh toán":"Đã thanh toán",
+      "proc":"Chưa thanh toán",
     });
     data = json.decode(response.body);
     if (data != "Faild" && data != null) {
@@ -579,6 +579,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                                                           '${data[i].vacName}';
                                                           regisdata.idVac =
                                                               data[i].idVac;
+                                                          price = data[i].price;
                                                           print(regisdata.idVac);
                                                           //mở chọn vaccine
                                                           Get.back();
@@ -716,13 +717,16 @@ class _ChosseHospital extends State<ChosseHospital> {
                           _getSeconds(direction);
                           if (isLoading) return;
                           setState(() => isLoading = true);
+                          if(_thanhToan==0){
+                            double amount = double.parse(price);
+                            var result = await createOrder(amount+1000);
+                            if (result != null) {
+                              zpTransToken = result.zptranstoken;
+                            }
+                          }
+
                           await signup();
                           setState(() => isLoading = false);
-                          // int amount = int.parse(data['price'].toString());
-                          var result = await createOrder(10000);
-                          if (result != null) {
-                            zpTransToken = result.zptranstoken;
-                          }
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.QUESTION,
@@ -753,8 +757,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                                       'Thông báo trước giờ hẹn ${data['minutes']
                                           .toString()
                                           .split(':')[1]} phút.'),
-                                  Text(
-                                      'token : $zpTransToken lkj $payResult'),
+
                                 ],
                               ),
                               btnCancelText: 'HỦY',
@@ -764,16 +767,27 @@ class _ChosseHospital extends State<ChosseHospital> {
                               btnOkOnPress: () {
                                 if(_thanhToan == 0){
                                   pay(zpTransToken).then((rs){
-                                    setState(() {
-                                      toast('Đăng ký thành công', Colors.green);
-                                      Get.to(Detail(
-                                          adres: widget.userlocation,
-                                          des: data['address'],
-                                          id: data['id'],
-                                          type: '1',
-                                          res: true,
-                                          locationc: widget.locationc));
-                                    });
+                                    print(01923815124);
+                                    if(payResult=="User Canceled" || payResult == "Payment failed")
+                                      {
+                                        toast('Đăng ký thất bại', Colors.red);
+                                        setState(() {
+                                          cancelSchedule(data['id']);
+                                        });
+                                      }
+                                    else{
+                                      setState(() {
+                                        toast('Đăng ký thành công', Colors.green);
+                                        Get.to(Detail(
+                                            adres: widget.userlocation,
+                                            des: data['address'],
+                                            id: data['id'],
+                                            type: '1',
+                                            res: true,
+                                            locationc: widget.locationc));
+                                      });
+                                    }
+
                                   });
 
                                 }else{
@@ -799,7 +813,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                               TextStyle(fontSize: 14, color: Colors.white),
                             )
                               ..show();
-                          }
+                        }
                       ),
                     ),
                   ],

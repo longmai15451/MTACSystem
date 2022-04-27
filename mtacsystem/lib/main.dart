@@ -13,9 +13,12 @@ late AccountProfile accountdata;
 
 
 NotifyHelper notify = NotifyHelper();
-Future<void> main() async{
+Future<void> mmm() async {
   WidgetsFlutterBinding.ensureInitialized();
   await notify.initializeNotification();
+}
+void main() {
+  mmm();
   runApp(MyApp());
 }
 
@@ -30,18 +33,7 @@ class MyApp extends StatelessWidget{
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: AnimatedSplashScreen(
-        duration: 1200,
-        splashIconSize: 200,
-        splash: Center(
-            child: Image.asset(
-              'assets/images/Splash.png',
-          ),
-        ),
-        nextScreen: LoginScreen(),
-        splashTransition: SplashTransition.fadeTransition,
-        backgroundColor: Colors.blue.shade50,
-      ),
+      home: LoginScreen()
     );
   }
 }
