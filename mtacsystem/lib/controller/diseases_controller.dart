@@ -26,6 +26,10 @@ class DiseaseController{
     );
     print(response.body);
     var data = json.decode(response.body);
+    if(data=='Error')
+    {
+      throw 'Bệnh viện đang bận';
+    }
     print(data);
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);

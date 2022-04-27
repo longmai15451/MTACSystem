@@ -1,5 +1,7 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -19,6 +21,7 @@ import 'package:http/http.dart' as http;
 import 'package:mtacsystem/models/diseases.dart';
 import 'package:mtacsystem/models/hospital.dart';
 import 'package:mtacsystem/models/vaccine.dart';
+import 'package:mtacsystem/repo/payment.dart';
 import 'dart:async';
 import 'dart:convert';
 import '../../Network/location_service.dart';
@@ -70,6 +73,9 @@ class _ChosseHospital extends State<ChosseHospital> {
   int durationSeconds = 2100;
   var data;
   bool isLoading = false;
+  static const MethodChannel platform = MethodChannel('flutter.native/channelPayOrder');
+  String zpTransToken = "";
+  String payResult = "asdqwe";
 
   @override
   initState() {
@@ -78,6 +84,20 @@ class _ChosseHospital extends State<ChosseHospital> {
     super.initState();
     selectDisease = false;
     _loadMap();
+
+  }
+
+  Future<void> pay(String zpTransToken)async{
+    final String result = await platform.invokeMethod('payOrder', {"zptoken": zpTransToken});
+    print('DODOAMKWDQWEQweWQEQWE');
+    payResult = result;
+    print("payOrder Result: '$result'.");
+    // try {
+    //
+    //
+    // }on PlatformException catch (e) {
+    //   payResult = "Thanh toán thất bại";
+    // }
   }
 
   Future<void> _gotoPlace(
@@ -144,7 +164,6 @@ class _ChosseHospital extends State<ChosseHospital> {
 
   void _getVaccineAndHos() async {
     hosData = HospitalController().fetchData();
-    diseaseData = DiseaseController().fetchData();
     regisdata.registerDate = new TextEditingController(
         text: DateFormat("yyy-MM-dd").format(DateTime.now()));
     print(regisdata.registerDate.text);
@@ -699,7 +718,11 @@ class _ChosseHospital extends State<ChosseHospital> {
                           setState(() => isLoading = true);
                           await signup();
                           setState(() => isLoading = false);
-
+                          // int amount = int.parse(data['price'].toString());
+                          var result = await createOrder(10000);
+                          if (result != null) {
+                            zpTransToken = result.zptranstoken;
+                          }
                             AwesomeDialog(
                               context: context,
                               dialogType: DialogType.QUESTION,
@@ -730,6 +753,8 @@ class _ChosseHospital extends State<ChosseHospital> {
                                       'Thông báo trước giờ hẹn ${data['minutes']
                                           .toString()
                                           .split(':')[1]} phút.'),
+                                  Text(
+                                      'token : $zpTransToken lkj $payResult'),
                                 ],
                               ),
                               btnCancelText: 'HỦY',
@@ -738,16 +763,19 @@ class _ChosseHospital extends State<ChosseHospital> {
                               btnCancelOnPress: () {},
                               btnOkOnPress: () {
                                 if(_thanhToan == 0){
-                                  setState(() {
-                                    toast('Đăng ký thành công', Colors.green);
-                                    Get.to(Detail(
-                                        adres: widget.userlocation,
-                                        des: data['address'],
-                                        id: data['id'],
-                                        type: '1',
-                                        res: true,
-                                        locationc: widget.locationc));
+                                  pay(zpTransToken).then((rs){
+                                    setState(() {
+                                      toast('Đăng ký thành công', Colors.green);
+                                      Get.to(Detail(
+                                          adres: widget.userlocation,
+                                          des: data['address'],
+                                          id: data['id'],
+                                          type: '1',
+                                          res: true,
+                                          locationc: widget.locationc));
+                                    });
                                   });
+
                                 }else{
                                   setState(() {
                                     toast('Đăng ký thành công', Colors.green);
