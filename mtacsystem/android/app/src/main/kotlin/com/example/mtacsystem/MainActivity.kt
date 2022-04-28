@@ -50,7 +50,7 @@ class MainActivity: FlutterActivity() {
 
                             override fun onPaymentSucceeded(transactionId: String, transToken: String, appTransID: String?) {
                                 Log.d(tagSuccess, String.format("[TransactionId]: %s, [TransToken]: %s, [appTransID]: %s", transactionId, transToken, appTransID))
-                                result.success("Payment Success")
+                                result.success(String.format("%s",transactionId))
                             }
                         })
                     } else {

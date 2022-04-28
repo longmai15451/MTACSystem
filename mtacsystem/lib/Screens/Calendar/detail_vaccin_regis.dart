@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:mtacsystem/repo/refund.dart';
 import '../../Components/mapScreen.dart';
 import '../../Network/sign_up_info.dart';
 import 'package:http/http.dart' as http;
@@ -58,8 +59,10 @@ class _Detail extends State<Detail> {
     var url=sver.serverip;
     if(widget.type == '0')
       url+='/CAP1_mobile/test_cancel.php';
-    else
+    else{
       url+='/CAP1_mobile/vac_cancel.php';
+    }
+
     var response = await http.post(Uri.parse(url),body: {
       "regisID" : widget.id.toString(),
     });
@@ -224,6 +227,12 @@ class _Detail extends State<Detail> {
                                     btnOkText: '',
                                     btnCancelOnPress: () {},
                                     btnOkOnPress: () async {
+                                      if(data['status'] != 'Chưa thanh toán'){
+                                        var result = await refundOrder(data['status'],double.parse(data['price'])+1000);
+                                        if(result!=null){
+                                          print(result.returnmessage+"     "+result.subreturnmessage);
+                                        }
+                                      }
                                       await cancelSchedule();
                                     },
                                   )..show();
