@@ -77,6 +77,7 @@ class _ChosseHospital extends State<ChosseHospital> {
   String zpTransToken = "";
   String payResult = "";
   String price = '0';
+  bool paycheckerr = false;
 
   @override
   initState() {
@@ -201,6 +202,14 @@ class _ChosseHospital extends State<ChosseHospital> {
         backgroundColor: Colors.grey[50],
         textColor: textcolor,
         fontSize: 16.0);
+  }
+
+  Future payConfirm(String token, String regisId)async{
+    var url = sver.serverip + "/CAP1_mobile/payConfirm.php";
+    var response = await http.post(Uri.parse(url), body:{
+      "token" : token,
+      "rsid" : regisId,
+    });
   }
 
   Future signup() async {
@@ -776,16 +785,19 @@ class _ChosseHospital extends State<ChosseHospital> {
                                         });
                                       }
                                     else{
-                                      setState(() {
-                                        toast('Đăng ký thành công', Colors.green);
-                                        Get.to(Detail(
-                                            adres: widget.userlocation,
-                                            des: data['address'],
-                                            id: data['id'],
-                                            type: '1',
-                                            res: true,
-                                            locationc: widget.locationc));
+                                      payConfirm(payResult,data['id']).then((value) {
+                                        setState(() {
+                                          toast('Đăng ký thành công', Colors.green);
+                                          Get.to(Detail(
+                                              adres: widget.userlocation,
+                                              des: data['address'],
+                                              id: data['id'],
+                                              type: '1',
+                                              res: true,
+                                              locationc: widget.locationc));
+                                        });
                                       });
+
                                     }
 
                                   });
