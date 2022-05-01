@@ -1,15 +1,18 @@
 class Diseases{
   String? idDiseases;
   String? diseaseName;
+  String? price;
 
   Diseases({
     this.idDiseases,
-    this.diseaseName
+    this.diseaseName,
+    this.price
   });
 
   Diseases.fromJson(Map<String, dynamic> json){
     idDiseases = json['id'];
     diseaseName = json['name'];
+    price = json['price'];
   }
 
   Map<String, dynamic> toJson(){

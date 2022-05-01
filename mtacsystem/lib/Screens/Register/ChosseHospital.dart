@@ -180,12 +180,7 @@ class _ChosseHospital extends State<ChosseHospital> {
     });
   }
 
-  void _getVac(String? id_des, String? id_host) async{
-    vaccine = VaccineController().fetchData(id_des!, id_host!);
-    setState(() {
 
-    });
-}
 
   void _getControllerText(String text) {
     setState(() {
@@ -225,8 +220,8 @@ class _ChosseHospital extends State<ChosseHospital> {
       "startTime": regisdata.startTime,
       "endTime": regisdata.endTime,
       "estimateTime": estimate.toString(),
-      "idvac": regisdata.idVac.toString(),
       "proc":"Chưa thanh toán",
+      "price": "10000",
     });
     data = json.decode(response.body);
     if (data != "Faild" && data != null) {
@@ -508,7 +503,6 @@ class _ChosseHospital extends State<ChosseHospital> {
                                                         regisdata.idDes =
                                                             data[i].idDiseases;
                                                         print(regisdata.idDes);
-                                                        _getVac(regisdata.idDes, regisdata.idHos);
                                                         if(_ktLoaiBenh == false){
                                                           _ktLoaiBenh = true;
                                                         }
@@ -519,6 +513,12 @@ class _ChosseHospital extends State<ChosseHospital> {
                                                     child: ListTile(
                                                       title: Text(
                                                           '${data[i].diseaseName}'),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text('Gía tiền: ${data[i].price} đồng'),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                               ],
@@ -549,91 +549,90 @@ class _ChosseHospital extends State<ChosseHospital> {
                         ),
                       ),
                     ),
-                    if(_ktLoaiBenh == true)
-                      Container(
-                        child: TextField(
-                          readOnly: true,
-                          controller: regisdata.vac,
-                          onTap: () {
-                            AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.NO_HEADER,
-                              borderSide:
-                              BorderSide(color: Colors.teal, width: 2),
-                              headerAnimationLoop: false,
-                              animType: AnimType.SCALE,
-                              btnOkColor: Colors.teal,
-                              body: Column(
-                                children: [
-                                  Text('CHỌN VẮC XIN'),
-                                  FutureBuilder<List<Vaccine>>(
-                                    future: vaccine,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasData) {
-                                        List<Vaccine> data = snapshot.data!;
-                                        return ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: 1,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Column(
-                                                children: [
-                                                  for (int i = 0; i < data.length; ++i)
-                                                    TextButton(
-                                                      onPressed: () async {
-                                                        index = i;
-                                                        chooseVac = true;
-                                                        setState(() {
-                                                          regisdata.vac.text =
-                                                          '${data[i].vacName}';
-                                                          regisdata.idVac =
-                                                              data[i].idVac;
-                                                          price = data[i].price;
-                                                          print(regisdata.idVac);
-                                                          //mở chọn vaccine
-                                                          Get.back();
-                                                        });
-                                                      },
-                                                      child: ListTile(
-                                                        title: Text(
-                                                            '${data[i].vacName}'),
-                                                        subtitle: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text('Gía tiền: ${data[i].price} đồng'),
-                                                            Text('Số lượng còn: ${data[i].quantity}'),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                ],
-                                              );
-                                            });
-                                      } else if (snapshot.hasError) {
-                                        return Text("${snapshot.error}");
-                                      }
-                                      // By default show a loading spinner.
-                                      return CircularProgressIndicator();
-                                    },
-                                  ),
-                                ],
-                              ),
-                              buttonsTextStyle: TextStyle(fontSize: 13),
-                            )..show();
-                          },
-                          decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.teal),
-                            ),
-                            hintText: 'Chọn vắc xin',
-                            icon: Icon(Icons.sticky_note_2,
-                                color: Colors.teal, size: 30),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   child: TextField(
+                      //     readOnly: true,
+                      //     controller: regisdata.vac,
+                      //     onTap: () {
+                      //       AwesomeDialog(
+                      //         context: context,
+                      //         dialogType: DialogType.NO_HEADER,
+                      //         borderSide:
+                      //         BorderSide(color: Colors.teal, width: 2),
+                      //         headerAnimationLoop: false,
+                      //         animType: AnimType.SCALE,
+                      //         btnOkColor: Colors.teal,
+                      //         body: Column(
+                      //           children: [
+                      //             Text('CHỌN VẮC XIN'),
+                      //             FutureBuilder<List<Vaccine>>(
+                      //               future: vaccine,
+                      //               builder: (context, snapshot) {
+                      //                 if (snapshot.hasData) {
+                      //                   List<Vaccine> data = snapshot.data!;
+                      //                   return ListView.builder(
+                      //                       shrinkWrap: true,
+                      //                       itemCount: 1,
+                      //                       itemBuilder: (BuildContext context,
+                      //                           int index) {
+                      //                         return Column(
+                      //                           children: [
+                      //                             for (int i = 0; i < data.length; ++i)
+                      //                               TextButton(
+                      //                                 onPressed: () async {
+                      //                                   index = i;
+                      //                                   chooseVac = true;
+                      //                                   setState(() {
+                      //                                     regisdata.vac.text =
+                      //                                     '${data[i].vacName}';
+                      //                                     regisdata.idVac =
+                      //                                         data[i].idVac;
+                      //                                     price = data[i].price;
+                      //                                     print(regisdata.idVac);
+                      //                                     //mở chọn vaccine
+                      //                                     Get.back();
+                      //                                   });
+                      //                                 },
+                      //                                 child: ListTile(
+                      //                                   title: Text(
+                      //                                       '${data[i].vacName}'),
+                      //                                   subtitle: Column(
+                      //                                     crossAxisAlignment: CrossAxisAlignment.start,
+                      //                                     children: [
+                      //                                       Text('Gía tiền: ${data[i].price} đồng'),
+                      //                                       Text('Số lượng còn: ${data[i].quantity}'),
+                      //                                     ],
+                      //                                   ),
+                      //                                 ),
+                      //                               ),
+                      //                           ],
+                      //                         );
+                      //                       });
+                      //                 } else if (snapshot.hasError) {
+                      //                   return Text("${snapshot.error}");
+                      //                 }
+                      //                 // By default show a loading spinner.
+                      //                 return CircularProgressIndicator();
+                      //               },
+                      //             ),
+                      //           ],
+                      //         ),
+                      //         buttonsTextStyle: TextStyle(fontSize: 13),
+                      //       )..show();
+                      //     },
+                      //     decoration: InputDecoration(
+                      //       enabledBorder: UnderlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.teal),
+                      //       ),
+                      //       focusedBorder: UnderlineInputBorder(
+                      //         borderSide: BorderSide(color: Colors.teal),
+                      //       ),
+                      //       hintText: 'Chọn vắc xin',
+                      //       icon: Icon(Icons.sticky_note_2,
+                      //           color: Colors.teal, size: 30),
+                      //     ),
+                      //   ),
+                      // ),
                     Container(
                       child: DateRegister(
                           getControllerText: _getControllerText,
@@ -726,15 +725,15 @@ class _ChosseHospital extends State<ChosseHospital> {
                           _getSeconds(direction);
                           if (isLoading) return;
                           setState(() => isLoading = true);
+                          await signup();
                           if(_thanhToan==0){
-                            double amount = double.parse(price);
-                            var result = await createOrder(amount+1000);
+                            double amount = double.parse(data['price'].toString());
+                            price = (amount+10000).toString();
+                            var result = await createOrder(amount+10000);
                             if (result != null) {
                               zpTransToken = result.zptranstoken;
                             }
                           }
-
-                          await signup();
                           setState(() => isLoading = false);
                             AwesomeDialog(
                               context: context,
@@ -752,9 +751,7 @@ class _ChosseHospital extends State<ChosseHospital> {
                                   Text(
                                       'Loại bênh: ${data['Loai benh'].toString()}'),
                                   Text(
-                                      'Loại vắc xin: ${data['Ten vacxin'].toString()}'),
-                                  Text(
-                                      'Giá tiền cần thanh toán: ${data['price'].toString()}'),
+                                      'Giá tiền cần thanh toán: ${price}'),
                                   Text(
                                       'Giờ hẹn dự kiến: ${data['registerTimed']
                                           .toString()

@@ -16,6 +16,7 @@ class HospitalController{
     {
       throw 'Khu vực chưa được đăng ký!';
     }
+    print(check);
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
         return jsonResponse.map((data) => new Hospital.fromJson(data)).toList();
