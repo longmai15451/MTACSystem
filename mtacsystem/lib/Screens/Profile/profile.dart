@@ -60,8 +60,8 @@ class _Profile extends State<Profile> {
                           width: 170,
                           color: Colors.white,
                           child: QrImage(
-                            data:
-                                'https://https://mtacs.000webhostapp.com/id=0%3A1',
+                            data: 'https://mtacs.000webhostapp.com/profile/' +
+                                accountdata.idCard.toString(),
                             version: 4,
                             size: 250,
                             embeddedImage: AssetImage('assets/images/logo.png'),
